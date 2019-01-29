@@ -1,0 +1,58 @@
+buildscript {
+    dependencies {
+        classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: '8.8.2'
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
+plugins {
+    id 'java'
+    id 'edu.sc.seis.launch4j' version '2.4.4'
+}
+
+group 'uk.ac.hud'
+version '1.0'
+
+def mainPath="app.Main"
+
+sourceCompatibility = 1.8
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'javafx-gradle-plugin'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile "uk.ac.hud:zer01ogic-lib:1.0"
+}
+
+
+jfx {
+    mainClass = mainPath
+    vendor = 'zer01ogic'
+}
+
+task customFatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': mainPath
+    }
+    baseName = 'all-in-one-jar'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+tasks.createExe.dependsOn('customFatJar')
+
+createExe {
+    copyConfigurable = project.tasks.customFatJar.outputs.files
+    outfile = 'TestMain.exe'
+    mainClassName = mainPath
+    jar = "lib/${project.tasks.customFatJar.baseName}-${project.version}.jar"
+}

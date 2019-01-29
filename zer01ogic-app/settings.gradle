@@ -1,0 +1,3 @@
+includeBuild "../zer01ogic-lib"
+rootProject.name = 'zer01ogic-app'
+
