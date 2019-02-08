@@ -8,6 +8,10 @@
       <module name="uk.ac.hud.zer01ogic-app.test" target="1.8" />
       <module name="uk.ac.hud.zer01ogic-lib.main" target="1.8" />
       <module name="uk.ac.hud.zer01ogic-lib.test" target="1.8" />
+      <module name="zer01ogic-app_main" target="1.8" />
+      <module name="zer01ogic-app_test" target="1.8" />
+      <module name="zer01ogic-lib_main" target="1.8" />
+      <module name="zer01ogic-lib_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
