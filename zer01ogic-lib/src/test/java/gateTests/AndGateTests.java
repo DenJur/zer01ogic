@@ -28,6 +28,5 @@ public class AndGateTests {
         input2.setValue(0b111);
         gate.update();
         Assert.assertEquals("1101 & 111 => 101", 0b101, output.getValue().intValue());
-
     }
 }
