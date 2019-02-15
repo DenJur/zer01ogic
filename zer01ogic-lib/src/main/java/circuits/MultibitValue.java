@@ -55,8 +55,6 @@ public class MultibitValue implements IObservableValue<Integer> {
     }
 
     private void notifyObservers() {
-        for (IObserver observer : observers) {
-            observer.valueChanged(this);
-        }
+        // TODO Queue updates in the circuit object
     }
 }
