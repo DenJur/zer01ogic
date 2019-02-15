@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public abstract class BaseLogicGate implements ILogicElement<Integer> {
     protected IObservableValue<Integer> output;
     protected ArrayList<IObservableValue<Integer>> inputs;
+    protected static final int maxWireValue = 0xFFFFFFFF;
 
     public BaseLogicGate(byte outputSize) {
         inputs = new ArrayList<>();

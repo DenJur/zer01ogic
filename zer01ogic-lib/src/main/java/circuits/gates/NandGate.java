@@ -2,9 +2,9 @@ package circuits.gates;
 
 import interfaces.IObservableValue;
 
-public class AndGate extends BaseLogicGate {
+public class NandGate extends BaseLogicGate {
 
-    public AndGate(byte outputSize) {
+    public NandGate(byte outputSize) {
         super(outputSize);
     }
 
@@ -14,6 +14,6 @@ public class AndGate extends BaseLogicGate {
         for (IObservableValue<Integer> input : inputs) {
             result &= input.getValue();
         }
-        output.setValue(result);
+        output.setValue(~result);
     }
 }
