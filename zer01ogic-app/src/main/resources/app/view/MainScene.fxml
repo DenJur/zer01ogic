@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane fx:id="gridpane_master" xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.MainSceneController">
+<GridPane fx:id="gridpane_master" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.MainSceneController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
    </columnConstraints>
@@ -22,9 +22,9 @@
    <children>
       <GridPane fx:id="gridpane_menu">
         <columnConstraints>
-          <ColumnConstraints halignment="LEFT" hgrow="NEVER" maxWidth="406.0" minWidth="406.0" prefWidth="406.0" />
+          <ColumnConstraints halignment="LEFT" hgrow="NEVER" maxWidth="442.0" minWidth="442.0" prefWidth="442.0" />
           <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
-            <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="406.0" minWidth="406.0" prefWidth="406.0" />
+            <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="442.0" minWidth="442.0" prefWidth="442.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
@@ -110,6 +110,10 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
+               <children>
+                  <Pane fx:id="pane_toolbox" prefHeight="200.0" prefWidth="200.0" />
+                  <Pane fx:id="pane_properties" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+               </children>
             </GridPane>
          </children>
       </GridPane>
