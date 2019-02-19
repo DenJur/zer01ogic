@@ -1,32 +1,31 @@
-package circuits;
+package circuits.values;
 
 import interfaces.IObservableValue;
 import interfaces.IObserver;
 
-import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 public class MultibitValue implements IObservableValue<Integer> {
     private Integer value;
-    private HashSet<IObserver> observers;
+    private LinkedHashSet<IObserver> observers;
     private byte valueBitSize;
+    private boolean initialized;
 
     public MultibitValue() {
-        value = 0;
-        observers = new HashSet<>();
-        valueBitSize = 1;
+        this(0,(byte)1);
     }
 
     public MultibitValue(Integer initialValue) {
-        observers = new HashSet<>();
-        valueBitSize = 1;
-        this.setValue(initialValue);
+        this(initialValue, (byte)1);
     }
 
 
     public MultibitValue(Integer initialValue, byte bitSize) {
-        observers = new HashSet<>();
+        observers = new LinkedHashSet<>();
         valueBitSize = bitSize;
         this.setValue(initialValue);
+        initialized=false;
     }
 
     @Override
@@ -35,26 +34,34 @@ public class MultibitValue implements IObservableValue<Integer> {
     }
 
     @Override
-    public void setValue(Integer newValue) {
+    public synchronized void setValue(Integer newValue) {
         if(newValue==null) return;
         newValue = (newValue << (Integer.SIZE - valueBitSize)) >>> (Integer.SIZE - valueBitSize);
-        if (!newValue.equals(value)) {
+        if (!newValue.equals(value) || !initialized) {
             value = newValue;
             notifyObservers();
+            initialized=true;
         }
     }
 
     @Override
-    public void registerObserver(IObserver observer) {
+    public synchronized void registerObserver(IObserver observer) {
         observers.add(observer);
     }
 
     @Override
-    public void deregisterObserver(IObserver observer) {
+    public synchronized void deregisterObserver(IObserver observer) {
         observers.remove(observer);
     }
 
-    private void notifyObservers() {
-        // TODO Queue updates in the circuit object
+    @Override
+    public synchronized void reset() {
+        this.setValue(0);
+        initialized=false;
+    }
+
+    private synchronized void notifyObservers() {
+        Iterator<IObserver> i=observers.iterator();
+        i.forEachRemaining(IObserver::update);
     }
 }

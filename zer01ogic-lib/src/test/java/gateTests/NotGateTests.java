@@ -1,7 +1,6 @@
 package gateTests;
 
-import circuits.MultibitValue;
-import circuits.gates.AndGate;
+import circuits.values.MultibitValue;
 import circuits.gates.NotGate;
 import interfaces.IObservableValue;
 import org.junit.Assert;
@@ -15,9 +14,10 @@ public class NotGateTests {
         gate.addInput(input);
         IObservableValue<Integer> output = gate.getOutput();
 
+        gate.calculateOutputs();
         Assert.assertEquals("0 => 1", 1, output.getValue().intValue());
         input.setValue(0b1);
-        gate.update();
+        gate.calculateOutputs();
         Assert.assertEquals("1 => 0", 0, output.getValue().intValue());
     }
 
@@ -28,9 +28,10 @@ public class NotGateTests {
         gate.addInput(input);
         IObservableValue<Integer> output = gate.getOutput();
 
+        gate.calculateOutputs();
         Assert.assertEquals("0000 => 1111", 0b1111, output.getValue().intValue());
         input.setValue(0b0101);
-        gate.update();
+        gate.calculateOutputs();
         Assert.assertEquals("0101 => 1010", 0b1010, output.getValue().intValue());
     }
 }

@@ -1,6 +1,6 @@
 package circuits.gates;
 
-import circuits.MultibitValue;
+import circuits.values.MultibitValue;
 import interfaces.ILogicElement;
 import interfaces.IObservableValue;
 
@@ -34,7 +34,4 @@ public abstract class BaseLogicGate implements ILogicElement<Integer> {
     public IObservableValue<Integer> getOutput(){
         return output;
     }
-
-    @Override
-    public abstract void update();
 }

@@ -1,6 +1,5 @@
-import circuits.MultibitValue;
+import circuits.values.MultibitValue;
 
-import interfaces.IObservableValue;
 import interfaces.IObserver;
 import org.junit.Assert;
 import org.junit.Test;

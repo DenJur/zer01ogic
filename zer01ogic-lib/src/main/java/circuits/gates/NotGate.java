@@ -15,13 +15,16 @@ public class NotGate extends BaseLogicGate {
         else
             inputs.set(0, input);
         input.registerObserver(this);
-        update();
+    }
+
+    @Override
+    public void calculateOutputs() {
+        if (inputs.size() > 0) {
+            output.setValue(~(inputs.get(0).getValue()));
+        }
     }
 
     @Override
     public void update() {
-        if (inputs.size() > 0) {
-            output.setValue(~(inputs.get(0).getValue()));
-        }
     }
 }

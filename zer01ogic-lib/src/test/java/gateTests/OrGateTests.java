@@ -1,6 +1,6 @@
 package gateTests;
 
-import circuits.MultibitValue;
+import circuits.values.MultibitValue;
 import circuits.gates.OrGate;
 import interfaces.IObservableValue;
 import org.junit.Assert;
@@ -16,19 +16,19 @@ public class OrGateTests {
         gate.addInput(input2);
         IObservableValue<Integer> output = gate.getOutput();
 
-        gate.update();
+        gate.calculateOutputs();
         Assert.assertEquals("0 & 0 => 0", 0, output.getValue().intValue());
         input1.setValue(1);
-        gate.update();
+        gate.calculateOutputs();
         Assert.assertEquals("1 & 0 => 1", 1, output.getValue().intValue());
         input2.setValue(1);
-        gate.update();
+        gate.calculateOutputs();
         Assert.assertEquals("1 & 1 => 1", 1, output.getValue().intValue());
         input1.setValue(0b1101);
-        gate.update();
+        gate.calculateOutputs();
         Assert.assertEquals("1101 & 1 => 1101", 0b1101, output.getValue().intValue());
         input2.setValue(0b111);
-        gate.update();
+        gate.calculateOutputs();
         Assert.assertEquals("1101 & 111 => 1111", 0b1111, output.getValue().intValue());
     }
 }
