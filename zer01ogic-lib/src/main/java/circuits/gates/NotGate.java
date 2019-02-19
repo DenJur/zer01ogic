@@ -23,8 +23,4 @@ public class NotGate extends BaseLogicGate {
             output.setValue(~(inputs.get(0).getValue()));
         }
     }
-
-    @Override
-    public void update() {
-    }
 }

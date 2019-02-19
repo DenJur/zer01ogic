@@ -9,10 +9,6 @@ public class NandGate extends BaseLogicGate {
     }
 
     @Override
-    public void update() {
-    }
-
-    @Override
     public void calculateOutputs() {
         Integer result = maxWireValue;
         for (IObservableValue<Integer> input : inputs) {
