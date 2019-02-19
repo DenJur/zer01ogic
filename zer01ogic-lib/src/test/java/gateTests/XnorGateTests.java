@@ -1,6 +1,6 @@
 package gateTests;
 
-import circuits.MultibitValue;
+import circuits.values.MultibitValue;
 import circuits.gates.XnorGate;
 import interfaces.IObservableValue;
 import org.junit.Assert;
@@ -16,19 +16,19 @@ public class XnorGateTests {
         gate.addInput(input2);
         IObservableValue<Integer> output = gate.getOutput();
 
-        gate.update();
+        gate.calculateOutputs();
         Assert.assertEquals("0000 & 0000 => 1111", 0b1111, output.getValue().intValue());
         input1.setValue(1);
-        gate.update();
+        gate.calculateOutputs();
         Assert.assertEquals("0001 & 0000 => 1110", 0b1110, output.getValue().intValue());
         input2.setValue(1);
-        gate.update();
+        gate.calculateOutputs();
         Assert.assertEquals("0001 & 0001 => 1111", 0b1111, output.getValue().intValue());
         input1.setValue(0b1101);
-        gate.update();
+        gate.calculateOutputs();
         Assert.assertEquals("1101 & 0001 => 0011", 0b0011, output.getValue().intValue());
         input2.setValue(0b111);
-        gate.update();
+        gate.calculateOutputs();
         Assert.assertEquals("1101 & 0111 => 1010", 0b0101, output.getValue().intValue());
     }
 }

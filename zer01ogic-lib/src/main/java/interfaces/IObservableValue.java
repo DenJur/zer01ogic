@@ -5,4 +5,5 @@ public interface IObservableValue<T> {
     void setValue(T newValue);
     void registerObserver(IObserver IObserver);
     void deregisterObserver(IObserver IObserver);
+    void reset();
 }

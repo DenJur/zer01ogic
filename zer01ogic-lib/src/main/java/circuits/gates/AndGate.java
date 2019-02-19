@@ -10,6 +10,10 @@ public class AndGate extends BaseLogicGate {
 
     @Override
     public void update() {
+    }
+
+    @Override
+    public void calculateOutputs() {
         Integer result = maxWireValue;
         for (IObservableValue<Integer> input : inputs) {
             result &= input.getValue();

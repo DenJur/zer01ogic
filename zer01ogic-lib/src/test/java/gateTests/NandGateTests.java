@@ -1,6 +1,6 @@
 package gateTests;
 
-import circuits.MultibitValue;
+import circuits.values.MultibitValue;
 import circuits.gates.NandGate;
 import interfaces.IObservableValue;
 import org.junit.Assert;
@@ -17,16 +17,16 @@ public class NandGateTests {
         IObservableValue<Integer> output = gate.getOutput();
 
         input1.setValue(1);
-        gate.update();
+        gate.calculateOutputs();
         Assert.assertEquals("1 & 0 => 0b1111", 0b1111, output.getValue().intValue());
         input2.setValue(1);
-        gate.update();
+        gate.calculateOutputs();
         Assert.assertEquals("1 & 1 => 0b1110", 0b1110, output.getValue().intValue());
         input1.setValue(0b1101);
-        gate.update();
+        gate.calculateOutputs();
         Assert.assertEquals("1101 & 1 => 0b1110", 0b1110, output.getValue().intValue());
         input2.setValue(0b0111);
-        gate.update();
+        gate.calculateOutputs();
         Assert.assertEquals("1101 & 0111 => 0b1010", 0b1010, output.getValue().intValue());
     }
 }
