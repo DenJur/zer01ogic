@@ -5,10 +5,10 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   id="svg8153"
-   version="1.1"
+   width="100"
    height="100"
-   width="100">
+   version="1.1"
+   id="svg8153">
   <metadata
      id="metadata8159">
     <rdf:RDF>
@@ -24,49 +24,33 @@
   <defs
      id="defs8157" />
   <g
-     id="g6705"
-     transform="matrix(1.9600001,0,0,1.999998,-150.90001,-1069.9989)">
+     transform="matrix(2.0,0,0,2.0,-150.90001,-150.90001)"
+     id="g6705">
     <g
        id="g6707">
       <path
-         id="path6709"
+         d="m 120,560.00001 c -2.48541,-9.65922 -9.85749,-15.00002 -20.045918,-15.00002 H 89.000001 c 4.93024,9.9473 5.144612,19.7026 0,30.00004 l 10.954081,-2e-5 c 10.152728,-3e-5 17.346138,-5.34078 20.045918,-15 z"
          style="fill:none;stroke:#000000;stroke-width:1.79999995;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
-         d="M 100,575 H 89" />
+         id="path6713" />
       <path
-         id="path6711"
+         d="M 84.999999,545 A 30,30 0 0 1 85,575"
          style="fill:none;stroke:#000000;stroke-width:1.79999995;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
-         d="M 100,545 H 89" />
-      <path
-         id="path6713"
-         style="fill:none;stroke:#000000;stroke-width:1.79999995;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
-         d="m 120,560.00002 a 20.833334,20.833334 0 0 1 -20,15" />
-      <path
-         id="path6715"
-         style="fill:none;stroke:#000000;stroke-width:1.79999995;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
-         d="m 100,544.99998 a 20.833334,20.833334 0 0 1 20,15" />
-      <path
-         id="path6717"
-         style="fill:none;stroke:#000000;stroke-width:1.79999995;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
-         d="M 88.999999,545 A 30,30 0 0 1 89,575" />
-      <path
-         id="path6719"
-         style="fill:none;stroke:#000000;stroke-width:1.79999995;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
-         d="M 84.999999,545 A 30,30 0 0 1 85,575" />
+         id="path6719" />
     </g>
     <g
        id="g6721">
       <path
-         id="path6723"
+         d="M 87.303509,550 H 77.5"
          style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
-         d="M 87.303509,550 H 77.5" />
+         id="path6723" />
       <path
-         id="path6725"
+         d="M 87.303509,570 H 77.5"
          style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
-         d="M 87.303509,570 H 77.5" />
+         id="path6725" />
     </g>
     <path
-       id="path6727"
-       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
-       d="m 120,560 h 7.5" />
+       d="m 120.01702,560.00001 h 8.10907"
+       style="fill:none;stroke:#000000;stroke-width:1.03988576;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none"
+       id="path6727" />
   </g>
 </svg>

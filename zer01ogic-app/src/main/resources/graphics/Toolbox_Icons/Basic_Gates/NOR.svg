@@ -5,10 +5,10 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   id="svg8153"
-   version="1.1"
+   width="100"
    height="100"
-   width="100">
+   version="1.1"
+   id="svg8153">
   <metadata
      id="metadata8159">
     <rdf:RDF>
@@ -24,54 +24,38 @@
   <defs
      id="defs8157" />
   <g
-     id="g6679"
-     transform="matrix(1.962,0,0,1.9999984,-151.155,-1069.9991)">
+     transform="matrix(2.0,0,0,2.0,-151.155,-151.155)"
+     id="g6679">
     <g
        id="g6681">
       <path
-         id="path6683"
+         d="m 85,575.00001 c 5.205926,-10.18293 4.555428,-20.07985 0,-30.00002 l 15,0 c 10.18048,0 17.40741,4.87236 20,15.00001 -2.59259,10.12765 -9.78413,14.96248 -20,15.00001 z"
          style="fill:none;stroke:#000000;stroke-width:1.79999995;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
-         d="M 100,575 H 85" />
-      <path
-         id="path6685"
-         style="fill:none;stroke:#000000;stroke-width:1.79999995;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
-         d="M 100,545 H 85" />
-      <path
-         id="path6687"
-         style="fill:none;stroke:#000000;stroke-width:1.79999995;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
-         d="m 120,560.00002 a 20.833334,20.833334 0 0 1 -20,15" />
-      <path
-         id="path6689"
-         style="fill:none;stroke:#000000;stroke-width:1.79999995;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
-         d="m 100,544.99998 a 20.833334,20.833334 0 0 1 20,15" />
-      <path
-         id="path6691"
-         style="fill:none;stroke:#000000;stroke-width:1.79999995;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
-         d="M 84.999999,545 A 30,30 0 0 1 85,575" />
+         id="path6683" />
     </g>
     <g
        id="g6693">
       <path
-         id="path6695"
+         d="M 87.303509,550 H 77.5"
          style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
-         d="M 87.303509,550 H 77.5" />
+         id="path6695" />
       <path
-         id="path6697"
+         d="M 87.303509,570 H 77.5"
          style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
-         d="M 87.303509,570 H 77.5" />
+         id="path6697" />
     </g>
     <g
        id="g6699">
       <path
-         id="path6701"
+         d="m 125,560 h 2.5"
          style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
-         d="m 125,560 h 2.5" />
+         id="path6701" />
       <circle
-         id="path6703"
-         style="fill:none;stroke:#000000;stroke-width:1.20000005;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
-         cx="122.5"
+         r="2"
          cy="560"
-         r="2" />
+         cx="122.5"
+         style="fill:none;stroke:#000000;stroke-width:1.20000005;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+         id="path6703" />
     </g>
   </g>
 </svg>
