@@ -5,7 +5,9 @@ import interfaces.*;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class CircuitTests {
     @Test
@@ -16,7 +18,7 @@ public class CircuitTests {
         AndWrapper and2 = new AndWrapper(new MultibitValue(0, (byte) 4),
                 new MultibitValue(0, (byte) 4));
         AndWrapper and3 = new AndWrapper(and, and2);
-        ICircuitRunner runner = builder.build(Arrays.asList(and,and2,and3));
+        ICircuitRunner runner = builder.build(Arrays.asList(and, and2, and3));
         runner.startSimulation();
 
         try {
@@ -56,7 +58,11 @@ public class CircuitTests {
         @Override
         public ICircuitRunner build(Iterable<ILogicElementFrontEnd> source) {
             CircuitRunner runner = new CircuitRunner();
-            source.forEach(item -> item.createLogicElement(runner.getInnerCircuit()));
+            ArrayList<ILogicElementFrontEnd> s=new ArrayList<>();
+            source.forEach(s::add);
+            Collections.reverse(s);
+            s.forEach(item -> item.createLogicElement(runner.getInnerCircuit()));
+            s.forEach(item -> item.connectLogicElementInputs(runner.getInnerCircuit()));
             return runner;
         }
     }
@@ -67,6 +73,7 @@ public class CircuitTests {
         public IObservableValue<Integer> output;
         public AndWrapper and1;
         public AndWrapper and2;
+        public AndGate gate;
 
         public AndWrapper(IObservableValue<Integer> input1, IObservableValue<Integer> input2) {
             this.input1 = input1;
@@ -80,17 +87,19 @@ public class CircuitTests {
 
         @Override
         public void createLogicElement(ICircuitElementRegister register) {
-            AndGate gate = new AndGate((byte) 4);
-            if(and1!=null & and2!=null) {
-                gate.addInput(and1.output);
-                gate.addInput(and2.output);
-            }
-            else {
-                gate.addInput(input1);
-                gate.addInput(input2);
-            }
+            gate = new AndGate((byte) 4);
             output = gate.getOutput();
-            register.addCircuitWorkingElement(gate);
+            register.addCircuitWorkingElement(this, gate);
+        }
+
+        @Override
+        public void connectLogicElementInputs(ICircuitElementRegister register) {
+            if (and1 != null & and2 != null) {
+                input1 = register.getWorkingElementFor(and1).getOutputByIndex(0);
+                input2 = register.getWorkingElementFor(and2).getOutputByIndex(0);
+            }
+            gate.addInput(input1);
+            gate.addInput(input2);
         }
     }
 }

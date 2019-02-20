@@ -2,9 +2,10 @@ package circuits;
 
 import interfaces.ICircuit;
 import interfaces.ILogicElement;
+import interfaces.ILogicElementFrontEnd;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 class Circuit implements ICircuit {
@@ -14,12 +15,12 @@ class Circuit implements ICircuit {
     private boolean finalized;
 
     private ConcurrentLinkedQueue<ILogicElement> queue;
-    private ArrayList<ILogicElement> workingNodes;
+    private Hashtable<ILogicElementFrontEnd, ILogicElement> workingNodes;
 
 
     public Circuit() {
         queue = new ConcurrentLinkedQueue<>();
-        workingNodes = new ArrayList<>();
+        workingNodes = new Hashtable<>();
         finalized = false;
         stopped = false;
         shouldTick = false;
@@ -76,11 +77,18 @@ class Circuit implements ICircuit {
     }
 
     @Override
-    public synchronized void addCircuitWorkingElement(ILogicElement item) {
-        if (!workingNodes.contains(item) && !finalized) {
-            workingNodes.add(item);
+    public synchronized void addCircuitWorkingElement(ILogicElementFrontEnd source, ILogicElement item) {
+        if (!workingNodes.containsKey(source) && !finalized) {
+            workingNodes.put(source, item);
             queue.add(item);
             item.setParentCircuit(this);
         }
     }
+
+    @Override
+    public ILogicElement getWorkingElementFor(ILogicElementFrontEnd source) {
+        return workingNodes.get(source);
+    }
+
+
 }
