@@ -70,11 +70,9 @@ public class ToolboxController implements Initializable {
     }
 
     private Group SVGLoader(String path) {
-        System.out.println("Hello1");
         SvgLoader loader = new SvgLoader();
         InputStream svgFile = getClass().getResourceAsStream("/graphics/Toolbox_Icons/" + path);
         Group svgImage = loader.loadSvg(svgFile);
-        System.out.println("Hello2");
         System.out.println("/graphics/Toolbox_Icons/" + path);
         return svgImage;
     }

@@ -1,8 +1,10 @@
 package app.components;
 
 import app.models.ToolboxItem;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.AnchorPane;
@@ -21,35 +23,35 @@ public class ToolboxListCell extends ListCell<ToolboxItem> {
     @FXML
     private GridPane gridpane_toolboxCell;
 
-    private FXMLLoader loader;
+    private ToolboxItem item;
+
+    public ToolboxListCell(){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/view/ToolboxCellView.fxml"));
+        loader.setController(this);
+
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     protected void updateItem(ToolboxItem toolboxitem, boolean empty) {
+        setText(null);
+        setGraphic(null);
         super.updateItem(toolboxitem, empty);
 
         //clear the cell
-        if(empty || toolboxitem == null) {
-            setText(null);
-            setGraphic(null);
-        } else {
-            if (loader == null) {
-                loader = new FXMLLoader(getClass().getResource("/app/view/ToolboxCellView.fxml"));
-                loader.setController(this);
-
-                try {
-                    loader.load();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
+        if(!empty || toolboxitem != null) {
+            item=toolboxitem;
             //Add icon image and set item name
-            anchorpane_toolboxItemIcon.getChildren().addAll(toolboxitem.getIcon());
+            ObservableList<Node> children = anchorpane_toolboxItemIcon.getChildren();
+            children.clear();
+            children.addAll(toolboxitem.getIcon());
             anchorpane_toolboxItemIcon.setScaleX(0.35);
             anchorpane_toolboxItemIcon.setScaleY(0.35);
             label_toolboxItemName.setText(toolboxitem.getName());
-
-            setText(null);
             setGraphic(gridpane_toolboxCell);
         }
     }
