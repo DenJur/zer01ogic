@@ -55,5 +55,8 @@ public class ToolboxListCell extends ListCell<ToolboxItem> {
             label_toolboxItemName.setText(toolboxitem.getName());
             setGraphic(hbox_toolboxCell);
         }
+        else {
+            setGraphic(null);
+        }
     }
 }
