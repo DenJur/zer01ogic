@@ -38,7 +38,6 @@ public class ToolboxListCell extends ListCell<ToolboxItem> {
 
     @Override
     protected void updateItem(ToolboxItem toolboxitem, boolean empty) {
-        setText(null);
         setGraphic(null);
         super.updateItem(toolboxitem, empty);
 
