@@ -1,6 +1,8 @@
 package app.models;
 
 import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 
 
 public class ToolboxItem {
@@ -10,14 +12,28 @@ public class ToolboxItem {
     private int numberOfInputs;
     private int numberOfOutputs;
 
-
-
     public ToolboxItem(String name, Group icon, int numberOfInputs, int numberOfOutputs) {
         this.name = name;
         this.icon = icon;
         this.numberOfInputs = numberOfInputs;
         this.numberOfOutputs = numberOfOutputs;
+        rescaleIcon();
+    }
 
+    private void rescaleIcon(){
+        VBox box=new VBox(this.icon);
+        Group group=new Group(box);
+        //need to create a scene so that node sizes get calculated
+        Scene scene=new Scene(group);
+        group.applyCss();
+        group.layout();
+        double scaleX=40.0/box.getWidth();
+        double scaleY=40.0/box.getHeight();
+        double scale= scaleX<scaleY ? scaleX:scaleY;
+        icon.setScaleX(scale);
+        icon.setScaleY(scale);
+        //need to wrap in a new group for resizing to work properly
+        icon=new Group(icon);
     }
 
     public String getName() {

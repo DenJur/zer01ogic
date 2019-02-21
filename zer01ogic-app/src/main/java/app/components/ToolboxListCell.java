@@ -4,24 +4,28 @@ import app.models.ToolboxItem;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
 public class ToolboxListCell extends ListCell<ToolboxItem> {
 
     @FXML
-    private AnchorPane anchorpane_toolboxItemIcon;
+    private VBox vbox_imageContainer;
 
     @FXML
     private Label label_toolboxItemName;
 
     @FXML
-    private GridPane gridpane_toolboxCell;
+    private HBox hbox_toolboxCell;
 
     private ToolboxItem item;
 
@@ -45,13 +49,11 @@ public class ToolboxListCell extends ListCell<ToolboxItem> {
         if(!empty || toolboxitem != null) {
             item=toolboxitem;
             //Add icon image and set item name
-            ObservableList<Node> children = anchorpane_toolboxItemIcon.getChildren();
+            ObservableList<Node> children = vbox_imageContainer.getChildren();
             children.clear();
-            children.addAll(toolboxitem.getIcon());
-            anchorpane_toolboxItemIcon.setScaleX(0.35);
-            anchorpane_toolboxItemIcon.setScaleY(0.35);
+            children.add(toolboxitem.getIcon());
             label_toolboxItemName.setText(toolboxitem.getName());
-            setGraphic(gridpane_toolboxCell);
+            setGraphic(hbox_toolboxCell);
         }
     }
 }

@@ -2,24 +2,15 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<GridPane fx:id="gridpane_toolboxCell" prefHeight="30.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
-  <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="88.0" minWidth="10.0" prefWidth="30.0" />
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="158.0" minWidth="10.0" prefWidth="125.0" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-  </rowConstraints>
+<HBox fx:id="hbox_toolboxCell" alignment="CENTER_LEFT" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane fx:id="anchorpane_toolboxItemIcon" prefHeight="40.0" prefWidth="40.0" />
-      <Label fx:id="label_toolboxItemName" text="Label" GridPane.columnIndex="1">
-         <GridPane.margin>
-            <Insets left="10.0" />
-         </GridPane.margin></Label>
+      <VBox fx:id="vbox_imageContainer" alignment="CENTER" />
+      <Label fx:id="label_toolboxItemName" alignment="CENTER" text="Label">
+         <HBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </HBox.margin></Label>
    </children>
-</GridPane>
+</HBox>
