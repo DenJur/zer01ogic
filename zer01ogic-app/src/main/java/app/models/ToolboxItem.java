@@ -30,10 +30,7 @@ public class ToolboxItem {
         double scaleX=40.0/box.getWidth();
         double scaleY=40.0/box.getHeight();
         double scale= scaleX<scaleY ? scaleX:scaleY;
-        icon.setScaleX(scale);
-        icon.setScaleY(scale);
-        //need to wrap in a new group for resizing to work properly
-        icon=new Group(icon);
+        icon.getChildren().forEach(o->{o.setScaleX(scale); o.setScaleY(scale);});
     }
 
     public String getName() {
