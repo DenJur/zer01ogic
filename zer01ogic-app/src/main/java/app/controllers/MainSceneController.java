@@ -1,10 +1,9 @@
 package app.controllers;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 import java.net.URL;
@@ -12,13 +11,13 @@ import java.util.ResourceBundle;
 
 public class MainSceneController implements Initializable {
 
-    public Pane pane_menu_buildmenu;
-    public Pane pane_toolbox;
+    public GridPane gridpane_toolboxProperties;
+    public GridPane gridpane_menu;
+    public GridPane gridpane_main;
 
-    Node menuBarBuild;
-    Node menuBarSimulation;
-    Node toolbox;
-
+    private Node menuBarBuild;
+    private Node menuBarSimulation;
+    private Node toolbox;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -48,8 +47,11 @@ public class MainSceneController implements Initializable {
             //ADD THE SCENES TO THE GUI SO THEY'RE VISIBLE
 
             //when the main scene is first created, set the build menu bar as the visible menu bar
-            pane_menu_buildmenu.getChildren().add(menuBarBuild);
-            pane_toolbox.getChildren().add(toolbox);
+            gridpane_menu.add(menuBarBuild, 2, 0);
+            gridpane_menu.add(menuBarSimulation, 2, 0);
+            menuBarSimulation.setVisible(false);
+            gridpane_toolboxProperties.add(toolbox, 0, 0);
+
             //TODO add the selected item properties ------------------------------------------------------------------------------------------------------------------------------------
 
         } catch (IOException e) {
@@ -61,13 +63,14 @@ public class MainSceneController implements Initializable {
      * Switch the menu bars when requested
      */
     private void SwitchBars() {
-        ObservableList<Node> children = pane_menu_buildmenu.getChildren();
-        if (children.contains(menuBarBuild)) {
-            children.clear();
-            children.add(menuBarSimulation);
+        if (menuBarBuild.isVisible()) {
+            menuBarBuild.setVisible(false);
+            menuBarSimulation.setVisible(true);
+            toolbox.setDisable(true);
         } else {
-            children.clear();
-            children.add(menuBarBuild);
+            menuBarBuild.setVisible(true);
+            menuBarSimulation.setVisible(false);
+            toolbox.setDisable(false);
         }
     }
 }
