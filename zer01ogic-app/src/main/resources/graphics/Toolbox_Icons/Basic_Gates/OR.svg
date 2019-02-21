@@ -5,10 +5,10 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   id="svg8153"
-   version="1.1"
+   width="100"
    height="100"
-   width="100">
+   version="1.1"
+   id="svg8153">
   <metadata
      id="metadata8159">
     <rdf:RDF>
@@ -24,29 +24,29 @@
   <defs
      id="defs8157" />
   <g
-     id="g6657"
-     transform="matrix(2.0,0,0,2.0,-152.45,-152.45)">
+     transform="matrix(2,0,0,2,-154.48576,-1069)"
+     id="g6657">
     <g
        id="g6659">
       <path
-         id="path6663"
+         d="m 85,544.99999 h 15 c 10.07563,-10e-6 17.75632,4.64305 20,15.00001 -2.94151,10.35696 -9.91175,15.00002 -20,15.00001 H 85 c 5.228142,-9.84334 5.053686,-19.7249 0,-30.00002 z"
          style="fill:none;stroke:#000000;stroke-width:1.79999995;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
-         d="m 85,544.99999 h 15 c 10.07563,-10e-6 17.75632,4.64305 20,15.00001 -2.94151,10.35696 -9.91175,15.00002 -20,15.00001 H 85 c 5.228142,-9.84334 5.053686,-19.7249 0,-30.00002 z" />
+         id="path6663" />
     </g>
     <g
        id="g6671">
       <path
-         id="path6673"
+         d="M 87.303509,550 H 77.5"
          style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
-         d="M 87.303509,550 H 77.5" />
+         id="path6673" />
       <path
-         id="path6675"
+         d="M 87.303509,570 H 77.5"
          style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
-         d="M 87.303509,570 H 77.5" />
+         id="path6675" />
     </g>
     <path
-       id="path6677"
+       d="m 120,560 h 7.5"
        style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
-       d="m 120,560 h 7.5" />
+       id="path6677" />
   </g>
 </svg>
