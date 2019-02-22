@@ -29,8 +29,11 @@ public class ToolboxItem {
         group.layout();
         double scaleX = 40.0/box.getWidth();
         double scaleY = 40.0/box.getHeight();
+        //Set the scale to be the smallest dimension, and apply the scale to x and y
         double scale = scaleX < scaleY ? scaleX:scaleY;
-        icon.getChildren().forEach(o->{o.setScaleX(scale); o.setScaleY(scale);});
+        icon.setScaleX(scale);
+        icon.setScaleY(scale);
+        icon=new Group(icon);
     }
 
     public String getName() {

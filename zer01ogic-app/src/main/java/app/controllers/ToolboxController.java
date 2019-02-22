@@ -57,7 +57,10 @@ public class ToolboxController implements Initializable {
         );
 
         //Inputs/Outputs
-        //TODO Add Inputs/Outputs ----------------------------------------------------
+        toolboxItemObservableListInputsOutputs.addAll(
+                new ToolboxItem("Switch",SVGLoader("Inputs_Outputs/Switch.svg"),0,1),
+                new ToolboxItem("Lightbulb",SVGLoader("Inputs_Outputs/Lightbulb.svg"),1,0)
+        );
 
         //Memory
         //TODO Add Memory units ------------------------------------------------------
@@ -81,5 +84,8 @@ public class ToolboxController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         listview_logicGates.setItems(toolboxItemObservableListLogicGates);
         listview_logicGates.setCellFactory(logicGatesListView -> new ToolboxListCell());
+
+        listview_inputsOutputs.setItems(toolboxItemObservableListInputsOutputs);
+        listview_inputsOutputs.setCellFactory(inputsOutputsListView -> new ToolboxListCell());
     }
 }
