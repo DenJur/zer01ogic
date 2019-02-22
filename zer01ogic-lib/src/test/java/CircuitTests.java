@@ -1,5 +1,5 @@
 import circuits.CircuitRunner;
-import circuits.gates.AndGate;
+import circuits.gates.*;
 import circuits.values.MultibitValue;
 import interfaces.*;
 import org.junit.Assert;
@@ -53,6 +53,28 @@ public class CircuitTests {
         runner.stop();
     }
 
+    @Test
+    public void TestOscilationsResults() {
+        TestBuilder builder = new TestBuilder();
+        XnorWrapper xnor = new XnorWrapper(new MultibitValue(1, (byte) 1));
+        XnorWrapper xnor2 = new XnorWrapper(new MultibitValue(0, (byte) 1));
+        xnor.AddAnotherNor(xnor2);
+        xnor2.AddAnotherNor(xnor);
+        ICircuitRunner runner = builder.build(Arrays.asList(xnor, xnor2));
+        runner.startSimulation();
+
+        try {
+            Thread.sleep(10000);
+            runner.stop();
+            System.out.println(xnor.counter.count);
+            System.out.println(xnor2.counter.count);
+            Assert.assertTrue("More than 10 updates: Xnor1", xnor.counter.count>10);
+            Assert.assertTrue("More than 10 updates: Xnor2", xnor2.counter.count>10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     class TestBuilder implements ICircuitBuilder {
 
         @Override
@@ -100,6 +122,50 @@ public class CircuitTests {
             }
             gate.addInput(input1);
             gate.addInput(input2);
+        }
+    }
+
+    class XnorWrapper implements ILogicElementFrontEnd {
+        public IObservableValue<Integer> input1;
+        public IObservableValue<Integer> input2;
+        public IObservableValue<Integer> output;
+        public XnorWrapper nor;
+        public XnorGate gate;
+        public UpdateCounter counter;
+
+        public XnorWrapper(IObservableValue<Integer> input1) {
+            this.input1 = input1;
+        }
+
+        public void AddAnotherNor(XnorWrapper gate){
+            nor=gate;
+        }
+
+        @Override
+        public void createLogicElement(ICircuitElementRegister register) {
+            gate = new XnorGate((byte) 1);
+            output = gate.getOutput();
+            register.addCircuitWorkingElement(this, gate);
+        }
+
+        @Override
+        public void connectLogicElementInputs(ICircuitElementRegister register) {
+            if (nor != null) {
+                input2 = register.getWorkingElementFor(nor).getOutputByIndex(0);
+            }
+            gate.addInput(input1);
+            gate.addInput(input2);
+            counter=new UpdateCounter();
+            output.registerObserver(counter);
+        }
+    }
+
+    class UpdateCounter implements IObserver{
+        public long count=0;
+
+        @Override
+        public void update() {
+            count++;
         }
     }
 }
