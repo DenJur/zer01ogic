@@ -21,15 +21,15 @@ public class ToolboxItem {
     }
 
     private void rescaleIcon(){
-        VBox box=new VBox(this.icon);
-        Group group=new Group(box);
+        VBox box = new VBox(icon);
+        Group group = new Group(box);
         //need to create a scene so that node sizes get calculated
-        Scene scene=new Scene(group);
+        Scene scene = new Scene(group);
         group.applyCss();
         group.layout();
-        double scaleX=40.0/box.getWidth();
-        double scaleY=40.0/box.getHeight();
-        double scale= scaleX<scaleY ? scaleX:scaleY;
+        double scaleX = 40.0/box.getWidth();
+        double scaleY = 40.0/box.getHeight();
+        double scale = scaleX < scaleY ? scaleX:scaleY;
         icon.getChildren().forEach(o->{o.setScaleX(scale); o.setScaleY(scale);});
     }
 

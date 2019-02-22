@@ -47,7 +47,7 @@ public class ToolboxListCell extends ListCell<ToolboxItem> {
 
         //clear the cell
         if(!empty || toolboxitem != null) {
-            item=toolboxitem;
+            item = toolboxitem;
             //Add icon image and set item name
             ObservableList<Node> children = vbox_imageContainer.getChildren();
             children.clear();
