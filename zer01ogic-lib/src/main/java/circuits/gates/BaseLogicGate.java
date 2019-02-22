@@ -7,7 +7,7 @@ import interfaces.IObservableValue;
 
 import java.util.ArrayList;
 
-public abstract class BaseLogicGate implements ILogicElement<Integer> {
+public abstract class BaseLogicGate implements ILogicElement {
     protected IObservableValue<Integer> output;
     protected ArrayList<IObservableValue<Integer>> inputs;
     protected static final int maxWireValue = 0xFFFFFFFF;
@@ -19,14 +19,16 @@ public abstract class BaseLogicGate implements ILogicElement<Integer> {
     }
 
     @Override
-    public void addInput(IObservableValue<Integer> input) {
-        inputs.add(input);
-        input.registerObserver(this);
+    public void addInput(IObservableValue input) {
+        if(Integer.class.isAssignableFrom(input.getValueType())) {
+            inputs.add(input);
+            input.registerObserver(this);
+        }
     }
 
     @Override
-    public ArrayList<IObservableValue<Integer>> getOutputs() {
-        return new ArrayList<IObservableValue<Integer>>() {
+    public ArrayList<IObservableValue> getOutputs() {
+        return new ArrayList<IObservableValue>() {
             {
                 add(output);
             }
@@ -34,7 +36,7 @@ public abstract class BaseLogicGate implements ILogicElement<Integer> {
     }
 
     @Override
-    public IObservableValue<Integer> getOutputByIndex(int index){
+    public IObservableValue getOutputByIndex(int index){
         if(index!=0) return null;
         return output;
     }

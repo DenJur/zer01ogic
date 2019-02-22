@@ -1,171 +1,122 @@
-import circuits.CircuitRunner;
-import circuits.gates.*;
+import circuits.SimpleCircuitBuilder;
 import circuits.values.MultibitValue;
-import interfaces.*;
+import interfaces.ICircuitRunner;
 import org.junit.Assert;
 import org.junit.Test;
+import testHelpers.TestAndWrapper;
+import testHelpers.TestXNorWrapper;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
 public class CircuitTests {
+    /**
+     * Tests a circuit consisting of a single and gate. Uses the whole and truth table.
+     */
     @Test
-    public void TestAndResults() {
-        TestBuilder builder = new TestBuilder();
-        AndWrapper and = new AndWrapper(new MultibitValue(0, (byte) 4),
-                new MultibitValue(0, (byte) 4));
-        AndWrapper and2 = new AndWrapper(new MultibitValue(0, (byte) 4),
-                new MultibitValue(0, (byte) 4));
-        AndWrapper and3 = new AndWrapper(and, and2);
-        ICircuitRunner runner = builder.build(Arrays.asList(and, and2, and3));
+    public void TestAndSingleBitSingleNode() {
+        SimpleCircuitBuilder builder = new SimpleCircuitBuilder();
+        TestAndWrapper and = new TestAndWrapper((byte) 1);
+        MultibitValue input1 = new MultibitValue(0, (byte) 1);
+        MultibitValue input2 = new MultibitValue(0, (byte) 1);
+        and.addInputValue(input1);
+        and.addInputValue(input2);
+        ICircuitRunner runner = builder.build(Collections.singletonList(and));
         runner.startSimulation();
 
         try {
-            and.input1.setValue(1);
-            Thread.sleep(20);
-            Assert.assertEquals("1 & 0 => 0", 0, and.output.getValue().intValue());
-            and.input2.setValue(1);
-            Thread.sleep(20);
-            Assert.assertEquals("1 & 1 => 1", 1, and.output.getValue().intValue());
-            and.input1.setValue(0b1101);
-            Thread.sleep(20);
-            Assert.assertEquals("1101 & 1 => 1", 1, and.output.getValue().intValue());
-            and.input2.setValue(0b111);
-            Thread.sleep(20);
-            Assert.assertEquals("1101 & 111 => 101", 0b101, and.output.getValue().intValue());
-
-            and.input1.setValue(1);
-            and.input2.setValue(1);
-            and2.input1.setValue(1);
-            and2.input2.setValue(1);
-            Thread.sleep(20);
-            Assert.assertEquals("Should be 1", 1, and3.output.getValue().intValue());
-
-            and2.input2.setValue(0);
-            Thread.sleep(20);
-            Assert.assertEquals("Should be 0", 0, and3.output.getValue().intValue());
-
-
+            Thread.sleep(10);
+            Assert.assertEquals("0 & 0 => 0", 0, ((Integer)and.output.getValue()).intValue());
+            input1.setValue(1);
+            Thread.sleep(10);
+            Assert.assertEquals("1 & 0 => 0", 0, ((Integer)and.output.getValue()).intValue());
+            input2.setValue(1);
+            Thread.sleep(10);
+            Assert.assertEquals("1 & 1 => 1", 1, ((Integer)and.output.getValue()).intValue());
+            input1.setValue(0);
+            Thread.sleep(10);
+            Assert.assertEquals("0 & 1 => 0", 0, ((Integer)and.output.getValue()).intValue());
         } catch (InterruptedException e) {
             e.printStackTrace();
+            Assert.fail();
         }
         runner.stop();
     }
 
+    /**
+     * Tests a circuit consisting of 3 and gates. 2 and gates have their inputs set manually and
+     * are feeding their output into 3rd and gate.
+     */
     @Test
-    public void TestOscilationsResults() {
-        TestBuilder builder = new TestBuilder();
-        XnorWrapper xnor = new XnorWrapper(new MultibitValue(1, (byte) 1));
-        XnorWrapper xnor2 = new XnorWrapper(new MultibitValue(0, (byte) 1));
-        xnor.AddAnotherNor(xnor2);
-        xnor2.AddAnotherNor(xnor);
+    public void TestAndSingleBitMultiNode() {
+        SimpleCircuitBuilder builder = new SimpleCircuitBuilder();
+        TestAndWrapper and = new TestAndWrapper((byte) 1);
+        TestAndWrapper and2 = new TestAndWrapper((byte) 1);
+        TestAndWrapper and3 = new TestAndWrapper((byte) 1);
+        and3.addInputNode(and);
+        and3.addInputNode(and2);
+        MultibitValue input1 = new MultibitValue(0, (byte) 1);
+        MultibitValue input2 = new MultibitValue(0, (byte) 1);
+        MultibitValue input3 = new MultibitValue(0, (byte) 1);
+        MultibitValue input4 = new MultibitValue(0, (byte) 1);
+        and.addInputValue(input1);
+        and.addInputValue(input2);
+        and2.addInputValue(input3);
+        and2.addInputValue(input4);
+
+        ICircuitRunner runner = builder.build(Arrays.asList(and, and2, and3));
+        runner.startSimulation();
+
+        try {
+            //Test that 3rd gate does not output invalid value in an initial state
+            Thread.sleep(10);
+            Assert.assertEquals("0 & 0 & 0 & 0 => 0", 0, ((Integer)and3.output.getValue()).intValue());
+
+            //Test that both input and gates update their value and subsequently update the 3rd gate
+            input1.setValue(1);
+            input2.setValue(1);
+            input3.setValue(1);
+            input4.setValue(1);
+            Thread.sleep(10);
+            Assert.assertEquals("1 & 1 & 1 & 1 => 1", 1, ((Integer)and3.output.getValue()).intValue());
+
+            //Test that gate results are valid
+            input3.setValue(0);
+            Thread.sleep(10);
+            Assert.assertEquals("1 & 1 & 0 & 1 => 0", 0, ((Integer)and3.output.getValue()).intValue());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Assert.fail();
+        }
+        runner.stop();
+    }
+
+    /**
+     * Tests a circuit consisting of 2 oscillating xnor gates. Xnor gates have their outputs connected to each other
+     * and one of the gates has it's second output set to true.
+     */
+    @Test
+    public void TestXNorOscillations() {
+        SimpleCircuitBuilder builder = new SimpleCircuitBuilder();
+
+        TestXNorWrapper xnor = new TestXNorWrapper((byte) 1);
+        TestXNorWrapper xnor2 = new TestXNorWrapper((byte) 1);
+        xnor.addInputValue(new MultibitValue(0, (byte) 1));
+        xnor2.addInputValue(new MultibitValue(1, (byte) 1));
+        xnor.addInputNode(xnor2);
+        xnor2.addInputNode(xnor);
         ICircuitRunner runner = builder.build(Arrays.asList(xnor, xnor2));
         runner.startSimulation();
 
         try {
-            Thread.sleep(10000);
+            Thread.sleep(100);
             runner.stop();
             System.out.println(xnor.counter.count);
             System.out.println(xnor2.counter.count);
-            Assert.assertTrue("More than 10 updates: Xnor1", xnor.counter.count>10);
-            Assert.assertTrue("More than 10 updates: Xnor2", xnor2.counter.count>10);
+            Assert.assertTrue("More than 10 updates: Xnor1", xnor.counter.count > 10);
+            Assert.assertTrue("More than 10 updates: Xnor2", xnor2.counter.count > 10);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
-    }
-
-    class TestBuilder implements ICircuitBuilder {
-
-        @Override
-        public ICircuitRunner build(Iterable<ILogicElementFrontEnd> source) {
-            CircuitRunner runner = new CircuitRunner();
-            ArrayList<ILogicElementFrontEnd> s=new ArrayList<>();
-            source.forEach(s::add);
-            Collections.reverse(s);
-            s.forEach(item -> item.createLogicElement(runner.getInnerCircuit()));
-            s.forEach(item -> item.connectLogicElementInputs(runner.getInnerCircuit()));
-            return runner;
-        }
-    }
-
-    class AndWrapper implements ILogicElementFrontEnd {
-        public IObservableValue<Integer> input1;
-        public IObservableValue<Integer> input2;
-        public IObservableValue<Integer> output;
-        public AndWrapper and1;
-        public AndWrapper and2;
-        public AndGate gate;
-
-        public AndWrapper(IObservableValue<Integer> input1, IObservableValue<Integer> input2) {
-            this.input1 = input1;
-            this.input2 = input2;
-        }
-
-        public AndWrapper(AndWrapper input1, AndWrapper input2) {
-            this.and1 = input1;
-            this.and2 = input2;
-        }
-
-        @Override
-        public void createLogicElement(ICircuitElementRegister register) {
-            gate = new AndGate((byte) 4);
-            output = gate.getOutput();
-            register.addCircuitWorkingElement(this, gate);
-        }
-
-        @Override
-        public void connectLogicElementInputs(ICircuitElementRegister register) {
-            if (and1 != null & and2 != null) {
-                input1 = register.getWorkingElementFor(and1).getOutputByIndex(0);
-                input2 = register.getWorkingElementFor(and2).getOutputByIndex(0);
-            }
-            gate.addInput(input1);
-            gate.addInput(input2);
-        }
-    }
-
-    class XnorWrapper implements ILogicElementFrontEnd {
-        public IObservableValue<Integer> input1;
-        public IObservableValue<Integer> input2;
-        public IObservableValue<Integer> output;
-        public XnorWrapper nor;
-        public XnorGate gate;
-        public UpdateCounter counter;
-
-        public XnorWrapper(IObservableValue<Integer> input1) {
-            this.input1 = input1;
-        }
-
-        public void AddAnotherNor(XnorWrapper gate){
-            nor=gate;
-        }
-
-        @Override
-        public void createLogicElement(ICircuitElementRegister register) {
-            gate = new XnorGate((byte) 1);
-            output = gate.getOutput();
-            register.addCircuitWorkingElement(this, gate);
-        }
-
-        @Override
-        public void connectLogicElementInputs(ICircuitElementRegister register) {
-            if (nor != null) {
-                input2 = register.getWorkingElementFor(nor).getOutputByIndex(0);
-            }
-            gate.addInput(input1);
-            gate.addInput(input2);
-            counter=new UpdateCounter();
-            output.registerObserver(counter);
-        }
-    }
-
-    class UpdateCounter implements IObserver{
-        public long count=0;
-
-        @Override
-        public void update() {
-            count++;
         }
     }
 }

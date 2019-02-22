@@ -9,12 +9,14 @@ public class NotGate extends BaseLogicGate {
     }
 
     @Override
-    public void addInput(IObservableValue<Integer> input) {
-        if (inputs.size() == 0)
-            inputs.add(input);
-        else
-            inputs.set(0, input);
-        input.registerObserver(this);
+    public void addInput(IObservableValue input) {
+        if(Integer.class.isAssignableFrom(input.getValueType())) {
+            if (inputs.size() == 0)
+                inputs.add(input);
+            else
+                inputs.set(0, input);
+            input.registerObserver(this);
+        }
     }
 
     @Override
