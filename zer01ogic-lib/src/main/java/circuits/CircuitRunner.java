@@ -2,6 +2,7 @@ package circuits;
 
 import interfaces.ICircuitRunner;
 import interfaces.ICircuit;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class CircuitRunner implements ICircuitRunner {
     private Thread simulationThread;
@@ -18,18 +19,8 @@ public class CircuitRunner implements ICircuitRunner {
     }
 
     @Override
-    public void simulate() {
-        innerCircuit.simulate();
-    }
-
-    @Override
-    public void tick() {
-        innerCircuit.tick();
-    }
-
-    @Override
     public void reset() {
-        throw new UnsupportedOperationException();
+        throw new NotImplementedException();
     }
 
     @Override
@@ -45,6 +36,11 @@ public class CircuitRunner implements ICircuitRunner {
     @Override
     public void stop() {
         innerCircuit.stop();
+    }
+
+    @Override
+    public void switchMode(SimulationMode mode) {
+        innerCircuit.switchMode(mode);
     }
 
     public ICircuit getInnerCircuit(){

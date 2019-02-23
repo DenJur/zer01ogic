@@ -1,10 +1,11 @@
 package interfaces;
 
+import circuits.SimulationMode;
+
 public interface ICircuitCommon {
-    void simulate();
-    void tick();
     void reset();
     void pause();
     void unpause();
     void stop();
+    void switchMode(SimulationMode mode);
 }

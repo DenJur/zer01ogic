@@ -11,31 +11,18 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 class Circuit implements ICircuit {
     private boolean stopped;
     private boolean paused;
-    private boolean shouldTick;
     private boolean finalized;
+    private SimulationMode mode;
 
     private ConcurrentLinkedQueue<ILogicElement> queue;
     private Hashtable<ILogicElementFrontEnd, ILogicElement> workingNodes;
-
 
     public Circuit() {
         queue = new ConcurrentLinkedQueue<>();
         workingNodes = new Hashtable<>();
         finalized = false;
         stopped = false;
-        shouldTick = false;
-        paused = false;
-    }
-
-    @Override
-    public void simulate() {
-        shouldTick = false;
-        paused = false;
-    }
-
-    @Override
-    public synchronized void tick() {
-        shouldTick = true;
+        mode = SimulationMode.NONSTOP;
         paused = false;
     }
 
@@ -55,8 +42,12 @@ class Circuit implements ICircuit {
     }
 
     @Override
-    public void stop() {
-        stopped = true;
+    public void stop() { stopped = true; }
+
+    @Override
+    public void switchMode(SimulationMode mode) {
+        this.mode = mode;
+        unpause();
     }
 
     @Override
@@ -65,7 +56,7 @@ class Circuit implements ICircuit {
         while (!stopped) {
             if (!queue.isEmpty() && !paused) {
                 queue.poll().calculateOutputs();
-                if (shouldTick) paused = true;
+                if (mode == SimulationMode.TICK) pause();
             }
         }
     }
@@ -89,6 +80,5 @@ class Circuit implements ICircuit {
     public ILogicElement getWorkingElementFor(ILogicElementFrontEnd source) {
         return workingNodes.get(source);
     }
-
 
 }
