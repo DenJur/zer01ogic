@@ -1,9 +1,11 @@
 package app.components;
 
+import app.dragdrop.DragIcon;
 import app.models.ToolboxItem;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -51,5 +53,17 @@ public class ToolboxListCell extends ListCell<ToolboxItem> {
             //clear the cell
             setGraphic(null);
         }
+    }
+
+    public void relocateToPoint (Point2D p) {
+
+        //relocates the object to a point that has been converted to
+        //scene coordinates
+        Point2D localCoords = getParent().sceneToLocal(p);
+
+        relocate (
+                (int) (localCoords.getX() - (getBoundsInLocal().getWidth() / 2)),
+                (int) (localCoords.getY() - (getBoundsInLocal().getHeight() / 2))
+        );
     }
 }

@@ -2,37 +2,19 @@ package app.dragdrop;
 
 import java.io.IOException;
 
+import app.models.ToolboxItem;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
+import javafx.scene.Group;
 import javafx.scene.layout.AnchorPane;
 
 public class DragIcon extends AnchorPane{
 	
 	@FXML AnchorPane root_pane;
 
-	//private DragIconType mType = null;
-	
-	public DragIcon() {
-		
-		FXMLLoader fxmlLoader = new FXMLLoader(
-				getClass().getResource("/DragIcon.fxml")
-				);
-		
-		fxmlLoader.setRoot(this); 
-		fxmlLoader.setController(this);
-		
-		try { 
-			fxmlLoader.load();
-        
-		} catch (IOException exception) {
-		    throw new RuntimeException(exception);
-		}
-	}
-	
-	@FXML
-	private void initialize() {}
-	
+	private String type;
+
 	public void relocateToPoint (Point2D p) {
 
 		//relocates the object to a point that has been converted to
@@ -45,50 +27,14 @@ public class DragIcon extends AnchorPane{
 			);
 	}
 
-	/*
-	public DragIconType getType () { return mType; }
+	public String getType () { return type; }
 	
-	public void setType (DragIconType type) {
-		
-		mType = type;
-		
-		getStyleClass().clear();
-		getStyleClass().add("dragicon");
-		
-		switch (mType) {
-		
-		case blue:
-			getStyleClass().add("icon-blue");
-		break;
+	public void setType (ToolboxItem toolboxItem) {
+		type = toolboxItem.getName();
 
-		case red:
-			getStyleClass().add("icon-red");			
-		break;
-
-		case green:
-			getStyleClass().add("icon-green");
-		break;
-
-		case grey:
-			getStyleClass().add("icon-grey");
-		break;
-
-		case purple:
-			getStyleClass().add("icon-purple");
-		break;
-
-		case yellow:
-			getStyleClass().add("icon-yellow");
-		break;
-
-		case black:
-			getStyleClass().add("icon-black");
-		break;
-		
-		default:
-		break;
-
-		}
+		//clear any contents of the current dragicon
+		this.getChildren().clear();
+		//set the contents to the new icon
+		this.getChildren().add(toolboxItem.getIcon());
 	}
-	*/
 }

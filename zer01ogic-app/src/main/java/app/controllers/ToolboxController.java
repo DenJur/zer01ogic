@@ -2,13 +2,20 @@ package app.controllers;
 
 import afester.javafx.svg.SvgLoader;
 import app.components.ToolboxListCell;
+import app.dragdrop.DragContainer;
+import app.dragdrop.DragIcon;
 import app.models.ToolboxItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.control.ListView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -37,8 +44,12 @@ public class ToolboxController implements Initializable {
     private ObservableList<ToolboxItem> toolboxItemObservableListArithmeticUnits;
     private ObservableList<ToolboxItem> toolboxItemObservableListUserCreated;
 
+    //The instance of MainSceneController
+    private MainSceneController mainSceneController;
 
-    public ToolboxController() {
+    public ToolboxController(MainSceneController mainSceneController) {
+        this.mainSceneController = mainSceneController;
+
         toolboxItemObservableListLogicGates = FXCollections.observableArrayList();
         toolboxItemObservableListInputsOutputs = FXCollections.observableArrayList();
         toolboxItemObservableListMemory = FXCollections.observableArrayList();
@@ -72,14 +83,6 @@ public class ToolboxController implements Initializable {
         //TODO Load in user created circuits -----------------------------------------
     }
 
-    private Group SVGLoader(String path) {
-        SvgLoader loader = new SvgLoader();
-        InputStream svgFile = getClass().getResourceAsStream("/graphics/Toolbox_Icons/" + path);
-        Group svgImage = loader.loadSvg(svgFile);
-        System.out.println("/graphics/Toolbox_Icons/" + path);
-        return svgImage;
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         listview_logicGates.setItems(toolboxItemObservableListLogicGates);
@@ -87,5 +90,36 @@ public class ToolboxController implements Initializable {
 
         listview_inputsOutputs.setItems(toolboxItemObservableListInputsOutputs);
         listview_inputsOutputs.setCellFactory(inputsOutputsListView -> new ToolboxListCell());
+
+        //Add drag handler for listviews
+        addDragDetection(listview_logicGates);
+        addDragDetection(listview_inputsOutputs);
+        addDragDetection(listview_memory);
+        addDragDetection(listview_arithmeticUnits);
+        addDragDetection(listview_userCreated);
+    }
+
+    private Group SVGLoader(String path) {
+        SvgLoader loader = new SvgLoader();
+        InputStream svgFile = getClass().getResourceAsStream("/graphics/Toolbox_Icons/" + path);
+        Group svgImage = loader.loadSvg(svgFile);
+
+        return svgImage;
+    }
+
+    private void addDragDetection(ListView list) {
+
+        list.setOnDragDetected (new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent event) {
+                //find the currently selected list item
+                ToolboxItem toolboxItem = (ToolboxItem) list.getSelectionModel().getSelectedItem();
+
+                //send a message to the main class saying that this list has been dragged
+                //and send the details of the selected item so it can be handled correctly
+                mainSceneController.toolboxDragDrop(toolboxItem, event);
+            }
+        });
     }
 }
