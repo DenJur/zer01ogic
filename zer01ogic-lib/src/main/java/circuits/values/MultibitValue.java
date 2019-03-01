@@ -60,7 +60,7 @@ public class MultibitValue implements IObservableValue<Integer> {
     }
 
     @Override
-    public Class getValueType() {
+    public Class<Integer> getValueType() {
         return Integer.class;
     }
 

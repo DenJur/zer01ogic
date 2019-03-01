@@ -8,6 +8,16 @@ public abstract class ValueWrapper<T> implements IValueTransformer<T> {
     protected IObservableValue<T> value;
 
     @Override
+    public T getValue() {
+        return value.getValue();
+    }
+
+    @Override
+    public void setValue(T newValue) {
+        value.setValue(newValue);
+    }
+
+    @Override
     public void setInnerValue(IObservableValue<T> value) {
         this.value=value;
     }

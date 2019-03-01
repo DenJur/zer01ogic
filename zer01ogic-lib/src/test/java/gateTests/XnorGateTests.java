@@ -2,7 +2,7 @@ package gateTests;
 
 import circuits.gates.XorGate;
 import circuits.values.MultibitValue;
-import circuits.values.NotTransformWrapper;
+import circuits.values.NotSetTransformWrapper;
 import interfaces.IObservableValue;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,7 +16,7 @@ public class XnorGateTests {
         gate.addInput(input1);
         gate.addInput(input2);
         IObservableValue<Integer> output = gate.getOutput();
-        gate.addValueTransformer(output,new NotTransformWrapper());
+        gate.addValueTransformer(output,new NotSetTransformWrapper());
         output = gate.getOutput();
 
         gate.calculateOutputs();

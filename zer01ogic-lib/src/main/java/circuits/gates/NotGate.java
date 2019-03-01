@@ -1,7 +1,7 @@
 package circuits.gates;
 
 import circuits.values.MultibitValue;
-import circuits.values.NotTransformWrapper;
+import circuits.values.NotSetTransformWrapper;
 import interfaces.ICircuitQueue;
 import interfaces.ILogicElement;
 import interfaces.IObservableValue;
@@ -17,7 +17,7 @@ public class NotGate implements ILogicElement {
 
     public NotGate(byte outputSize) {
         output = new MultibitValue(0, outputSize);
-        NotTransformWrapper wrapper=new NotTransformWrapper();
+        NotSetTransformWrapper wrapper=new NotSetTransformWrapper();
         wrapper.setInnerValue(output);
         output=wrapper;
     }

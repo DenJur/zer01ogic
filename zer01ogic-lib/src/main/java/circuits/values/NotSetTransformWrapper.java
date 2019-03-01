@@ -1,11 +1,6 @@
 package circuits.values;
 
-public class NotTransformWrapper extends ValueWrapper<Integer> {
-
-    @Override
-    public Integer getValue() {
-        return value.getValue();
-    }
+public class NotSetTransformWrapper extends ValueWrapper<Integer> {
 
     @Override
     public void setValue(Integer newValue) {

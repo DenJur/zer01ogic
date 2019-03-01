@@ -6,5 +6,5 @@ public interface IObservableValue<T> {
     void registerObserver(IObserver IObserver);
     void deregisterObserver(IObserver IObserver);
     void reset();
-    Class getValueType();
+    Class<T> getValueType();
 }

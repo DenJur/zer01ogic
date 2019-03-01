@@ -11,19 +11,17 @@ import java.util.*;
 public abstract class BaseLogicGate implements ILogicElement {
     protected static final int maxWireValue = 0xFFFFFFFF;
     protected IObservableValue<Integer> output;
-    protected HashSet<IObservableValue<Integer>> inputs;
+    protected ArrayList<IObservableValue<Integer>> inputs;
     private ICircuitQueue parent;
-    protected HashMap<IObservableValue, ArrayList<IValueTransformer<Integer>>> valueTransformerMap;
 
     public BaseLogicGate(byte outputSize) {
-        inputs = new HashSet<>();
+        inputs = new ArrayList<>();
         output = new MultibitValue(0, outputSize);
-        valueTransformerMap = new HashMap<>();
     }
 
     @Override
     public void addInput(IObservableValue input) {
-        if (Integer.class.isAssignableFrom(input.getValueType())) {
+        if (Integer.class.isAssignableFrom(input.getValueType()) && !inputs.contains(input)) {
             inputs.add(input);
             input.registerObserver(this);
         }
