@@ -9,15 +9,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 
-public class DraggableNode extends AnchorPane {
-
-//		@FXML AnchorPane root_pane;
+public abstract class DraggableNode extends AnchorPane {
 
     private EventHandler <DragEvent> mContextDragOver;
     private EventHandler <DragEvent> mContextDragDropped;
@@ -26,38 +25,17 @@ public class DraggableNode extends AnchorPane {
 
     @FXML private AnchorPane box;
 
-//		@FXML private Label title_bar;
-//		@FXML private Label close_button;
-
-    private final DraggableNode self;
-
-    public DraggableNode() {
-
-        self = this;
-
-        this.getChildren().add(SVGLoader("Basic_Gates/AND.svg"));
-
-
-
-//			FXMLLoader fxmlLoader = new FXMLLoader(
-//					getClass().getResource("graphics/Toolbox_Icons/Basic_Gates/AND.svg")
-//					);
-//
-//			fxmlLoader.setRoot(this);
-//			fxmlLoader.setController(this);
-//			try {
-//				fxmlLoader.load();
-//
-//			} catch (IOException exception) {
-//			    throw new RuntimeException(exception);
-//			}
+    public DraggableNode(){
+        box=this;
+        buildNodeDragHandlers();
     }
+
+
 
     @FXML
     private void initialize() {
         box.scaleXProperty().set(1);
         box.scaleYProperty().set(2);
-        buildNodeDragHandlers();
     }
 
     public void relocateToPoint (Point2D p) {
@@ -73,53 +51,6 @@ public class DraggableNode extends AnchorPane {
     }
 
 
-
-
-    /*
-    public DragIconType getType () { return mType; }
-
-    public void setType (DragIconType type) {
-
-        mType = type;
-
-        getStyleClass().clear();
-        getStyleClass().add("dragicon");
-
-        switch (mType) {
-
-        case blue:
-            getStyleClass().add("icon-blue");
-        break;
-
-        case red:
-            getStyleClass().add("icon-red");
-        break;
-
-        case green:
-            getStyleClass().add("icon-green");
-        break;
-
-        case grey:
-            getStyleClass().add("icon-grey");
-        break;
-
-        case purple:
-            getStyleClass().add("icon-purple");
-        break;
-
-        case yellow:
-            getStyleClass().add("icon-yellow");
-        break;
-
-        case black:
-            getStyleClass().add("icon-black");
-        break;
-
-        default:
-        break;
-        }
-    }
-    */
     public void buildNodeDragHandlers() {
 
         mContextDragOver = new EventHandler <DragEvent>() {
@@ -149,16 +80,6 @@ public class DraggableNode extends AnchorPane {
                 event.consume();
             }
         };
-        //close button click
-//			close_button.setOnMouseClicked( new EventHandler <MouseEvent> () {
-//
-//				@Override
-//				public void handle(MouseEvent event) {
-//					AnchorPane parent  = (AnchorPane) self.getParent();
-//					parent.getChildren().remove(self);
-//				}
-//
-//			});
 
         //drag detection for node dragging
         box.setOnDragDetected ( new EventHandler <MouseEvent> () {
@@ -166,7 +87,6 @@ public class DraggableNode extends AnchorPane {
             @Override
             public void handle(MouseEvent event) {
 
-                getParent().setOnDragOver(null);
                 getParent().setOnDragDropped(null);
 
                 getParent().setOnDragOver (mContextDragOver);
@@ -182,7 +102,7 @@ public class DraggableNode extends AnchorPane {
                 ClipboardContent content = new ClipboardContent();
                 DragContainer container = new DragContainer();
 
-                content.put(DragContainer.AddNode, container);
+                content.put(DragContainer.DragableNode, container);
 
                 startDragAndDrop (TransferMode.ANY).setContent(content);
 
@@ -196,7 +116,7 @@ public class DraggableNode extends AnchorPane {
         });
     }
 
-    private Group SVGLoader(String path) {
+    protected Group SVGLoader(String path) {
         SvgLoader loader = new SvgLoader();
         InputStream svgFile = getClass().getResourceAsStream("/graphics/Toolbox_Icons/" + path);
         Group svgImage = loader.loadSvg(svgFile);

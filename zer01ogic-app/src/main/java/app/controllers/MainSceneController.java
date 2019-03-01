@@ -1,10 +1,10 @@
 package app.controllers;
 
 import app.dragdrop.DragContainer;
-import app.dragdrop.DragIcon;
 import app.dragdrop.DraggableNode;
 import app.models.ToolboxItem;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
@@ -24,10 +24,15 @@ import java.util.ResourceBundle;
 
 public class MainSceneController implements Initializable {
     //GUI Components
+    @FXML
     public SplitPane splitpane_main;
+    @FXML
     public AnchorPane anchorpane_main;
+    @FXML
     public GridPane gridpane_toolboxProperties;
+    @FXML
     public GridPane gridpane_menu;
+    @FXML
     public AnchorPane anchorpane_canvas;
 
     private Node menuBarBuild;
@@ -35,7 +40,7 @@ public class MainSceneController implements Initializable {
     private Node toolbox;
 
     //drag and drop
-    private DragIcon mDragOverIcon = null;
+    private DraggableNode mDragOverIcon = null;
 
     private EventHandler<DragEvent> mIconDragOverMain = null;
     private EventHandler<DragEvent> mIconDragDropped = null;
@@ -82,14 +87,13 @@ public class MainSceneController implements Initializable {
 
             //TODO add drag and drop functionality -------------------------------------------------------------------------------------------------------------------------------------
             //Add one icon that will be used for the drag-drop process
-            //This is added as a child to the root anchorpane so it can be visible
-            //on both sides of the split pane.
-            mDragOverIcon = new DragIcon();
-
-            mDragOverIcon.setVisible(false);
-            mDragOverIcon.setOpacity(0.65);
-
-            anchorpane_main.getChildren().add(mDragOverIcon);
+            //This is added as a child of anchorpane_main so it can be visible on both sides of the split pane.
+//            mDragOverIcon = new DragIcon();
+//
+//            mDragOverIcon.setVisible(false);
+//            mDragOverIcon.setOpacity(0.65);
+//
+//            anchorpane_main.getChildren().add(mDragOverIcon);
 
             buildDragHandlers();
 
@@ -101,29 +105,35 @@ public class MainSceneController implements Initializable {
     /**
      * Called when the user drags an item from the toolbox,
      * handles drag and drop features
+     *
      * @param toolboxItem the toolbox item that was selected
      */
-    public void toolboxDragDrop(ToolboxItem toolboxItem, MouseEvent event){
-        // set drag event handlers on their respective objects
-        anchorpane_main.setOnDragOver(mIconDragOverMain);
-        //anchorpane_canvas.setOnDragOver(mIconDragOverCanvas);
-        //anchorpane_canvas.setOnDragDropped(mIconDragDropped);
-
-        //set the icon of the drag icon to the current toolbox item's icon
-        mDragOverIcon.setType(toolboxItem);
-
-        //begin drag ops
-        mDragOverIcon.relocateToPoint(new Point2D(event.getSceneX(), event.getSceneY()));
-
+    public void toolboxDragDrop(ToolboxItem toolboxItem, MouseEvent event) {
         ClipboardContent content = new ClipboardContent();
         DragContainer container = new DragContainer();
 
-        container.addData ("type", mDragOverIcon.getType());
-        content.put(DragContainer.AddNode, container);
+        content.put(DragContainer.DragableNode, container);
 
-        mDragOverIcon.startDragAndDrop (TransferMode.ANY).setContent(content);
+        mDragOverIcon.startDragAndDrop(TransferMode.ANY).setContent(content);
         mDragOverIcon.setVisible(true);
         mDragOverIcon.setMouseTransparent(true);
+        event.consume();
+    }
+
+    public void toolboxClick(ToolboxItem toolboxItem, MouseEvent event) {
+        // set drag event handlers on their respective objects
+        anchorpane_main.setOnDragOver(mIconDragOverMain);
+        anchorpane_canvas.setOnDragOver(mIconDragOverCanvas);
+        anchorpane_canvas.setOnDragDropped(mIconDragDropped);
+
+        //set the icon of the drag icon to the current toolbox item's icon
+        mDragOverIcon = toolboxItem.createNewNode();
+        mDragOverIcon.setVisible(false);
+        anchorpane_main.getChildren().add(mDragOverIcon);
+        mDragOverIcon.setOpacity(0.65);
+
+        //begin drag ops
+        mDragOverIcon.relocateToPoint(new Point2D(event.getSceneX() - mDragOverIcon.getWidth() / 2, event.getSceneY() - mDragOverIcon.getHeight() / 2));
         event.consume();
     }
 
@@ -143,25 +153,10 @@ public class MainSceneController implements Initializable {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     private void buildDragHandlers() {
 
         //drag over transition to move widget form left pane to right pane
-        mIconDragOverMain = new EventHandler <DragEvent>() {
+        mIconDragOverMain = new EventHandler<DragEvent>() {
 
             @Override
             public void handle(DragEvent event) {
@@ -173,7 +168,7 @@ public class MainSceneController implements Initializable {
                 if (!anchorpane_canvas.boundsInLocalProperty().get().contains(p)) {
 
                     event.acceptTransferModes(TransferMode.ANY);
-                    mDragOverIcon.relocateToPoint(new Point2D(event.getSceneX(), event.getSceneY()));
+                    mDragOverIcon.relocateToPoint(new Point2D(event.getSceneX() - mDragOverIcon.getWidth() / 2, event.getSceneY() - mDragOverIcon.getHeight() / 2));
                     return;
                 }
 
@@ -181,7 +176,7 @@ public class MainSceneController implements Initializable {
             }
         };
 
-        mIconDragOverCanvas = new EventHandler <DragEvent> () {
+        mIconDragOverCanvas = new EventHandler<DragEvent>() {
 
             @Override
             public void handle(DragEvent event) {
@@ -194,71 +189,65 @@ public class MainSceneController implements Initializable {
                 //pane, coodinates must be in the root pane's coordinate system to work
                 //properly.
                 mDragOverIcon.relocateToPoint(
-                        new Point2D(event.getSceneX(), event.getSceneY())
+                        new Point2D(event.getSceneX() - mDragOverIcon.getWidth() / 2, event.getSceneY() - mDragOverIcon.getHeight() / 2)
                 );
                 event.consume();
             }
         };
 
-        mIconDragDropped = new EventHandler <DragEvent> () {
+        mIconDragDropped = new EventHandler<DragEvent>() {
 
             @Override
             public void handle(DragEvent event) {
 
                 DragContainer container =
-                        (DragContainer) event.getDragboard().getContent(DragContainer.AddNode);
+                        (DragContainer) event.getDragboard().getContent(DragContainer.DragableNode);
 
-                container.addData("scene_coords",
-                        new Point2D(event.getSceneX(), event.getSceneY()));
+                container.addPoint(new Point2D(event.getSceneX(), event.getSceneY()));
 
                 ClipboardContent content = new ClipboardContent();
-                content.put(DragContainer.AddNode, container);
+                content.put(DragContainer.DragableNode, container);
 
                 event.getDragboard().setContent(content);
                 event.setDropCompleted(true);
             }
         };
 
-        //this.setOnDragDone (new EventHandler <DragEvent> (){ -----------------------------------------------------------------------------------------------------------------------DELETE ME LATER
-
-        anchorpane_main.setOnDragDone (new EventHandler <DragEvent> (){
+        anchorpane_main.setOnDragDone(new EventHandler<DragEvent>() {
 
             @Override
-            public void handle (DragEvent event) {
+            public void handle(DragEvent event) {
 
                 anchorpane_canvas.removeEventHandler(DragEvent.DRAG_OVER, mIconDragOverCanvas);
                 anchorpane_canvas.removeEventHandler(DragEvent.DRAG_DROPPED, mIconDragDropped);
                 anchorpane_main.removeEventHandler(DragEvent.DRAG_OVER, mIconDragOverMain);
 
-                mDragOverIcon.setVisible(false);
-
-                DragContainer container = (DragContainer) event.getDragboard().getContent(DragContainer.AddNode);
+                anchorpane_main.getChildren().remove(mDragOverIcon);
+                DragContainer container = (DragContainer) event.getDragboard().getContent(DragContainer.DragableNode);
 
                 if (container != null) {
-                    if (container.getValue("scene_coords") != null) {
+                    Point2D cursorPoint = container.getPoint();
+                    container.addPoint(null);
+                    if (cursorPoint != null) {
 
-                        DraggableNode node = new DraggableNode();
+                        mDragOverIcon.setOpacity(1.0);
 
-                        //node.setType(DragIconType.valueOf(container.getValue("type")));
-                        anchorpane_canvas.getChildren().add(node);
+                        mDragOverIcon.setMouseTransparent(false);
+                        anchorpane_canvas.getChildren().add(mDragOverIcon);
 
-                        Point2D cursorPoint = container.getValue("scene_coords");
-
-                        node.relocateToPoint(
-                                new Point2D(cursorPoint.getX() - 32, cursorPoint.getY() - 32)
+                        mDragOverIcon.relocateToPoint(
+                                new Point2D(cursorPoint.getX() - mDragOverIcon.getWidth() / 2, cursorPoint.getY() - mDragOverIcon.getHeight() / 2)
                         );
+
                     }
-                }
-
-                container = (DragContainer) event.getDragboard().getContent(DragContainer.DragNode);
-
-                if (container != null) {
-                    if (container.getValue("type") != null)
-                        System.out.println ("Moved node " + container.getValue("type"));
                 }
 
                 event.consume();
             }
         });
+    }
+
+    public void clearDragable(MouseEvent event) {
+        anchorpane_main.getChildren().remove(mDragOverIcon);
     }
 }

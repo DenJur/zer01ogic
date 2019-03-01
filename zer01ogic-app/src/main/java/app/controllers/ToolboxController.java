@@ -1,9 +1,10 @@
 package app.controllers;
 
 import afester.javafx.svg.SvgLoader;
+import app.componentFactories.AndFactory;
+import app.componentFactories.OrFactory;
 import app.components.ToolboxListCell;
 import app.dragdrop.DragContainer;
-import app.dragdrop.DragIcon;
 import app.models.ToolboxItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,20 +24,11 @@ import java.util.ResourceBundle;
 
 public class ToolboxController implements Initializable {
 
-    @FXML
-    private ListView<ToolboxItem> listview_logicGates;
-
-    @FXML
-    private ListView<ToolboxItem> listview_inputsOutputs;
-
-    @FXML
-    private ListView<ToolboxItem> listview_memory;
-
-    @FXML
-    private ListView<ToolboxItem> listview_arithmeticUnits;
-
-    @FXML
-    private ListView<ToolboxItem> listview_userCreated;
+    @FXML private ListView<ToolboxItem> listview_logicGates;
+    @FXML private ListView<ToolboxItem> listview_inputsOutputs;
+    @FXML private ListView<ToolboxItem> listview_memory;
+    @FXML private ListView<ToolboxItem> listview_arithmeticUnits;
+    @FXML private ListView<ToolboxItem> listview_userCreated;
 
     private ObservableList<ToolboxItem> toolboxItemObservableListLogicGates;
     private ObservableList<ToolboxItem> toolboxItemObservableListInputsOutputs;
@@ -58,19 +50,22 @@ public class ToolboxController implements Initializable {
 
         //Basic logic gates
         toolboxItemObservableListLogicGates.addAll(
-                new ToolboxItem("AND",SVGLoader("Basic_Gates/AND.svg"),2,1),
-                new ToolboxItem("OR",SVGLoader("Basic_Gates/OR.svg"),2,1),
-                new ToolboxItem("NOT",SVGLoader("Basic_Gates/NOT.svg"),1,1),
-                new ToolboxItem("XOR",SVGLoader("Basic_Gates/XOR.svg"),2,1),
-                new ToolboxItem("NAND",SVGLoader("Basic_Gates/NAND.svg"),2,1),
-                new ToolboxItem("NOR",SVGLoader("Basic_Gates/NOR.svg"),2,1),
-                new ToolboxItem("XNOR",SVGLoader("Basic_Gates/XNOR.svg"),2,1)
+
+                //TODO CHANGE THESE FROM ALL BEING AND FACTORY TO THEIR RESPECTIVE FACTORY!------------------------------------------------------------------------------------------------------------------------------------------------------!!!!!!
+
+                new ToolboxItem("AND",SVGLoader("Basic_Gates/AND.svg"),2,1, new AndFactory()),
+                new ToolboxItem("OR",SVGLoader("Basic_Gates/OR.svg"),2,1, new OrFactory()),
+                new ToolboxItem("NOT",SVGLoader("Basic_Gates/NOT.svg"),1,1, new AndFactory()),
+                new ToolboxItem("XOR",SVGLoader("Basic_Gates/XOR.svg"),2,1, new AndFactory()),
+                new ToolboxItem("NAND",SVGLoader("Basic_Gates/NAND.svg"),2,1, new AndFactory()),
+                new ToolboxItem("NOR",SVGLoader("Basic_Gates/NOR.svg"),2,1, new AndFactory()),
+                new ToolboxItem("XNOR",SVGLoader("Basic_Gates/XNOR.svg"),2,1, new AndFactory())
         );
 
         //Inputs/Outputs
         toolboxItemObservableListInputsOutputs.addAll(
-                new ToolboxItem("Switch",SVGLoader("Inputs_Outputs/Switch.svg"),0,1),
-                new ToolboxItem("Lightbulb",SVGLoader("Inputs_Outputs/Lightbulb.svg"),1,0)
+                new ToolboxItem("Switch",SVGLoader("Inputs_Outputs/Switch.svg"),0,1, new AndFactory()),
+                new ToolboxItem("Lightbulb",SVGLoader("Inputs_Outputs/Lightbulb.svg"),1,0, new AndFactory())
         );
 
         //Memory
@@ -119,6 +114,27 @@ public class ToolboxController implements Initializable {
                 //send a message to the main class saying that this list has been dragged
                 //and send the details of the selected item so it can be handled correctly
                 mainSceneController.toolboxDragDrop(toolboxItem, event);
+            }
+        });
+
+        list.setOnMousePressed (new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent event) {
+                //find the currently selected list item
+                ToolboxItem toolboxItem = (ToolboxItem) list.getSelectionModel().getSelectedItem();
+
+                //send a message to the main class saying that this list has been dragged
+                //and send the details of the selected item so it can be handled correctly
+                mainSceneController.toolboxClick(toolboxItem, event);
+            }
+        });
+
+        list.setOnMouseReleased(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent event) {
+                mainSceneController.clearDragable(event);
             }
         });
     }

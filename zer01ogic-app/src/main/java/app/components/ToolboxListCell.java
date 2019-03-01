@@ -1,6 +1,5 @@
 package app.components;
 
-import app.dragdrop.DragIcon;
 import app.models.ToolboxItem;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
