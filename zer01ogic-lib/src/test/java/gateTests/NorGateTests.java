@@ -1,7 +1,8 @@
 package gateTests;
 
+import circuits.gates.OrGate;
 import circuits.values.MultibitValue;
-import circuits.gates.NorGate;
+import circuits.values.NotTransformWrapper;
 import interfaces.IObservableValue;
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,10 +12,12 @@ public class NorGateTests {
     public void TestNorResults() {
         MultibitValue input1 = new MultibitValue(0, (byte) 4);
         MultibitValue input2 = new MultibitValue(0, (byte) 4);
-        NorGate gate = new NorGate((byte)4);
+        OrGate gate = new OrGate((byte)4);
         gate.addInput(input1);
         gate.addInput(input2);
         IObservableValue<Integer> output = gate.getOutput();
+        gate.addValueTransformer(output,new NotTransformWrapper());
+        output = gate.getOutput();
 
         gate.calculateOutputs();
         Assert.assertEquals("0000 & 0000 => 1111", 0b1111, output.getValue().intValue());
@@ -36,10 +39,11 @@ public class NorGateTests {
     public void TestNorResultsSingleBit() {
         MultibitValue input1 = new MultibitValue(0, (byte) 1);
         MultibitValue input2 = new MultibitValue(0, (byte) 1);
-        NorGate gate = new NorGate((byte)1);
+        OrGate gate = new OrGate((byte)1);
         gate.addInput(input1);
         gate.addInput(input2);
         IObservableValue<Integer> output = gate.getOutput();
+        gate.addValueTransformer(output,new NotTransformWrapper());
 
         gate.calculateOutputs();
         Assert.assertEquals("0 & 0 => 1", 0b1, output.getValue().intValue());

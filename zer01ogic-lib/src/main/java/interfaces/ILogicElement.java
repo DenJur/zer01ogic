@@ -1,11 +1,12 @@
 package interfaces;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public interface ILogicElement<T> extends IObserver {
-    ArrayList<IObservableValue> getOutputs();
+public interface ILogicElement extends IObserver {
+    List<IObservableValue<Integer>> getOutputs();
     IObservableValue getOutputByIndex(int index);
     void addInput(IObservableValue input);
     void calculateOutputs();
     void setParentCircuit(ICircuitQueue circuit);
+    void addValueTransformer(IObservableValue value, IValueTransformer transformer);
 }

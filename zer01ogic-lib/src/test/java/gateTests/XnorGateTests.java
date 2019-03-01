@@ -1,7 +1,8 @@
 package gateTests;
 
+import circuits.gates.XorGate;
 import circuits.values.MultibitValue;
-import circuits.gates.XnorGate;
+import circuits.values.NotTransformWrapper;
 import interfaces.IObservableValue;
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,10 +12,12 @@ public class XnorGateTests {
     public void TestXorResults() {
         MultibitValue input1 = new MultibitValue(0, (byte) 4);
         MultibitValue input2 = new MultibitValue(0, (byte) 4);
-        XnorGate gate = new XnorGate((byte)4);
+        XorGate gate = new XorGate((byte)4);
         gate.addInput(input1);
         gate.addInput(input2);
         IObservableValue<Integer> output = gate.getOutput();
+        gate.addValueTransformer(output,new NotTransformWrapper());
+        output = gate.getOutput();
 
         gate.calculateOutputs();
         Assert.assertEquals("0000 & 0000 => 1111", 0b1111, output.getValue().intValue());
