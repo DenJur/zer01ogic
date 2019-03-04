@@ -2,7 +2,8 @@ package gateTests;
 
 import circuits.gates.OrGate;
 import circuits.values.MultibitValue;
-import circuits.values.NotSetTransformWrapper;
+import circuits.values.NotTransformWrapper;
+import circuits.values.TransformerMode;
 import interfaces.IObservableValue;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,7 +17,7 @@ public class NorGateTests {
         gate.addInput(input1);
         gate.addInput(input2);
         IObservableValue<Integer> output = gate.getOutput();
-        gate.addValueTransformer(output,new NotSetTransformWrapper());
+        gate.addValueTransformer(output,new NotTransformWrapper(TransformerMode.SET));
         output = gate.getOutput();
 
         gate.calculateOutputs();
@@ -43,7 +44,7 @@ public class NorGateTests {
         gate.addInput(input1);
         gate.addInput(input2);
         IObservableValue<Integer> output = gate.getOutput();
-        gate.addValueTransformer(output,new NotSetTransformWrapper());
+        gate.addValueTransformer(output,new NotTransformWrapper(TransformerMode.SET));
         output = gate.getOutput();
 
         gate.calculateOutputs();

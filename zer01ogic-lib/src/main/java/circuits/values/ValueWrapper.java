@@ -6,6 +6,11 @@ import interfaces.IValueTransformer;
 
 public abstract class ValueWrapper<T> implements IValueTransformer<T> {
     protected IObservableValue<T> value;
+    protected TransformerMode mode;
+
+    public ValueWrapper(TransformerMode mode){
+        this.mode=mode;
+    }
 
     @Override
     public T getValue() {
