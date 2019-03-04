@@ -1,7 +1,7 @@
 package testHelpers;
 
 import circuits.gates.XorGate;
-import circuits.values.NotTransformWrapper;
+import circuits.values.NotTransform;
 import circuits.values.TransformerMode;
 import interfaces.ICircuitElementRegister;
 
@@ -16,7 +16,7 @@ public class TestXNorWrapper extends BaseGateWrapper {
     public void createLogicElement(ICircuitElementRegister register) {
         gate = new XorGate((byte) 1);
         output = gate.getOutputByIndex(0);
-        gate.addValueTransformer(output,new NotTransformWrapper(TransformerMode.SET));
+        gate.addValueTransformer(output,new NotTransform(TransformerMode.SET));
         output = gate.getOutputByIndex(0);
         register.addCircuitWorkingElement(this, gate);
     }

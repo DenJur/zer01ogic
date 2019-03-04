@@ -2,7 +2,7 @@ package gateTests;
 
 import circuits.gates.AndGate;
 import circuits.values.MultibitValue;
-import circuits.values.NotTransformWrapper;
+import circuits.values.NotTransform;
 import circuits.values.TransformerMode;
 import interfaces.IObservableValue;
 import org.junit.Assert;
@@ -17,7 +17,7 @@ public class NandGateTests {
         gate.addInput(input1);
         gate.addInput(input2);
         IObservableValue<Integer> output = gate.getOutput();
-        gate.addValueTransformer(output, new NotTransformWrapper(TransformerMode.SET));
+        gate.addValueTransformer(output, new NotTransform(TransformerMode.SET));
         output = gate.getOutput();
 
         input1.setValue(1);

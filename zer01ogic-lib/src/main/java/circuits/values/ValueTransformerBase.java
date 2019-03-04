@@ -4,11 +4,11 @@ import interfaces.IObservableValue;
 import interfaces.IObserver;
 import interfaces.IValueTransformer;
 
-public abstract class ValueWrapper<T> implements IValueTransformer<T> {
+public abstract class ValueTransformerBase<T> implements IValueTransformer<T> {
     protected IObservableValue<T> value;
     protected TransformerMode mode;
 
-    public ValueWrapper(TransformerMode mode){
+    public ValueTransformerBase(TransformerMode mode){
         this.mode=mode;
     }
 
