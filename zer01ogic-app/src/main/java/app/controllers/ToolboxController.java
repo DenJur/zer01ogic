@@ -1,8 +1,7 @@
 package app.controllers;
 
 import afester.javafx.svg.SvgLoader;
-import app.componentFactories.AndFactory;
-import app.componentFactories.OrFactory;
+import app.componentFactories.*;
 import app.components.ToolboxListCell;
 import app.dragdrop.DragContainer;
 import app.models.ToolboxItem;
@@ -55,11 +54,11 @@ public class ToolboxController implements Initializable {
 
                 new ToolboxItem("AND",SVGLoader("Basic_Gates/AND.svg"),2,1, new AndFactory()),
                 new ToolboxItem("OR",SVGLoader("Basic_Gates/OR.svg"),2,1, new OrFactory()),
-                new ToolboxItem("NOT",SVGLoader("Basic_Gates/NOT.svg"),1,1, new AndFactory()),
-                new ToolboxItem("XOR",SVGLoader("Basic_Gates/XOR.svg"),2,1, new AndFactory()),
-                new ToolboxItem("NAND",SVGLoader("Basic_Gates/NAND.svg"),2,1, new AndFactory()),
-                new ToolboxItem("NOR",SVGLoader("Basic_Gates/NOR.svg"),2,1, new AndFactory()),
-                new ToolboxItem("XNOR",SVGLoader("Basic_Gates/XNOR.svg"),2,1, new AndFactory())
+                new ToolboxItem("NOT",SVGLoader("Basic_Gates/NOT.svg"),1,1, new NotFactory()),
+                new ToolboxItem("XOR",SVGLoader("Basic_Gates/XOR.svg"),2,1, new XorFactory()),
+                new ToolboxItem("NAND",SVGLoader("Basic_Gates/NAND.svg"),2,1, new NandFactory()),
+                new ToolboxItem("NOR",SVGLoader("Basic_Gates/NOR.svg"),2,1, new NorFactory()),
+                new ToolboxItem("XNOR",SVGLoader("Basic_Gates/XNOR.svg"),2,1, new XnorFactory())
         );
 
         //Inputs/Outputs

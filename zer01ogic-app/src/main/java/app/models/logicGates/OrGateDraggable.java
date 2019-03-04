@@ -12,7 +12,7 @@ public class OrGateDraggable extends BaseLogicGateDraggable {
 
     @Override
     public void createLogicElement(ICircuitElementRegister register) {
-        OrGate gate=new OrGate((byte)1);
+        OrGate gate = new OrGate((byte)1);
         register.addCircuitWorkingElement(this, gate);
     }
 
