@@ -5,8 +5,9 @@ import circuits.values.MultibitValue;
 import circuits.values.NotTransform;
 import circuits.values.TransformerMode;
 import interfaces.IObservableValue;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NandGateTests {
     @Test
@@ -22,15 +23,15 @@ public class NandGateTests {
 
         input1.setValue(1);
         gate.calculateOutputs();
-        Assert.assertEquals("1 & 0 => 0b1111", 0b1111, output.getValue().intValue());
+        assertEquals(0b1111, output.getValue().intValue(),"1 & 0 => 0b1111");
         input2.setValue(1);
         gate.calculateOutputs();
-        Assert.assertEquals("1 & 1 => 0b1110", 0b1110, output.getValue().intValue());
+        assertEquals(0b1110, output.getValue().intValue(),"1 & 1 => 0b1110");
         input1.setValue(0b1101);
         gate.calculateOutputs();
-        Assert.assertEquals("1101 & 1 => 0b1110", 0b1110, output.getValue().intValue());
+        assertEquals(0b1110, output.getValue().intValue(),"1101 & 1 => 0b1110");
         input2.setValue(0b0111);
         gate.calculateOutputs();
-        Assert.assertEquals("1101 & 0111 => 0b1010", 0b1010, output.getValue().intValue());
+        assertEquals(0b1010, output.getValue().intValue(),"1101 & 0111 => 0b1010");
     }
 }

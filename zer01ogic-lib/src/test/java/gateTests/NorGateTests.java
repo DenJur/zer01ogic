@@ -5,8 +5,9 @@ import circuits.values.MultibitValue;
 import circuits.values.NotTransform;
 import circuits.values.TransformerMode;
 import interfaces.IObservableValue;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NorGateTests {
     @Test
@@ -21,19 +22,19 @@ public class NorGateTests {
         output = gate.getOutput();
 
         gate.calculateOutputs();
-        Assert.assertEquals("0000 & 0000 => 1111", 0b1111, output.getValue().intValue());
+        assertEquals(0b1111, output.getValue().intValue(),"0000 & 0000 => 1111");
         input1.setValue(1);
         gate.calculateOutputs();
-        Assert.assertEquals("0001 & 0000 => 1110", 0b1110, output.getValue().intValue());
+        assertEquals(0b1110, output.getValue().intValue(),"0001 & 0000 => 1110");
         input2.setValue(1);
         gate.calculateOutputs();
-        Assert.assertEquals("0001 & 0001 => 1110", 0b1110, output.getValue().intValue());
+        assertEquals(0b1110, output.getValue().intValue(),"0001 & 0001 => 1110");
         input1.setValue(0b1101);
         gate.calculateOutputs();
-        Assert.assertEquals("1101 & 0001 => 0010", 0b0010, output.getValue().intValue());
+        assertEquals(0b0010, output.getValue().intValue(),"1101 & 0001 => 0010");
         input2.setValue(0b111);
         gate.calculateOutputs();
-        Assert.assertEquals("1101 & 0111 => 0000", 0b0000, output.getValue().intValue());
+        assertEquals( 0b0000, output.getValue().intValue(),"1101 & 0111 => 0000");
     }
 
     @Test
@@ -48,15 +49,15 @@ public class NorGateTests {
         output = gate.getOutput();
 
         gate.calculateOutputs();
-        Assert.assertEquals("0 & 0 => 1", 0b1, output.getValue().intValue());
+        assertEquals(0b1, output.getValue().intValue(),"0 & 0 => 1");
         input1.setValue(1);
         gate.calculateOutputs();
-        Assert.assertEquals("1 & 0 => 0", 0b0, output.getValue().intValue());
+        assertEquals( 0b0, output.getValue().intValue(),"1 & 0 => 0");
         input2.setValue(1);
         gate.calculateOutputs();
-        Assert.assertEquals("1 & 1 => 0", 0b0, output.getValue().intValue());
+        assertEquals(0b0, output.getValue().intValue(),"1 & 1 => 0");
         input1.setValue(0);
         gate.calculateOutputs();
-        Assert.assertEquals("0 & 1 => 0", 0b0, output.getValue().intValue());
+        assertEquals( 0b0, output.getValue().intValue(),"0 & 1 => 0");
     }
 }

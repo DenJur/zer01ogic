@@ -1,13 +1,14 @@
 import circuits.SimpleCircuitBuilder;
 import circuits.values.MultibitValue;
 import interfaces.ICircuitRunner;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import testHelpers.TestAndWrapper;
 import testHelpers.TestXNorWrapper;
 
 import java.util.Arrays;
 import java.util.Collections;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CircuitTests {
     /**
@@ -26,19 +27,18 @@ public class CircuitTests {
 
         try {
             Thread.sleep(10);
-            Assert.assertEquals("0 & 0 => 0", 0, ((Integer)and.output.getValue()).intValue());
+            assertEquals(0, ((Integer) and.output.getValue()).intValue(), "0 & 0 => 0");
             input1.setValue(1);
             Thread.sleep(10);
-            Assert.assertEquals("1 & 0 => 0", 0, ((Integer)and.output.getValue()).intValue());
+            assertEquals(0, ((Integer) and.output.getValue()).intValue(), "1 & 0 => 0");
             input2.setValue(1);
             Thread.sleep(10);
-            Assert.assertEquals("1 & 1 => 1", 1, ((Integer)and.output.getValue()).intValue());
+            assertEquals(1, ((Integer) and.output.getValue()).intValue(), "1 & 1 => 1");
             input1.setValue(0);
             Thread.sleep(10);
-            Assert.assertEquals("0 & 1 => 0", 0, ((Integer)and.output.getValue()).intValue());
+            assertEquals(0, ((Integer) and.output.getValue()).intValue(), "0 & 1 => 0");
         } catch (InterruptedException e) {
-            e.printStackTrace();
-            Assert.fail();
+            fail(e);
         }
         runner.stop();
     }
@@ -70,7 +70,7 @@ public class CircuitTests {
         try {
             //Test that 3rd gate does not output invalid value in an initial state
             Thread.sleep(10);
-            Assert.assertEquals("0 & 0 & 0 & 0 => 0", 0, ((Integer)and3.output.getValue()).intValue());
+            assertEquals(0, ((Integer) and3.output.getValue()).intValue(), "0 & 0 & 0 & 0 => 0");
 
             //Test that both input and gates update their value and subsequently update the 3rd gate
             input1.setValue(1);
@@ -78,24 +78,23 @@ public class CircuitTests {
             input3.setValue(1);
             input4.setValue(1);
             Thread.sleep(10);
-            Assert.assertEquals("1 & 1 & 1 & 1 => 1", 1, ((Integer)and3.output.getValue()).intValue());
+            assertEquals(1, ((Integer) and3.output.getValue()).intValue(), "1 & 1 & 1 & 1 => 1");
 
             //Test that gate results are valid
             input3.setValue(0);
             Thread.sleep(10);
-            Assert.assertEquals("1 & 1 & 0 & 1 => 0", 0, ((Integer)and3.output.getValue()).intValue());
+            assertEquals(0, ((Integer) and3.output.getValue()).intValue(), "1 & 1 & 0 & 1 => 0");
 
 //            Thread.sleep(60000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
-            Assert.fail();
+            fail(e);
         }
         runner.stop();
     }
 
     /**
      * Tests a circuit consisting of 2 oscillating xnor gates. Xnor gates have their outputs connected to each other
-     * and one of the gates has it's second output set to true.
+     * and one of the gates has it's second input set to true.
      */
     @Test
     public void TestXNorOscillations() {
@@ -107,18 +106,18 @@ public class CircuitTests {
         xnor2.addInputValue(new MultibitValue(1, (byte) 1));
         xnor.addInputNode(xnor2);
         xnor2.addInputNode(xnor);
-        ICircuitRunner runner = builder.buildWaitingCircuit().build(Arrays.asList(xnor, xnor2));
+        ICircuitRunner runner = builder.buildBusyCircuit().build(Arrays.asList(xnor, xnor2));
         runner.startSimulation();
 
         try {
-            Thread.sleep(100);
+            Thread.sleep(120000);
             runner.stop();
             System.out.println(xnor.counter.count);
             System.out.println(xnor2.counter.count);
-            Assert.assertTrue("More than 10 updates: Xnor1", xnor.counter.count > 10);
-            Assert.assertTrue("More than 10 updates: Xnor2", xnor2.counter.count > 10);
+            assertTrue(xnor.counter.count > 10, "More than 10 updates: Xnor1");
+            assertTrue(xnor2.counter.count > 10, "More than 10 updates: Xnor2");
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            fail(e);
         }
     }
 }

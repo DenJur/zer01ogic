@@ -20,9 +20,11 @@ class CircuitBusy extends Circuit {
     @Override
     public void run() {
         finalized = true;
+        ILogicElement element;
         while (!stopped) {
-            if (!queue.isEmpty() && !paused) {
-                queue.poll().calculateOutputs();
+            if (!paused) {
+                element=queue.poll();
+                if(element!=null) element.calculateOutputs();
                 if (mode == SimulationMode.TICK) pause();
             }
         }
@@ -31,7 +33,7 @@ class CircuitBusy extends Circuit {
     @Override
     public synchronized void queueElementForUpdate(ILogicElement item) {
         if (!queue.contains(item))
-            queue.add(item);
+            queue.offer(item);
     }
 
     @Override
