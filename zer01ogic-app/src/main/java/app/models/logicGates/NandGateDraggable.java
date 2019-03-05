@@ -1,6 +1,8 @@
 package app.models.logicGates;
 
-import circuits.gates.NandGate;
+import circuits.gates.AndGate;
+import circuits.values.NotTransform;
+import circuits.values.TransformerMode;
 import interfaces.ICircuitElementRegister;
 
 
@@ -12,7 +14,8 @@ public class NandGateDraggable extends BaseLogicGateDraggable {
 
     @Override
     public void createLogicElement(ICircuitElementRegister register) {
-        NandGate gate = new NandGate((byte)1);
+        AndGate gate = new AndGate((byte)1);
+        gate.addValueTransformer(gate.getOutput(), new NotTransform(TransformerMode.SET));
         register.addCircuitWorkingElement(this, gate);
     }
 }

@@ -1,7 +1,9 @@
 package app.models.logicGates;
 
 
-import circuits.gates.NorGate;
+import circuits.gates.OrGate;
+import circuits.values.NotTransform;
+import circuits.values.TransformerMode;
 import interfaces.ICircuitElementRegister;
 
 public class NorGateDraggable extends BaseLogicGateDraggable {
@@ -12,7 +14,8 @@ public class NorGateDraggable extends BaseLogicGateDraggable {
 
     @Override
     public void createLogicElement(ICircuitElementRegister register) {
-        NorGate gate = new NorGate((byte)1);
+        OrGate gate = new OrGate((byte)1);
+        gate.addValueTransformer(gate.getOutput(), new NotTransform(TransformerMode.SET));
         register.addCircuitWorkingElement(this, gate);
     }
 }

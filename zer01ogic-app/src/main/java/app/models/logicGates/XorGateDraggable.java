@@ -1,7 +1,6 @@
 package app.models.logicGates;
 
 
-import circuits.gates.NandGate;
 import circuits.gates.XorGate;
 import interfaces.ICircuitElementRegister;
 
