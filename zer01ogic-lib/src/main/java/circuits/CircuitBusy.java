@@ -13,18 +13,13 @@ class CircuitBusy extends Circuit {
     }
 
     @Override
-    public void reset(){
-
-    }
-
-    @Override
     public void run() {
         finalized = true;
         ILogicElement element;
         while (!stopped) {
             if (!paused) {
-                element=queue.poll();
-                if(element!=null) element.calculateOutputs();
+                element = queue.poll();
+                if (element != null) element.calculateOutputs();
                 if (mode == SimulationMode.TICK) pause();
             }
         }

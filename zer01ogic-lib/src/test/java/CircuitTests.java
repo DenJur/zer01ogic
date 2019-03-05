@@ -106,11 +106,11 @@ public class CircuitTests {
         xnor2.addInputValue(new MultibitValue(1, (byte) 1));
         xnor.addInputNode(xnor2);
         xnor2.addInputNode(xnor);
-        ICircuitRunner runner = builder.buildBusyCircuit().build(Arrays.asList(xnor, xnor2));
+        ICircuitRunner runner = builder.buildWaitingCircuit().build(Arrays.asList(xnor, xnor2));
         runner.startSimulation();
 
         try {
-            Thread.sleep(120000);
+            Thread.sleep(100);
             runner.stop();
             System.out.println(xnor.counter.count);
             System.out.println(xnor2.counter.count);
@@ -119,5 +119,47 @@ public class CircuitTests {
         } catch (InterruptedException e) {
             fail(e);
         }
+    }
+
+    @Test
+    public void TestReset() {
+        SimpleCircuitBuilder builder = new SimpleCircuitBuilder();
+        TestAndWrapper and = new TestAndWrapper((byte) 1);
+        TestAndWrapper and2 = new TestAndWrapper((byte) 1);
+        TestAndWrapper and3 = new TestAndWrapper((byte) 1);
+        and3.addInputNode(and);
+        and3.addInputNode(and2);
+        MultibitValue input1 = new MultibitValue(0, (byte) 1);
+        MultibitValue input2 = new MultibitValue(0, (byte) 1);
+        MultibitValue input3 = new MultibitValue(0, (byte) 1);
+        MultibitValue input4 = new MultibitValue(0, (byte) 1);
+        and.addInputValue(input1);
+        and.addInputValue(input2);
+        and2.addInputValue(input3);
+        and2.addInputValue(input4);
+
+        ICircuitRunner runner = builder.buildWaitingCircuit().build(Arrays.asList(and, and2, and3));
+        runner.startSimulation();
+
+        try {
+            //Test that both input and gates update their value and subsequently update the 3rd gate
+            input1.setValue(1);
+            input2.setValue(1);
+            input3.setValue(1);
+            input4.setValue(1);
+            Thread.sleep(50);
+            assertEquals(1, ((Integer) and3.output.getValue()).intValue(), "1 & 1 & 1 & 1 => 1");
+
+            runner.reset();
+            Thread.sleep(50);
+            assertEquals(0, ((Integer) and3.output.getValue()).intValue(), "1 & 1 & 1 & 1 => 0");
+
+            runner.unpause();
+            Thread.sleep(50);
+            assertEquals(1, ((Integer) and3.output.getValue()).intValue(), "1 & 1 & 1 & 1 => 1");
+        } catch (InterruptedException e) {
+            fail(e);
+        }
+        runner.stop();
     }
 }

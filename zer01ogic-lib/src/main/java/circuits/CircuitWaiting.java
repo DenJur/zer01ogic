@@ -55,4 +55,12 @@ class CircuitWaiting extends Circuit {
         }
     }
 
+    @Override
+    public void unpause() {
+        synchronized (lock) {
+            super.unpause();
+            lock.notify();
+        }
+    }
+
 }

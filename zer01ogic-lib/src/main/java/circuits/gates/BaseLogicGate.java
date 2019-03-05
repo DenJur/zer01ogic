@@ -50,6 +50,11 @@ public abstract class BaseLogicGate implements ILogicElement {
         }
     }
 
+    @Override
+    public void reset() {
+        output.reset();
+    }
+
     public IObservableValue<Integer> getOutput() {
         return output;
     }

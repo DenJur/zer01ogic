@@ -3,7 +3,6 @@ package circuits;
 import interfaces.ICircuit;
 import interfaces.ILogicElement;
 import interfaces.ILogicElementFrontEnd;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.HashMap;
 import java.util.Queue;
@@ -27,7 +26,15 @@ abstract class  Circuit implements ICircuit {
 
     @Override
     public void reset() {
-        throw new NotImplementedException();
+        workingNodes.forEach((iLogicElementFrontEnd, iLogicElement) -> {
+            iLogicElement.reset();
+            iLogicElementFrontEnd.reset();
+        });
+        queue.clear();
+        workingNodes.forEach((iLogicElementFrontEnd, iLogicElement) -> {
+            queue.add(iLogicElement);
+        });
+        stopped=false;
     }
 
     @Override
@@ -46,7 +53,7 @@ abstract class  Circuit implements ICircuit {
     @Override
     public void switchMode(SimulationMode mode) {
         this.mode = mode;
-        unpause();
+//        unpause();
     }
 
     @Override

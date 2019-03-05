@@ -26,6 +26,10 @@ public abstract class BaseGateWrapper implements ILogicElementFrontEnd {
         inputValues.forEach(x -> gate.addInput(x));
     }
 
+    @Override
+    public void reset() {
+    }
+
     public void addInputNode(ILogicElementFrontEnd node) {
         this.inputNodes.add(node);
     }

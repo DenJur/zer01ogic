@@ -63,6 +63,11 @@ public class NotGate implements ILogicElement {
     }
 
     @Override
+    public void reset() {
+        output.reset();
+    }
+
+    @Override
     public void update() {
         if (parent != null) {
             parent.queueElementForUpdate(this);

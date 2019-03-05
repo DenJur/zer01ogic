@@ -19,6 +19,10 @@ public abstract class BaseLogicGateDraggable extends DraggableNode  implements I
         //gate.addInput(((AndGate)input2.getInputGate).getOutputByIndex(0));
         gate.getOutput();
     }
+
+    @Override
+    public void reset() {
+    }
 }
 
 

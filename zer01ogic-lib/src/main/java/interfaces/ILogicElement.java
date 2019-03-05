@@ -9,4 +9,5 @@ public interface ILogicElement extends IObserver {
     void calculateOutputs();
     void setParentCircuit(ICircuitQueue circuit);
     void addValueTransformer(IObservableValue value, IValueTransformer transformer);
+    void reset();
 }

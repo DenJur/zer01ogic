@@ -21,11 +21,13 @@ public class CircuitRunner implements ICircuitRunner {
 
     @Override
     public void reset() {
-//        if (innerCircuit != null) {
-//            innerCircuit.stop();
+        if (innerCircuit != null) {
+            stop();
             innerCircuit.reset();
-
-//        }
+            innerCircuit.pause();
+            simulationThread=new Thread(innerCircuit);
+            simulationThread.start();
+        }
     }
 
     @Override
@@ -42,8 +44,19 @@ public class CircuitRunner implements ICircuitRunner {
 
     @Override
     public void stop() {
-        if (innerCircuit != null)
+        if (innerCircuit != null && simulationThread!=null) {
             innerCircuit.stop();
+            innerCircuit.switchMode(SimulationMode.NONSTOP);
+            innerCircuit.unpause();
+            try {
+                simulationThread.join(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if(simulationThread.isAlive()){
+                //TODO Throw
+            }
+        }
     }
 
     @Override

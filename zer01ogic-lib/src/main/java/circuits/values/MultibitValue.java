@@ -10,7 +10,7 @@ public class MultibitValue implements IObservableValue<Integer> {
     private Integer value;
     private LinkedHashSet<IObserver> observers;
     private byte valueBitSize;
-    private boolean initialized;
+    private final Integer initialValue;
 
     public MultibitValue() {
         this(0,(byte)1);
@@ -24,7 +24,7 @@ public class MultibitValue implements IObservableValue<Integer> {
         observers = new LinkedHashSet<>();
         valueBitSize = bitSize;
         this.setValue(initialValue);
-        initialized=false;
+        this.initialValue=initialValue;
     }
 
     @Override
@@ -36,10 +36,9 @@ public class MultibitValue implements IObservableValue<Integer> {
     public synchronized void setValue(Integer newValue) {
         if(newValue==null) return;
         newValue = (newValue << (Integer.SIZE - valueBitSize)) >>> (Integer.SIZE - valueBitSize);
-        if (!newValue.equals(value) || !initialized) {
+        if (!newValue.equals(value)) {
             value = newValue;
             notifyObservers();
-            initialized=true;
         }
     }
 
@@ -55,8 +54,7 @@ public class MultibitValue implements IObservableValue<Integer> {
 
     @Override
     public synchronized void reset() {
-        this.setValue(0);
-        initialized=false;
+        this.setValue(initialValue);
     }
 
     @Override
