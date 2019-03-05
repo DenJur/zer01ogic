@@ -5,21 +5,20 @@ import interfaces.ILogicElement;
 import interfaces.ILogicElementFrontEnd;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.Hashtable;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.HashMap;
+import java.util.Queue;
 
-class Circuit implements ICircuit {
-    private boolean stopped;
-    private boolean paused;
-    private boolean finalized;
-    private SimulationMode mode;
+abstract class  Circuit implements ICircuit {
+    protected boolean stopped;
+    protected boolean paused;
+    protected boolean finalized;
+    protected SimulationMode mode;
 
-    private ConcurrentLinkedQueue<ILogicElement> queue;
-    private Hashtable<ILogicElementFrontEnd, ILogicElement> workingNodes;
+    protected Queue<ILogicElement> queue;
+    protected HashMap<ILogicElementFrontEnd, ILogicElement> workingNodes;
 
-    public Circuit() {
-        queue = new ConcurrentLinkedQueue<>();
-        workingNodes = new Hashtable<>();
+    protected Circuit() {
+        workingNodes = new HashMap<>();
         finalized = false;
         stopped = false;
         mode = SimulationMode.NONSTOP;
@@ -48,32 +47,6 @@ class Circuit implements ICircuit {
     public void switchMode(SimulationMode mode) {
         this.mode = mode;
         unpause();
-    }
-
-    @Override
-    public void run() {
-        finalized = true;
-        while (!stopped) {
-            if (!queue.isEmpty() && !paused) {
-                queue.poll().calculateOutputs();
-                if (mode == SimulationMode.TICK) pause();
-            }
-        }
-    }
-
-    @Override
-    public synchronized void queueElementForUpdate(ILogicElement item) {
-        if (!queue.contains(item))
-            queue.add(item);
-    }
-
-    @Override
-    public synchronized void addCircuitWorkingElement(ILogicElementFrontEnd source, ILogicElement item) {
-        if (!workingNodes.containsKey(source) && !finalized) {
-            workingNodes.put(source, item);
-            queue.add(item);
-            item.setParentCircuit(this);
-        }
     }
 
     @Override

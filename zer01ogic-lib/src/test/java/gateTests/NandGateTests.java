@@ -1,7 +1,9 @@
 package gateTests;
 
+import circuits.gates.AndGate;
 import circuits.values.MultibitValue;
-import circuits.gates.NandGate;
+import circuits.values.NotTransform;
+import circuits.values.TransformerMode;
 import interfaces.IObservableValue;
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,10 +13,12 @@ public class NandGateTests {
     public void TestNandResults() {
         MultibitValue input1 = new MultibitValue(0, (byte) 4);
         MultibitValue input2 = new MultibitValue(0, (byte) 4);
-        NandGate gate = new NandGate((byte)4);
+        AndGate gate = new AndGate((byte)4);
         gate.addInput(input1);
         gate.addInput(input2);
         IObservableValue<Integer> output = gate.getOutput();
+        gate.addValueTransformer(output, new NotTransform(TransformerMode.SET));
+        output = gate.getOutput();
 
         input1.setValue(1);
         gate.calculateOutputs();

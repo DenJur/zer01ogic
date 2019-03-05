@@ -1,49 +1,59 @@
 package circuits;
 
-import interfaces.ICircuitRunner;
 import interfaces.ICircuit;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import interfaces.ICircuitRunner;
 
 public class CircuitRunner implements ICircuitRunner {
     private Thread simulationThread;
     private ICircuit innerCircuit;
 
-    public CircuitRunner() {
-        innerCircuit = new Circuit();
+    @Override
+    public void assignInnerCircuit(ICircuit circuit) {
+        innerCircuit = circuit;
         simulationThread = new Thread(innerCircuit);
     }
 
     @Override
     public void startSimulation() {
-        simulationThread.start();
+        if (simulationThread != null)
+            simulationThread.start();
     }
 
     @Override
     public void reset() {
-        throw new NotImplementedException();
+//        if (innerCircuit != null) {
+//            innerCircuit.stop();
+            innerCircuit.reset();
+
+//        }
     }
 
     @Override
     public void pause() {
-        innerCircuit.pause();
+        if (innerCircuit != null)
+            innerCircuit.pause();
     }
 
     @Override
     public void unpause() {
-        innerCircuit.unpause();
+        if (innerCircuit != null)
+            innerCircuit.unpause();
     }
 
     @Override
     public void stop() {
-        innerCircuit.stop();
+        if (innerCircuit != null)
+            innerCircuit.stop();
     }
 
     @Override
     public void switchMode(SimulationMode mode) {
-        innerCircuit.switchMode(mode);
+        if (innerCircuit != null)
+            innerCircuit.switchMode(mode);
     }
 
-    public ICircuit getInnerCircuit(){
+    @Override
+    public ICircuit getInnerCircuit() {
         return innerCircuit;
     }
 }
