@@ -21,7 +21,7 @@ public class CircuitTests {
         MultibitValue input2 = new MultibitValue(0, (byte) 1);
         and.addInputValue(input1);
         and.addInputValue(input2);
-        ICircuitRunner runner = builder.build(Collections.singletonList(and));
+        ICircuitRunner runner = builder.buildWaitingCircuit().build(Collections.singletonList(and));
         runner.startSimulation();
 
         try {
@@ -64,7 +64,7 @@ public class CircuitTests {
         and2.addInputValue(input3);
         and2.addInputValue(input4);
 
-        ICircuitRunner runner = builder.build(Arrays.asList(and, and2, and3));
+        ICircuitRunner runner = builder.buildWaitingCircuit().build(Arrays.asList(and, and2, and3));
         runner.startSimulation();
 
         try {
@@ -84,6 +84,8 @@ public class CircuitTests {
             input3.setValue(0);
             Thread.sleep(10);
             Assert.assertEquals("1 & 1 & 0 & 1 => 0", 0, ((Integer)and3.output.getValue()).intValue());
+
+//            Thread.sleep(60000);
         } catch (InterruptedException e) {
             e.printStackTrace();
             Assert.fail();
@@ -105,7 +107,7 @@ public class CircuitTests {
         xnor2.addInputValue(new MultibitValue(1, (byte) 1));
         xnor.addInputNode(xnor2);
         xnor2.addInputNode(xnor);
-        ICircuitRunner runner = builder.build(Arrays.asList(xnor, xnor2));
+        ICircuitRunner runner = builder.buildWaitingCircuit().build(Arrays.asList(xnor, xnor2));
         runner.startSimulation();
 
         try {
