@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.io.File;
+
 
 public class Main extends Application {
 
@@ -18,6 +20,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/app/view/MainScene.fxml"));
         root.getStylesheets().add(getClass().getResource("/graphics/default.css").toExternalForm());
+        File customCss=new File("custom.css");
+        if(customCss.exists())
+            root.getStylesheets().add("file:///"+customCss.getAbsolutePath().replace("\\", "/"));
         primaryStage.setTitle("Zer0 1ogic");
         primaryStage.setScene(new Scene(root));
         primaryStage.getIcons().add(new Image("/graphics/LogoIcon.png"));
