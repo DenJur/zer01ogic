@@ -17,6 +17,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/app/view/MainScene.fxml"));
+        root.getStylesheets().add(getClass().getResource("/graphics/default.css").toExternalForm());
         primaryStage.setTitle("Zer0 1ogic");
         primaryStage.setScene(new Scene(root));
         primaryStage.getIcons().add(new Image("/graphics/LogoIcon.png"));

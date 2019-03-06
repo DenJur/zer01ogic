@@ -247,7 +247,7 @@ public class MainSceneController implements Initializable {
         });
     }
 
-    public void clearDragable(MouseEvent event) {
+    public void clearDraggable(MouseEvent event) {
         anchorpane_main.getChildren().remove(mDragOverIcon);
     }
 }
