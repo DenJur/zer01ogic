@@ -1,5 +1,7 @@
 package app.models;
 
+import app.dragdrop.DraggableNode;
+import app.interfaces.IDraggableFactory;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
@@ -11,12 +13,14 @@ public class ToolboxItem{
     private Group icon;
     private int numberOfInputs;
     private int numberOfOutputs;
+    private IDraggableFactory factory;
 
-    public ToolboxItem(String name, Group icon, int numberOfInputs, int numberOfOutputs) {
+    public ToolboxItem(String name, Group icon, int numberOfInputs, int numberOfOutputs, IDraggableFactory factory) {
         this.name = name;
         this.icon = icon;
         this.numberOfInputs = numberOfInputs;
         this.numberOfOutputs = numberOfOutputs;
+        this.factory=factory;
         rescaleIcon();
     }
 
@@ -67,4 +71,10 @@ public class ToolboxItem{
     public void setNumberOfOutputs(int numberOfOutputs) {
         this.numberOfOutputs = numberOfOutputs;
     }
+
+    public DraggableNode createNewNode(){
+        return factory.constructDraggable();
+    }
+
+    //TODO CREATE THE DRAGGABLE ITEM FROM HERE------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 }

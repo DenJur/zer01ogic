@@ -27,9 +27,13 @@ apply plugin: 'javafx-gradle-plugin'
 repositories {
     mavenCentral()
 }
+test {
+    useJUnitPlatform()
+}
 
 dependencies {
-    testCompile 'junit:junit:4.12'
+    testCompile "org.junit.jupiter:junit-jupiter-api:5.4.0"
+    testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.0"
     compile "uk.ac.hud:zer01ogic-lib:1.0"
     compile 'com.github.afester.javafx:FranzXaver:0.1'
 }
