@@ -1,9 +1,9 @@
 package app.models.logicGates;
 
 import app.dragdrop.DraggableNode;
-import circuits.gates.AndGate;
-import interfaces.ICircuitElementRegister;
-import interfaces.ILogicElementFrontEnd;
+import simulation.gates.AndGate;
+import interfaces.circuits.ICircuitElementRegister;
+import interfaces.elements.ILogicElementFrontEnd;
 
 /*TODO DO THE GUI STUFF IN THESE CLASSES*/
 

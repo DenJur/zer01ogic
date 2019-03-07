@@ -1,9 +1,9 @@
 package testHelpers;
 
-import interfaces.ICircuitElementRegister;
-import interfaces.ILogicElement;
-import interfaces.ILogicElementFrontEnd;
-import interfaces.IObservableValue;
+import interfaces.circuits.ICircuitElementRegister;
+import interfaces.elements.ILogicElement;
+import interfaces.elements.ILogicElementFrontEnd;
+import interfaces.elements.IObservableValue;
 
 import java.util.ArrayList;
 

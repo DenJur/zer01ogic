@@ -1,10 +1,10 @@
 package gateTests;
 
-import circuits.gates.OrGate;
-import circuits.values.MultibitValue;
-import circuits.values.NotTransform;
-import circuits.values.TransformerMode;
-import interfaces.IObservableValue;
+import simulation.gates.OrGate;
+import simulation.values.MultibitValue;
+import simulation.values.NotTransform;
+import simulation.values.TransformerMode;
+import interfaces.elements.IObservableValue;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

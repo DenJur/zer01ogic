@@ -1,10 +1,10 @@
 package app.models.logicGates;
 
 
-import circuits.gates.OrGate;
-import circuits.values.NotTransform;
-import circuits.values.TransformerMode;
-import interfaces.ICircuitElementRegister;
+import simulation.gates.OrGate;
+import simulation.values.NotTransform;
+import simulation.values.TransformerMode;
+import interfaces.circuits.ICircuitElementRegister;
 
 public class NorGateDraggable extends BaseLogicGateDraggable {
 

@@ -1,8 +1,7 @@
 package app.models.logicGates;
 
-import circuits.gates.AndGate;
-import circuits.gates.OrGate;
-import interfaces.ICircuitElementRegister;
+import simulation.gates.OrGate;
+import interfaces.circuits.ICircuitElementRegister;
 
 public class OrGateDraggable extends BaseLogicGateDraggable {
 

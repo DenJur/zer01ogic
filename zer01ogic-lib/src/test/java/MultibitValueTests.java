@@ -1,5 +1,5 @@
-import circuits.values.MultibitValue;
-import interfaces.IObserver;
+import simulation.values.MultibitValue;
+import interfaces.elements.IObserver;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,7 +35,7 @@ public class MultibitValueTests {
 //        tested.setValue(1);
 //        Assert.assertTrue("Value changed (observer1)", observer1.called);
 //        Assert.assertTrue("Value changed (observer2)", observer2.called);
-        // TODO restore when circuits are added
+        // TODO restore when simulation are added
     }
 
     @Test
@@ -50,7 +50,7 @@ public class MultibitValueTests {
         tested.setValue(1);
 //        Assert.assertFalse("Value changed deregistered (observer1)", observer1.called);
 //        Assert.assertTrue("Value changed (observer2)", observer2.called);
-        // TODO restore when circuits are added
+        // TODO restore when simulation are added
     }
 
     private class TestObserver implements IObserver {

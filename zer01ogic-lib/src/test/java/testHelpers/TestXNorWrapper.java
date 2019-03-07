@@ -1,9 +1,9 @@
 package testHelpers;
 
-import circuits.gates.XorGate;
-import circuits.values.NotTransform;
-import circuits.values.TransformerMode;
-import interfaces.ICircuitElementRegister;
+import simulation.gates.XorGate;
+import simulation.values.NotTransform;
+import simulation.values.TransformerMode;
+import interfaces.circuits.ICircuitElementRegister;
 
 public class TestXNorWrapper extends BaseGateWrapper {
     public ValueUpdateCounter counter;

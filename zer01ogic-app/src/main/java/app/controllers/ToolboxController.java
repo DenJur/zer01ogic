@@ -74,7 +74,7 @@ public class ToolboxController implements Initializable {
         //TODO Add Arithmetic Units --------------------------------------------------
 
         //User Created Circuits
-        //TODO Load in user created circuits -----------------------------------------
+        //TODO Load in user created simulation -----------------------------------------
     }
 
     @Override

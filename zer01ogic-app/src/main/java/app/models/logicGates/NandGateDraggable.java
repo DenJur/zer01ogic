@@ -1,9 +1,9 @@
 package app.models.logicGates;
 
-import circuits.gates.AndGate;
-import circuits.values.NotTransform;
-import circuits.values.TransformerMode;
-import interfaces.ICircuitElementRegister;
+import simulation.gates.AndGate;
+import simulation.values.NotTransform;
+import simulation.values.TransformerMode;
+import interfaces.circuits.ICircuitElementRegister;
 
 
 public class NandGateDraggable extends BaseLogicGateDraggable {

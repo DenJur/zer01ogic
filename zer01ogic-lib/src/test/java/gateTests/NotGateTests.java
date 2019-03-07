@@ -1,8 +1,8 @@
 package gateTests;
 
-import circuits.gates.NotGate;
-import circuits.values.MultibitValue;
-import interfaces.IObservableValue;
+import simulation.gates.NotGate;
+import simulation.values.MultibitValue;
+import interfaces.elements.IObservableValue;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

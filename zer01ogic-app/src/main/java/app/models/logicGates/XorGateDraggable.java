@@ -1,8 +1,8 @@
 package app.models.logicGates;
 
 
-import circuits.gates.XorGate;
-import interfaces.ICircuitElementRegister;
+import simulation.gates.XorGate;
+import interfaces.circuits.ICircuitElementRegister;
 
 public class XorGateDraggable extends BaseLogicGateDraggable {
 
