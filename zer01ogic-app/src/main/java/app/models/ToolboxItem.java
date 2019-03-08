@@ -3,6 +3,7 @@ package app.models;
 import app.dragdrop.DraggableNode;
 import app.interfaces.IDraggableFactory;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 
@@ -10,12 +11,12 @@ import javafx.scene.layout.VBox;
 public class ToolboxItem {
 
     private String name;
-    private Group icon;
+    private Node icon;
     private int numberOfInputs;
     private int numberOfOutputs;
     private IDraggableFactory factory;
 
-    public ToolboxItem(String name, Group icon, int numberOfInputs, int numberOfOutputs, IDraggableFactory factory) {
+    public ToolboxItem(String name, Node icon, int numberOfInputs, int numberOfOutputs, IDraggableFactory factory) {
         this.name = name;
         this.icon = icon;
         this.numberOfInputs = numberOfInputs;
@@ -48,7 +49,7 @@ public class ToolboxItem {
         this.name = name;
     }
 
-    public Group getIcon() {
+    public Node getIcon() {
         return icon;
     }
 

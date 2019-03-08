@@ -1,16 +1,20 @@
 package app.dragdrop.logicGates;
 
 import app.graphics.logicGates.NandGateGraphic;
+import interfaces.circuits.ICircuitElementRegister;
+import javafx.scene.layout.VBox;
 import simulation.gates.AndGate;
 import simulation.values.NotTransform;
 import simulation.values.TransformerMode;
-import interfaces.circuits.ICircuitElementRegister;
+
+import static app.graphics.GraphicsHelper.getPathStrokeWidth;
 
 
 public class NandGateDraggable extends BaseLogicGateDraggable {
 
     public NandGateDraggable() {
-        this.getChildren().add(new NandGateGraphic());
+        super(new VBox(new NandGateGraphic()));
+        createPins(getPathStrokeWidth(NandGateGraphic.styles));
     }
 
     @Override

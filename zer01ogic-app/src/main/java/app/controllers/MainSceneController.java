@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
 import javafx.scene.input.ClipboardContent;
@@ -17,6 +18,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 
 import java.io.IOException;
 import java.net.URL;
@@ -131,6 +136,7 @@ public class MainSceneController implements Initializable {
         mDragOverIcon.setVisible(false);
         anchorpane_main.getChildren().add(mDragOverIcon);
         mDragOverIcon.setOpacity(0.65);
+
 
         //begin drag ops
         mDragOverIcon.relocateToPoint(new Point2D(event.getSceneX() - mDragOverIcon.getWidth() / 2, event.getSceneY() - mDragOverIcon.getHeight() / 2));

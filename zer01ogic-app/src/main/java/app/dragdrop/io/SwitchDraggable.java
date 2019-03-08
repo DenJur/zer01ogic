@@ -4,11 +4,16 @@ import app.dragdrop.DraggableNode;
 import app.graphics.io.SwitchGraphic;
 import interfaces.circuits.ICircuitElementRegister;
 import interfaces.elements.ILogicElementFrontEnd;
+import javafx.scene.layout.VBox;
+
+import static app.graphics.GraphicsHelper.AnchorAll;
 
 public class SwitchDraggable  extends DraggableNode implements ILogicElementFrontEnd {
 
     public SwitchDraggable() {
-        this.getChildren().add(new SwitchGraphic());
+        VBox graphic = new VBox(new SwitchGraphic());
+        this.getChildren().add(graphic);
+        AnchorAll(graphic,0,0,0,0);
     }
 
     @Override
