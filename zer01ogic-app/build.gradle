@@ -1,6 +1,6 @@
 buildscript {
     dependencies {
-        classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: '8.8.2'
+        classpath 'de.dynamicfiles.projects.gradle.plugins:javafx-gradle-plugin:8.8.2'
     }
     repositories {
         mavenLocal()
@@ -18,7 +18,11 @@ version '1.0'
 
 def mainPath="app.Main"
 
-sourceCompatibility = 1.8
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+//    options.compilerArgs += ["-proc:none"]
+}
 
 apply plugin: 'java'
 apply plugin: 'idea'
@@ -32,10 +36,9 @@ test {
 }
 
 dependencies {
-    testCompile "org.junit.jupiter:junit-jupiter-api:5.4.0"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.4.0"
     testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.0"
-    compile "uk.ac.hud:zer01ogic-lib:1.0"
-    compile 'com.github.afester.javafx:FranzXaver:0.1'
+    implementation "uk.ac.hud:zer01ogic-lib:1.0"
 }
 
 
@@ -49,7 +52,7 @@ task customFatJar(type: Jar) {
         attributes 'Main-Class': mainPath
     }
     baseName = 'all-in-one-jar'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }
 

@@ -1,0 +1,39 @@
+.LogicGate * {
+    -fx-stroke-width: 3.0;
+}
+
+.OR * {
+    -fx-fill: aqua;
+}
+
+.AND * {
+    -fx-fill: red;
+}
+
+.NAND * {
+    -fx-fill: blue;
+}
+
+.NOT * {
+    -fx-fill: green;
+}
+
+.XOR * {
+    -fx-fill: yellow;
+}
+
+.NOR * {
+    -fx-fill: purple;
+}
+
+.XNOR * {
+    -fx-fill: pink;
+}
+
+.Switch * {
+    -fx-fill: orange;
+}
+
+.Lightbulb * {
+    -fx-fill: brown;
+}
