@@ -1,3 +1,4 @@
+/* TOOLBOX ITEMS */
 .LogicGate * {
     -fx-stroke-width: 3.0;
 }
@@ -11,7 +12,7 @@
 }
 
 .NAND * {
-    -fx-fill: blue;
+    -fx-fill: coral;
 }
 
 .NOT * {
@@ -36,4 +37,31 @@
 
 .Lightbulb * {
     -fx-fill: brown;
+}
+
+/* PINS */
+.InputPin {
+    -fx-fill: magenta;
+}
+
+.OutputPin {
+    -fx-fill: blue;
+}
+
+
+/* WIRES */
+.Wire {
+    -fx-stroke-width: 3.0;
+}
+
+.WireBuild {
+    -fx-stroke: yellow;
+}
+
+.WireOff {
+    -fx-stroke: red;
+}
+
+.WireOn {
+    -fx-stroke: green;
 }

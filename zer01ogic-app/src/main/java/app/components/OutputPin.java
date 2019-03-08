@@ -1,5 +1,9 @@
 package app.components;
 
+import javafx.event.EventHandler;
+
+import java.awt.event.MouseEvent;
+
 /**
  * Created by u1460287 on 05/03/2019.
  */
@@ -10,6 +14,13 @@ public class OutputPin extends Pin {
      */
     public OutputPin(double xPosition, double yPosition) {
         super(xPosition, yPosition);
-        super.setFillColor("#FF00FF");
+        this.getStyleClass().add("OutputPin");
+    }
+
+    @Override
+    protected void buildOnClickHandler() {
+        this.setOnMouseClicked(event -> {
+            super.onClick(this);
+        });
     }
 }

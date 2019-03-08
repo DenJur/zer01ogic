@@ -10,6 +10,6 @@ public class InputPin extends Pin {
      */
     public InputPin(double xPosition, double yPosition) {
         super(xPosition, yPosition);
-        super.setFillColor("#0000FF");
+        this.getStyleClass().add("InputPin");
     }
 }
