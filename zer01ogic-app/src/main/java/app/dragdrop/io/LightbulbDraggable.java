@@ -2,8 +2,8 @@ package app.dragdrop.io;
 
 import app.dragdrop.DraggableNode;
 import app.graphics.io.LightbulbGraphic;
-import interfaces.ICircuitElementRegister;
-import interfaces.ILogicElementFrontEnd;
+import interfaces.circuits.ICircuitElementRegister;
+import interfaces.elements.ILogicElementFrontEnd;
 
 public class LightbulbDraggable   extends DraggableNode implements ILogicElementFrontEnd {
 
