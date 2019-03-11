@@ -1,23 +1,21 @@
 package app.controllers;
 
-import afester.javafx.svg.SvgLoader;
-import app.componentFactories.*;
+import app.componentFactories.io.LightbulbFactory;
+import app.componentFactories.io.SwitchFactory;
+import app.componentFactories.logicGates.*;
 import app.components.ToolboxListCell;
-import app.dragdrop.DragContainer;
+import app.graphics.io.LightbulbGraphic;
+import app.graphics.io.SwitchGraphic;
+import app.graphics.logicGates.*;
 import app.models.ToolboxItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Point2D;
-import javafx.scene.Group;
 import javafx.scene.control.ListView;
-import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -52,19 +50,19 @@ public class ToolboxController implements Initializable {
 
                 //TODO CHANGE THESE FROM ALL BEING AND FACTORY TO THEIR RESPECTIVE FACTORY!------------------------------------------------------------------------------------------------------------------------------------------------------!!!!!!
 
-                new ToolboxItem("AND",SVGLoader("Basic_Gates/AND.svg"),2,1, new AndFactory()),
-                new ToolboxItem("OR",SVGLoader("Basic_Gates/OR.svg"),2,1, new OrFactory()),
-                new ToolboxItem("NOT",SVGLoader("Basic_Gates/NOT.svg"),1,1, new NotFactory()),
-                new ToolboxItem("XOR",SVGLoader("Basic_Gates/XOR.svg"),2,1, new XorFactory()),
-                new ToolboxItem("NAND",SVGLoader("Basic_Gates/NAND.svg"),2,1, new NandFactory()),
-                new ToolboxItem("NOR",SVGLoader("Basic_Gates/NOR.svg"),2,1, new NorFactory()),
-                new ToolboxItem("XNOR",SVGLoader("Basic_Gates/XNOR.svg"),2,1, new XnorFactory())
+                new ToolboxItem("AND",new AndGateGraphic(),2,1, new AndFactory()),
+                new ToolboxItem("OR",new OrGateGraphic(),2,1, new OrFactory()),
+                new ToolboxItem("NOT",new NotGateGraphic(),1,1, new NotFactory()),
+                new ToolboxItem("XOR",new XorGateGraphic(),2,1, new XorFactory()),
+                new ToolboxItem("NAND", new NandGateGraphic(),2,1, new NandFactory()),
+                new ToolboxItem("NOR",new NorGateGraphic(),2,1, new NorFactory()),
+                new ToolboxItem("XNOR",new XnorGateGraphic(),2,1, new XnorFactory())
         );
 
         //Inputs/Outputs
         toolboxItemObservableListInputsOutputs.addAll(
-                new ToolboxItem("Switch",SVGLoader("Inputs_Outputs/Switch.svg"),0,1, new AndFactory()),
-                new ToolboxItem("Lightbulb",SVGLoader("Inputs_Outputs/Lightbulb.svg"),1,0, new AndFactory())
+                new ToolboxItem("Switch",new SwitchGraphic(),0,1, new SwitchFactory()),
+                new ToolboxItem("Lightbulb",new LightbulbGraphic(),1,0, new LightbulbFactory())
         );
 
         //Memory
@@ -91,14 +89,6 @@ public class ToolboxController implements Initializable {
         addDragDetection(listview_memory);
         addDragDetection(listview_arithmeticUnits);
         addDragDetection(listview_userCreated);
-    }
-
-    private Group SVGLoader(String path) {
-        SvgLoader loader = new SvgLoader();
-        InputStream svgFile = getClass().getResourceAsStream("/graphics/Toolbox_Icons/" + path);
-        Group svgImage = loader.loadSvg(svgFile);
-
-        return svgImage;
     }
 
     private void addDragDetection(ListView list) {
@@ -133,7 +123,7 @@ public class ToolboxController implements Initializable {
 
             @Override
             public void handle(MouseEvent event) {
-                mainSceneController.clearDragable(event);
+                mainSceneController.clearDraggable(event);
             }
         });
     }
