@@ -37,13 +37,11 @@ public class MainSceneController implements Initializable {
     public GridPane gridpane_toolboxProperties;
     @FXML
     public GridPane gridpane_menu;
-    @FXML
-    public AnchorPane anchorpane_canvas;
 
     private Node menuBarBuild;
     private Node menuBarSimulation;
     private Node toolbox;
-    private Node canvas;
+    private AnchorPane canvas;
 
     //drag and drop
     private DraggableNode mDragOverIcon = null;
@@ -77,6 +75,7 @@ public class MainSceneController implements Initializable {
             toolbox.setCursor(Cursor.HAND); //set the cursor to a hand when selecting
             //TODO When selecting an item using drag + drop, perhaps a closed hand? ----------------------------------------------------------------------------------------------------
 
+            //load the canvas
             FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/app/view/Canvas.fxml"));
             canvasLoader.setController(new CanvasController(this));
             canvas = canvasLoader.load();
@@ -98,17 +97,6 @@ public class MainSceneController implements Initializable {
             splitpane_main.getItems().add(canvas);
 
             //TODO add the selected item properties ------------------------------------------------------------------------------------------------------------------------------------
-
-
-            //TODO add drag and drop functionality -------------------------------------------------------------------------------------------------------------------------------------
-            //Add one icon that will be used for the drag-drop process
-            //This is added as a child of anchorpane_main so it can be visible on both sides of the split pane.
-//            mDragOverIcon = new DragIcon();
-//
-//            mDragOverIcon.setVisible(false);
-//            mDragOverIcon.setOpacity(0.65);
-//
-//            anchorpane_main.getChildren().add(mDragOverIcon);
 
             buildDragHandlers();
 
@@ -136,8 +124,8 @@ public class MainSceneController implements Initializable {
     public void toolboxClick(ToolboxItem toolboxItem, MouseEvent event) {
         // set drag event handlers on their respective objects
         anchorpane_main.setOnDragOver(mIconDragOverMain);
-        anchorpane_canvas.setOnDragOver(mIconDragOverCanvas);
-        anchorpane_canvas.setOnDragDropped(mIconDragDropped);
+        canvas.setOnDragOver(mIconDragOverCanvas);
+        canvas.setOnDragDropped(mIconDragDropped);
 
         //set the icon of the drag icon to the current toolbox item's icon
         mDragOverIcon = toolboxItem.createNewNode();
@@ -175,11 +163,11 @@ public class MainSceneController implements Initializable {
             @Override
             public void handle(DragEvent event) {
 
-                Point2D p = anchorpane_canvas.sceneToLocal(event.getSceneX(), event.getSceneY());
+                Point2D p = canvas.sceneToLocal(event.getSceneX(), event.getSceneY());
 
                 //turn on transfer mode and track in the right-pane's context 
                 //if (and only if) the mouse cursor falls within the right pane's bounds.
-                if (!anchorpane_canvas.boundsInLocalProperty().get().contains(p)) {
+                if (!canvas.boundsInLocalProperty().get().contains(p)) {
 
                     event.acceptTransferModes(TransferMode.ANY);
                     mDragOverIcon.relocateToPoint(new Point2D(event.getSceneX() - mDragOverIcon.getWidth() / 2, event.getSceneY() - mDragOverIcon.getHeight() / 2));
@@ -232,8 +220,8 @@ public class MainSceneController implements Initializable {
             @Override
             public void handle(DragEvent event) {
 
-                anchorpane_canvas.removeEventHandler(DragEvent.DRAG_OVER, mIconDragOverCanvas);
-                anchorpane_canvas.removeEventHandler(DragEvent.DRAG_DROPPED, mIconDragDropped);
+                canvas.removeEventHandler(DragEvent.DRAG_OVER, mIconDragOverCanvas);
+                canvas.removeEventHandler(DragEvent.DRAG_DROPPED, mIconDragDropped);
                 anchorpane_main.removeEventHandler(DragEvent.DRAG_OVER, mIconDragOverMain);
 
                 anchorpane_main.getChildren().remove(mDragOverIcon);
@@ -247,7 +235,7 @@ public class MainSceneController implements Initializable {
                         mDragOverIcon.setOpacity(1.0);
 
                         mDragOverIcon.setMouseTransparent(false);
-                        anchorpane_canvas.getChildren().add(mDragOverIcon);
+                        canvas.getChildren().add(mDragOverIcon);
 
                         mDragOverIcon.relocateToPoint(
                                 new Point2D(cursorPoint.getX() - mDragOverIcon.getWidth() / 2, cursorPoint.getY() - mDragOverIcon.getHeight() / 2)

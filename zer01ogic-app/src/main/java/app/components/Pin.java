@@ -1,9 +1,12 @@
 package app.components;
 
+import app.dragdrop.DragContainer;
+import app.dragdrop.DraggableNode;
 import javafx.event.EventHandler;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
+import javafx.geometry.Bounds;
+import javafx.scene.input.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
 public abstract class Pin extends Rectangle {
@@ -26,59 +29,135 @@ public abstract class Pin extends Rectangle {
         buildWireDragHandlers();
     }
 
+    public void updateWires(){
+
+    }
+
     private void buildWireDragHandlers(){
+
+
+        Pin box = this;
+        mLinkHandleDragDropped = new EventHandler <DragEvent> () {
+
+            @Override
+            public void handle(DragEvent event) {
+                //getParent().setOnDragOver(null);
+                //getParent().setOnDragDropped(null);
+                getParent().getParent().setOnDragOver(null);
+                Bounds bounds = box.getBoundsInParent();
+                Bounds screenBounds = box.localToScreen(bounds);
+
+                int x2 = (int) screenBounds.getMinX();
+                int y2 = (int) screenBounds.getMinY();
+
+                Pin source=DragContainer.getSource();
+                bounds = source.getBoundsInLocal();
+                screenBounds = source.localToScreen(bounds);
+                int x = (int) screenBounds.getMinX();
+                int y = (int) screenBounds.getMinY();
+                event.acceptTransferModes(TransferMode.ANY);
+
+
+
+
+                if(box.getClass()==(DragContainer.getSource().getClass())
+                 || box.getParent()==DragContainer.getSource().getParent()){
+                    System.out.println("Same");
+
+
+                }
+                else{
+                    bounds = box.getParent().getBoundsInParent();
+                    Bounds bounds2 = box.getBoundsInParent();
+                    double destX=bounds.getMinX()+bounds2.getMinX()+bounds2.getWidth()/2;
+                    double destY=bounds.getMinY()+bounds2.getMinY()+bounds2.getHeight()/2;
+
+                    bounds = DragContainer.getSource().getParent().getBoundsInParent();
+                    bounds2 = DragContainer.getSource().getBoundsInParent();
+                    double sourceX=bounds.getMinX()+bounds2.getMinX()+bounds2.getWidth()/2;
+                    double sourceY=bounds.getMinY()+bounds2.getMinY()+bounds2.getHeight()/2;
+
+                    Line l=new Line(sourceX,sourceY,destX,destY );
+                    ((AnchorPane)getParent().getParent()).getChildren().add(l);
+                }
+
+//                event.setDropCompleted(true);
+                System.out.println("link from "+x+" - "+y+ " to "+x2+" - "+y2);
+
+                event.setDropCompleted(true);
+                event.consume();
+            }
+        };
+
+
+
+//        mContextLinkDragOver = new EventHandler <DragEvent> () {
+//
+//            @Override
+//            public void handle(DragEvent event) {
+//                event.acceptTransferModes(TransferMode.ANY);
+//                System.out.println("drag ovr");
+//                event.consume();
+//
+//            }
+//        };
+//
+//        mContextLinkDragDropped = new EventHandler <DragEvent> () {
+//
+//            @Override
+//            public void handle(DragEvent event) {
+//                System.out.println("context drop");
+//
+//
+//                getParent().setOnDragOver(null);
+//                getParent().setOnDragDropped(null);
+//
+//                event.setDropCompleted(true);
+//                event.consume();
+//            }
+//
+//        };
 
         mLinkHandleDragDetected = new EventHandler <MouseEvent> () {
 
             @Override
             public void handle(MouseEvent event) {
 
-                getParent().setOnDragOver(null);
-                getParent().setOnDragDropped(null);
-
-                getParent().setOnDragOver(mContextLinkDragOver);
-                getParent().setOnDragDropped(mLinkHandleDragDropped);
-
+                getParent().getParent().setOnDragOver(null);
+                getParent().getParent().setOnDragDropped(null);
+                getParent().getParent().setOnDragOver(new EventHandler<DragEvent>() {
+                    @Override
+                    public void handle(DragEvent event) {
+                        event.acceptTransferModes(TransferMode.ANY);
+                        event.consume();
+                    }
+                });
+                System.out.println("detected");
+                Dragboard bd=startDragAndDrop(TransferMode.ANY);
+                ClipboardContent content=new ClipboardContent();
+                DragContainer container = new DragContainer();
+                container.setSource(box);
+                content.put(DragContainer.DraggableLink, container);
+                bd.setContent(content);
+//                startDragAndDrop(TransferMode.ANY);
                 event.consume();
             }
         };
 
-        mLinkHandleDragDropped = new EventHandler <DragEvent> () {
+        this.setOnDragDropped(mLinkHandleDragDropped);
 
-            @Override
-            public void handle(DragEvent event) {
-                getParent().setOnDragOver(null);
-                getParent().setOnDragDropped(null);
+        this.setOnDragDetected(mLinkHandleDragDetected);
+//        this.addEventHandler(MouseEvent.DRAG_DETECTED, mLinkHandleDragDetected);
+//        this.setOnDragDropped(mLinkHandleDragDropped);
+//        this.addEventHandler(DragEvent.DRAG_DONE, mLinkHandleDragDropped);
+//        this.addEventHandler(DragEvent.DRAG_OVER, mLinkHandleDragDropped);
+//        this.addEventHandler(DragEvent.DRAG_DROPPED, mLinkHandleDragDropped);
+//        this.addEventHandler(DragEvent.DRAG_ENTERED, mLinkHandleDragDropped);
+//        this.addEventHandler(DragEvent.ANY, mLinkHandleDragDropped);
+        //this.addEventHandler(DragEvent.DRAG_DROPPED, mLinkHandleDragDropped);
+//        this.addEventHandler(DragEvent.DRAG_OVER, mContextLinkDragOver);
 
-                event.setDropCompleted(true);
 
-                event.consume();
-            }
-        };
-
-        mContextLinkDragOver = new EventHandler <DragEvent> () {
-
-            @Override
-            public void handle(DragEvent event) {
-                event.acceptTransferModes(TransferMode.ANY);
-                event.consume();
-
-            }
-        };
-
-        mContextLinkDragDropped = new EventHandler <DragEvent> () {
-
-            @Override
-            public void handle(DragEvent event) {
-
-                getParent().setOnDragOver(null);
-                getParent().setOnDragDropped(null);
-
-                event.setDropCompleted(true);
-                event.consume();
-            }
-
-        };
     }
 
 

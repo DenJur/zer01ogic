@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane fx:id="gridpane_master" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.MainSceneController">
+<GridPane fx:id="gridpane_master" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.MainSceneController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
     </columnConstraints>
@@ -80,7 +80,7 @@
         </GridPane>
       <AnchorPane fx:id="anchorpane_main" GridPane.rowIndex="1">
          <children>
-            <SplitPane fx:id="splitpane_main" dividerPositions="0.29797979797979796" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <SplitPane fx:id="splitpane_main" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
                       <GridPane fx:id="gridpane_toolboxProperties" maxWidth="260.0">
                           <columnConstraints>
@@ -94,7 +94,6 @@
                               <Pane fx:id="pane_properties" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
                           </children>
                       </GridPane>
-                  <AnchorPane fx:id="anchorpane_canvas" />
               </items>
             </SplitPane>
          </children>

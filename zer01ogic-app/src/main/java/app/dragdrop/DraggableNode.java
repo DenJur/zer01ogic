@@ -64,7 +64,7 @@ public abstract class DraggableNode extends AnchorPane {
                 event.consume();
             }
         };
-        DraggableNode box = this;
+
         //drag detection for node dragging
         this.setOnDragDetected(new EventHandler<MouseEvent>() {
 
@@ -89,10 +89,6 @@ public abstract class DraggableNode extends AnchorPane {
                 content.put(DragContainer.DraggableNode, container);
 
                 startDragAndDrop(TransferMode.ANY).setContent(content);
-
-	                box.scaleXProperty().set(box.scaleXProperty().get()+0.3);
-	                box.scaleYProperty().set(box.scaleYProperty().get()+0.3);
-//                box.rotateProperty().set(box.rotateProperty().getValue()+17);
 
                 event.consume();
             }

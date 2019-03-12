@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.components.Pin;
 import app.models.ToolboxItem;
 import javafx.geometry.Point2D;
 import javafx.scene.input.DataFormat;
@@ -18,6 +19,17 @@ public class DragContainer implements Serializable {
 
 	private static Point2D point;
 	public static final DataFormat DraggableNode = new DataFormat("Node");
+	public static final DataFormat DraggableLink = new DataFormat("Link");
+
+	public static Pin getSource() {
+		return source;
+	}
+
+	public static void setSource(Pin source) {
+		DragContainer.source = source;
+	}
+
+	private static Pin source;
 
 	public Point2D getPoint() {
 		return point;

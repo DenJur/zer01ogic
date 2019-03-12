@@ -2,6 +2,7 @@ package app.dragdrop.logicGates;
 
 import app.graphics.logicGates.AndGateGraphic;
 import interfaces.circuits.ICircuitElementRegister;
+import javafx.geometry.Point2D;
 import javafx.scene.layout.VBox;
 import simulation.gates.AndGate;
 
@@ -19,6 +20,6 @@ public class AndGateDraggable extends BaseLogicGateDraggable {
     public void createLogicElement(ICircuitElementRegister register) {
         AndGate gate = new AndGate((byte) 1);
         register.addCircuitWorkingElement(this, gate);
+//        outpin.setObsevable(gate.getOutput())
     }
-
 }
