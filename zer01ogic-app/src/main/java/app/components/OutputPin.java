@@ -16,11 +16,4 @@ public class OutputPin extends Pin {
         super(xPosition, yPosition);
         this.getStyleClass().add("OutputPin");
     }
-
-    @Override
-    protected void buildOnClickHandler() {
-        this.setOnMouseClicked(event -> {
-            super.onClick(this);
-        });
-    }
 }

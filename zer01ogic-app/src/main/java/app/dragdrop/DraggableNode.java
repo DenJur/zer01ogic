@@ -86,7 +86,7 @@ public abstract class DraggableNode extends AnchorPane {
                 ClipboardContent content = new ClipboardContent();
                 DragContainer container = new DragContainer();
 
-                content.put(DragContainer.DragableNode, container);
+                content.put(DragContainer.DraggableNode, container);
 
                 startDragAndDrop(TransferMode.ANY).setContent(content);
 

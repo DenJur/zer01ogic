@@ -43,6 +43,7 @@ public class MainSceneController implements Initializable {
     private Node menuBarBuild;
     private Node menuBarSimulation;
     private Node toolbox;
+    private Node canvas;
 
     //drag and drop
     private DraggableNode mDragOverIcon = null;
@@ -76,6 +77,10 @@ public class MainSceneController implements Initializable {
             toolbox.setCursor(Cursor.HAND); //set the cursor to a hand when selecting
             //TODO When selecting an item using drag + drop, perhaps a closed hand? ----------------------------------------------------------------------------------------------------
 
+            FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/app/view/Canvas.fxml"));
+            canvasLoader.setController(new CanvasController(this));
+            canvas = canvasLoader.load();
+
             //TODO load the selected item properties -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -85,7 +90,12 @@ public class MainSceneController implements Initializable {
             gridpane_menu.add(menuBarBuild, 2, 0);
             gridpane_menu.add(menuBarSimulation, 2, 0);
             menuBarSimulation.setVisible(false);
+
+            //add the toolbox
             gridpane_toolboxProperties.add(toolbox, 0, 0);
+
+            //add the canvas
+            splitpane_main.getItems().add(canvas);
 
             //TODO add the selected item properties ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -110,14 +120,12 @@ public class MainSceneController implements Initializable {
     /**
      * Called when the user drags an item from the toolbox,
      * handles drag and drop features
-     *
-     * @param toolboxItem the toolbox item that was selected
      */
-    public void toolboxDragDrop(ToolboxItem toolboxItem, MouseEvent event) {
+    public void toolboxDragDrop(MouseEvent event) {
         ClipboardContent content = new ClipboardContent();
         DragContainer container = new DragContainer();
 
-        content.put(DragContainer.DragableNode, container);
+        content.put(DragContainer.DraggableNode, container);
 
         mDragOverIcon.startDragAndDrop(TransferMode.ANY).setContent(content);
         mDragOverIcon.setVisible(true);
@@ -207,12 +215,12 @@ public class MainSceneController implements Initializable {
             public void handle(DragEvent event) {
 
                 DragContainer container =
-                        (DragContainer) event.getDragboard().getContent(DragContainer.DragableNode);
+                        (DragContainer) event.getDragboard().getContent(DragContainer.DraggableNode);
 
                 container.addPoint(new Point2D(event.getSceneX(), event.getSceneY()));
 
                 ClipboardContent content = new ClipboardContent();
-                content.put(DragContainer.DragableNode, container);
+                content.put(DragContainer.DraggableNode, container);
 
                 event.getDragboard().setContent(content);
                 event.setDropCompleted(true);
@@ -229,7 +237,7 @@ public class MainSceneController implements Initializable {
                 anchorpane_main.removeEventHandler(DragEvent.DRAG_OVER, mIconDragOverMain);
 
                 anchorpane_main.getChildren().remove(mDragOverIcon);
-                DragContainer container = (DragContainer) event.getDragboard().getContent(DragContainer.DragableNode);
+                DragContainer container = (DragContainer) event.getDragboard().getContent(DragContainer.DraggableNode);
 
                 if (container != null) {
                     Point2D cursorPoint = container.getPoint();
