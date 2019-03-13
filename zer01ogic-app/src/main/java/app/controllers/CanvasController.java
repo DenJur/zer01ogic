@@ -1,14 +1,18 @@
 package app.controllers;
 
+import app.components.InputPin;
+import app.components.OutputPin;
 import app.components.Pin;
 import app.components.WireObject;
 import app.dragdrop.DragContainer;
 import app.dragdrop.DraggableNode;
+import app.models.WireLogic;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.layout.AnchorPane;
+import jdk.internal.util.xml.impl.Input;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -52,7 +56,7 @@ public class CanvasController implements Initializable{
         if the linked pin is part of the same DraggableNode
         */
         if(!(box.getClass() == (DragContainer.getSource().getClass())
-                ||  box.getParent() == DragContainer.getSource().getParent())){
+          || box.getParent() == DragContainer.getSource().getParent())){
 
             //Get the bounds & coordinates to allow a line to be drawn from this pin
             Bounds boundsOnCanvas = box.getParent().getBoundsInParent();
@@ -73,6 +77,23 @@ public class CanvasController implements Initializable{
             anchorpane_canvas.getChildren().add(wireObject);
 
             //create a WireLogic object for this wire
+            WireLogic wireLogic;
+            InputPin input;
+            OutputPin output;
+
+            //If the source pin is an OutputPin
+            //TODO SORT THIS CLASS COMPARISON, IT MAY BE BROKEN-----------------------------------------------------------------------------------
+            if(box instanceof OutputPin){
+                input = (InputPin) DragContainer.getSource();
+                output = (OutputPin)  box;
+                wireLogic = new WireLogic(input, output);
+            }
+            //the source pin is an InputPin
+            else{
+                input = (InputPin) box;
+                output = (OutputPin) DragContainer.getSource();
+                wireLogic = new WireLogic(input, output);
+            }
 
         }
     }
