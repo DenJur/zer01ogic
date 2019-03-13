@@ -47,9 +47,6 @@ public class ToolboxController implements Initializable {
 
         //Basic logic gates
         toolboxItemObservableListLogicGates.addAll(
-
-                //TODO CHANGE THESE FROM ALL BEING AND FACTORY TO THEIR RESPECTIVE FACTORY!------------------------------------------------------------------------------------------------------------------------------------------------------!!!!!!
-
                 new ToolboxItem("AND",new AndGateGraphic(),2,1, new AndFactory()),
                 new ToolboxItem("OR",new OrGateGraphic(),2,1, new OrFactory()),
                 new ToolboxItem("NOT",new NotGateGraphic(),1,1, new NotFactory()),

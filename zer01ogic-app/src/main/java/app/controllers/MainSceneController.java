@@ -9,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
 import javafx.scene.input.ClipboardContent;
@@ -18,10 +17,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
 
 import java.io.IOException;
 import java.net.URL;
@@ -42,6 +37,7 @@ public class MainSceneController implements Initializable {
     private Node menuBarSimulation;
     private Node toolbox;
     private AnchorPane canvas;
+    private CanvasController canvasController;
 
     //drag and drop
     private DraggableNode mDragOverIcon = null;
@@ -55,7 +51,6 @@ public class MainSceneController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         try {
-
             //LOAD SCENES
 
             //load the menu bar with the build menu
@@ -77,7 +72,9 @@ public class MainSceneController implements Initializable {
 
             //load the canvas
             FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/app/view/Canvas.fxml"));
-            canvasLoader.setController(new CanvasController(this));
+            //As the MainSceneController communicates with the canvas, it needs to be a class field
+            canvasController = new CanvasController(this);
+            canvasLoader.setController(canvasController);
             canvas = canvasLoader.load();
 
             //TODO load the selected item properties -----------------------------------------------------------------------------------------------------------------------------------
@@ -138,22 +135,6 @@ public class MainSceneController implements Initializable {
         mDragOverIcon.relocateToPoint(new Point2D(event.getSceneX() - mDragOverIcon.getWidth() / 2, event.getSceneY() - mDragOverIcon.getHeight() / 2));
         event.consume();
     }
-
-    /**
-     * Switch the menu bars when requested
-     */
-    private void SwitchBars() {
-        if (menuBarBuild.isVisible()) {
-            menuBarBuild.setVisible(false);
-            menuBarSimulation.setVisible(true);
-            toolbox.setDisable(true);
-        } else {
-            menuBarBuild.setVisible(true);
-            menuBarSimulation.setVisible(false);
-            toolbox.setDisable(false);
-        }
-    }
-
 
     private void buildDragHandlers() {
 
@@ -231,16 +212,8 @@ public class MainSceneController implements Initializable {
                     Point2D cursorPoint = container.getPoint();
                     container.addPoint(null);
                     if (cursorPoint != null) {
-
-                        mDragOverIcon.setOpacity(1.0);
-
-                        mDragOverIcon.setMouseTransparent(false);
-                        canvas.getChildren().add(mDragOverIcon);
-
-                        mDragOverIcon.relocateToPoint(
-                                new Point2D(cursorPoint.getX() - mDragOverIcon.getWidth() / 2, cursorPoint.getY() - mDragOverIcon.getHeight() / 2)
-                        );
-
+                        //Send a request to the CanvasController to add the new DraggableNode to the Canvas
+                        canvasController.addDraggableNode(mDragOverIcon, cursorPoint);
                     }
                 }
 
@@ -251,5 +224,20 @@ public class MainSceneController implements Initializable {
 
     public void clearDraggable(MouseEvent event) {
         anchorpane_main.getChildren().remove(mDragOverIcon);
+    }
+
+    /**
+     * Switch the menu bars when requested
+     */
+    private void SwitchBars() {
+        if (menuBarBuild.isVisible()) {
+            menuBarBuild.setVisible(false);
+            menuBarSimulation.setVisible(true);
+            toolbox.setDisable(true);
+        } else {
+            menuBarBuild.setVisible(true);
+            menuBarSimulation.setVisible(false);
+            toolbox.setDisable(false);
+        }
     }
 }

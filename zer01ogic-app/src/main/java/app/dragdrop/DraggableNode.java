@@ -1,5 +1,7 @@
 package app.dragdrop;
 
+import app.components.Pin;
+import app.controllers.CanvasController;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.input.ClipboardContent;
@@ -9,17 +11,55 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-public abstract class DraggableNode extends AnchorPane {
+import java.util.ArrayList;
 
+public abstract class DraggableNode extends AnchorPane {
+    //Controller
+    private CanvasController canvasController;
+
+    //Drag and drop
     private EventHandler<DragEvent> mContextDragOver;
     private EventHandler<DragEvent> mContextDragDropped;
-
     private Point2D mDragOffset = new Point2D(0.0, 0.0);
 
+    //data fields
+    protected ArrayList<Pin> pins;
+
     public DraggableNode() {
-        this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
-                CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        pins = new ArrayList<Pin>();
+        this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         buildNodeDragHandlers();
+    }
+
+    public void setCanvasController(CanvasController canvasController){
+        this.canvasController = canvasController;
+    }
+
+    public CanvasController getCanvasController(){
+        return canvasController;
+    };
+
+    protected abstract void createPins(double lineWidth);
+
+    /**
+     * Called by the CanvasController after the DraggableNode has been added to the canvas
+     * this will pass an instance of the CanvasController to each Pin object, so that it can
+     * send requests for new wires to the CanvasController
+     */
+    public void addDraggableNodeToPins(){
+        for (Pin pin:pins) {
+            pin.connectDraggableNode(this);
+        }
+    }
+
+    /**
+     * Whenever the draggable node is moved, visually update any wires connected to its pins
+     */
+    public void updateWires(){
+        for (Pin pin:pins){
+            //TODO ADD THE REST OF THIS---------------------------------------------------------------------------------------------------------------------
+            pin.updateWires();
+        }
     }
 
     public void relocateToPoint(Point2D p) {
@@ -33,7 +73,6 @@ public abstract class DraggableNode extends AnchorPane {
                 (int) (localCoords.getY() - mDragOffset.getY())
         );
     }
-
 
     public void buildNodeDragHandlers() {
 

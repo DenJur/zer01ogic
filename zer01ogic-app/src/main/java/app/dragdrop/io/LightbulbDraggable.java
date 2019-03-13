@@ -9,12 +9,17 @@ import javafx.scene.layout.VBox;
 
 import static app.graphics.GraphicsHelper.AnchorAll;
 
-public class LightbulbDraggable   extends DraggableNode implements ILogicElementFrontEnd {
+public class LightbulbDraggable extends DraggableNode implements ILogicElementFrontEnd {
 
     public LightbulbDraggable() {
         VBox graphic = new VBox(new LightbulbGraphic());
         this.getChildren().add(graphic);
         AnchorAll(graphic,0,0,0,0);
+    }
+
+    @Override
+    protected void createPins(double lineWidth) {
+
     }
 
     @Override

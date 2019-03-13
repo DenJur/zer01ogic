@@ -1,13 +1,12 @@
 package app.components;
 
-import javafx.event.EventHandler;
+import app.models.WireLogic;
 
-import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
-/**
- * Created by u1460287 on 05/03/2019.
- */
 public class OutputPin extends Pin {
+    private ArrayList<WireLogic> connectedWires;
+
     /**
      * @param xPosition horizontal position of the pin relative to the container class
      * @param yPosition vertical position of the pin relative to the container class
@@ -15,5 +14,17 @@ public class OutputPin extends Pin {
     public OutputPin(double xPosition, double yPosition) {
         super(xPosition, yPosition);
         this.getStyleClass().add("OutputPin");
+
+        connectedWires = new ArrayList<WireLogic>();
+    }
+
+    @Override
+    public void connectWire(WireLogic wire) {
+        connectedWires.add(wire);
+    }
+
+    @Override
+    public WireLogic[] getWires() {
+        return (WireLogic[]) connectedWires.toArray();
     }
 }

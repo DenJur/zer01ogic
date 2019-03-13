@@ -17,6 +17,11 @@ public class SwitchDraggable  extends DraggableNode implements ILogicElementFron
     }
 
     @Override
+    protected void createPins(double lineWidth) {
+
+    }
+
+    @Override
     public void createLogicElement(ICircuitElementRegister register) {
 
     }
