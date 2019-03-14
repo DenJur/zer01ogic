@@ -2,6 +2,7 @@ package simulation;
 
 import interfaces.circuits.*;
 import interfaces.elements.ILogicElementFrontEnd;
+import simulation.circuits.ScheduledLogicBusyExecutor;
 import simulation.circuits.SingleThreadCircuitBusy;
 import simulation.circuits.SingleThreadCircuitRunner;
 import simulation.circuits.SingleThreadCircuitWaiting;
@@ -13,6 +14,7 @@ public class DefaultCircuitBuilder implements ICircuitBuilder {
     private ICircuitRunner circuitRunner;
     private ICircuit circuit;
     private ICircuitElementRegister register;
+    private IScheduledLogicExecutor scheduledExecutor;
 
     public DefaultCircuitBuilder usingSingleThreadRunner(){
         circuitRunner=new SingleThreadCircuitRunner();
@@ -33,11 +35,20 @@ public class DefaultCircuitBuilder implements ICircuitBuilder {
         return this;
     }
 
+    public DefaultCircuitBuilder addBusyScheduledExecutor(){
+        scheduledExecutor=new ScheduledLogicBusyExecutor();
+        return this;
+    }
+
     @Override
     public ICircuitRunner build(Iterable<ILogicElementFrontEnd> source) {
         if(circuit==null) return null;
         if(circuitRunner==null) return null;
         //TODO throw
+
+        if(scheduledExecutor!=null){
+            circuit.addScheduledExecutor(scheduledExecutor);
+        }
 
         ArrayList<ILogicElementFrontEnd> s = new ArrayList<>();
         source.forEach(s::add);

@@ -3,9 +3,9 @@ package interfaces.circuits;
 import simulation.circuits.SimulationMode;
 
 public interface ICircuitCommon {
-    void reset();
+    void reset() throws Exception;
     void pause();
     void unpause();
-    void stop();
+    void stop() throws Exception;
     void switchMode(SimulationMode mode);
 }

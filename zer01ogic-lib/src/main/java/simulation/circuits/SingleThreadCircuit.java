@@ -3,6 +3,7 @@ package simulation.circuits;
 import interfaces.circuits.ICircuit;
 import interfaces.circuits.ICircuitElementRegister;
 import interfaces.circuits.ICircuitQueue;
+import interfaces.circuits.IScheduledLogicExecutor;
 import interfaces.elements.ILogicElement;
 import interfaces.elements.ILogicElementFrontEnd;
 
@@ -14,6 +15,7 @@ abstract class SingleThreadCircuit implements ICircuit, ICircuitQueue, ICircuitE
     protected boolean paused;
     protected boolean finalized;
     protected SimulationMode mode;
+    protected IScheduledLogicExecutor scheduledLogicExecutor;
 
     protected Queue<ILogicElement> queue;
     protected HashMap<ILogicElementFrontEnd, ILogicElement> workingNodes;
@@ -36,21 +38,31 @@ abstract class SingleThreadCircuit implements ICircuit, ICircuitQueue, ICircuitE
         workingNodes.forEach((iLogicElementFrontEnd, iLogicElement) -> {
             queue.add(iLogicElement);
         });
-        stopped=false;
+        if (scheduledLogicExecutor != null)
+            scheduledLogicExecutor.reset();
+        stopped = false;
     }
 
     @Override
     public void pause() {
+        if (scheduledLogicExecutor != null)
+            scheduledLogicExecutor.pause();
         paused = true;
     }
 
     @Override
     public void unpause() {
+        if (scheduledLogicExecutor != null)
+            scheduledLogicExecutor.unpause();
         paused = false;
     }
 
     @Override
-    public void stop() { stopped = true; }
+    public void stop() throws Exception {
+        if (scheduledLogicExecutor != null)
+            scheduledLogicExecutor.stop();
+        stopped = true;
+    }
 
     @Override
     public void switchMode(SimulationMode mode) {
@@ -70,5 +82,10 @@ abstract class SingleThreadCircuit implements ICircuit, ICircuitQueue, ICircuitE
     @Override
     public Runnable getCircuitRunnable() {
         return this;
+    }
+
+    @Override
+    public void addScheduledExecutor(IScheduledLogicExecutor scheduledExecutor) {
+        scheduledLogicExecutor = scheduledExecutor;
     }
 }

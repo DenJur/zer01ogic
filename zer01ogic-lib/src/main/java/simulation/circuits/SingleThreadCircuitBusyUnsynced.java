@@ -5,34 +5,31 @@ import interfaces.elements.ILogicElementFrontEnd;
 import interfaces.elements.IScheduledLogicElement;
 
 import java.util.ArrayDeque;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class SingleThreadCircuitBusy extends SingleThreadCircuit {
+public class SingleThreadCircuitBusyUnsynced extends SingleThreadCircuit {
 
-    public SingleThreadCircuitBusy() {
+    public SingleThreadCircuitBusyUnsynced() {
         super();
         queue = new ArrayDeque<>();
     }
 
     @Override
     public void run() {
-        if (scheduledLogicExecutor != null)
-            scheduledLogicExecutor.start();
         finalized = true;
         ILogicElement element;
         while (!stopped) {
-            synchronized (this) {
-                if (!paused) {
-                    element = queue.poll();
-                    if (element == null) continue;
-                    element.calculateOutputs();
-                    if (mode == SimulationMode.TICK) pause();
-                }
+            if (!paused) {
+                element = queue.poll();
+                if (element == null) continue;
+                element.calculateOutputs();
+                if (mode == SimulationMode.TICK) pause();
             }
         }
     }
 
     @Override
-    public synchronized void queueElementForUpdate(ILogicElement item) {
+    public void queueElementForUpdate(ILogicElement item) {
         if (!queue.contains(item))
             queue.offer(item);
     }
@@ -49,9 +46,9 @@ public class SingleThreadCircuitBusy extends SingleThreadCircuit {
     @Override
     public void addCircuitWorkingElement(ILogicElementFrontEnd source, IScheduledLogicElement item) {
         if (!workingNodes.containsKey(source) && !finalized) {
+            workingNodes.put(source, item);
             item.setParentCircuit(this);
-            if (scheduledLogicExecutor != null)
-                scheduledLogicExecutor.addScheduledLogicElement(item);
+            scheduledLogicExecutor.addScheduledLogicElement(item);
         }
     }
 

@@ -15,7 +15,7 @@ public class SingleThreadCircuitTests {
      * Tests a circuit consisting of a single and gate. Uses the whole and truth table.
      */
     @Test
-    public void TestAndSingleBitSingleNode() {
+    public void TestAndSingleBitSingleNode() throws Exception {
         DefaultCircuitBuilder builder = new DefaultCircuitBuilder();
         TestAndWrapper and = new TestAndWrapper((byte) 1);
         MultibitValue input1 = new MultibitValue(0, (byte) 1);
@@ -51,7 +51,7 @@ public class SingleThreadCircuitTests {
      * are feeding their output into 3rd and gate.
      */
     @Test
-    public void TestAndSingleBitMultiNode() {
+    public void TestAndSingleBitMultiNode() throws Exception {
         DefaultCircuitBuilder builder = new DefaultCircuitBuilder();
         TestAndWrapper and = new TestAndWrapper((byte) 1);
         TestAndWrapper and2 = new TestAndWrapper((byte) 1);
@@ -103,7 +103,7 @@ public class SingleThreadCircuitTests {
      * and one of the gates has it's second input set to true.
      */
     @Test
-    public void TestXNorOscillations() {
+    public void TestXNorOscillations() throws Exception {
         DefaultCircuitBuilder builder = new DefaultCircuitBuilder();
 
         TestXNorWrapper xnor = new TestXNorWrapper((byte) 1);
@@ -131,7 +131,7 @@ public class SingleThreadCircuitTests {
     }
 
     @Test
-    public void TestReset() {
+    public void TestReset() throws Exception {
         DefaultCircuitBuilder builder = new DefaultCircuitBuilder();
         TestAndWrapper and = new TestAndWrapper((byte) 1);
         TestAndWrapper and2 = new TestAndWrapper((byte) 1);
