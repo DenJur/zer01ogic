@@ -2,13 +2,24 @@ package app.dragdrop.io;
 
 import app.dragdrop.DraggableNode;
 import app.graphics.io.LightbulbGraphic;
+import app.graphics.io.SwitchGraphic;
 import interfaces.circuits.ICircuitElementRegister;
 import interfaces.elements.ILogicElementFrontEnd;
+import javafx.scene.layout.VBox;
 
-public class LightbulbDraggable   extends DraggableNode implements ILogicElementFrontEnd {
+import static app.graphics.GraphicsHelper.AnchorAll;
+
+public class LightbulbDraggable extends DraggableNode implements ILogicElementFrontEnd {
 
     public LightbulbDraggable() {
-        this.getChildren().add(new LightbulbGraphic());
+        VBox graphic = new VBox(new LightbulbGraphic());
+        this.getChildren().add(graphic);
+        AnchorAll(graphic,0,0,0,0);
+    }
+
+    @Override
+    protected void createPins(double lineWidth) {
+
     }
 
     @Override

@@ -47,9 +47,6 @@ public class ToolboxController implements Initializable {
 
         //Basic logic gates
         toolboxItemObservableListLogicGates.addAll(
-
-                //TODO CHANGE THESE FROM ALL BEING AND FACTORY TO THEIR RESPECTIVE FACTORY!------------------------------------------------------------------------------------------------------------------------------------------------------!!!!!!
-
                 new ToolboxItem("AND",new AndGateGraphic(),2,1, new AndFactory()),
                 new ToolboxItem("OR",new OrGateGraphic(),2,1, new OrFactory()),
                 new ToolboxItem("NOT",new NotGateGraphic(),1,1, new NotFactory()),
@@ -97,12 +94,9 @@ public class ToolboxController implements Initializable {
 
             @Override
             public void handle(MouseEvent event) {
-                //find the currently selected list item
-                ToolboxItem toolboxItem = (ToolboxItem) list.getSelectionModel().getSelectedItem();
-
                 //send a message to the main class saying that this list has been dragged
                 //and send the details of the selected item so it can be handled correctly
-                mainSceneController.toolboxDragDrop(toolboxItem, event);
+                mainSceneController.toolboxDragDrop(event);
             }
         });
 

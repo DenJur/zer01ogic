@@ -1,6 +1,7 @@
 package app.dragdrop.logicGates;
 
 import app.graphics.logicGates.NotGateGraphic;
+import javafx.scene.layout.VBox;
 import simulation.gates.NotGate;
 import interfaces.circuits.ICircuitElementRegister;
 
@@ -8,7 +9,7 @@ import interfaces.circuits.ICircuitElementRegister;
 public class NotGateDraggable extends BaseLogicGateDraggable {
 
     public NotGateDraggable() {
-        this.getChildren().add(new NotGateGraphic());
+        super(new VBox(new NotGateGraphic()));
     }
 
     @Override

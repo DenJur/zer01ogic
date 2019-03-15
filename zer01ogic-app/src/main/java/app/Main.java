@@ -1,6 +1,7 @@
 package app;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -8,9 +9,12 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.Observable;
 
 
 public class Main extends Application {
+
+    public static ObservableList<String> styles;
 
     public static void main(String[] args) {
         launch(args);
@@ -23,6 +27,7 @@ public class Main extends Application {
         File customCss=new File("custom.css");
         if(customCss.exists())
             root.getStylesheets().add("file:///"+customCss.getAbsolutePath().replace("\\", "/"));
+        Main.styles=root.getStylesheets();
         primaryStage.setTitle("Zer0 1ogic");
         primaryStage.setScene(new Scene(root));
         primaryStage.getIcons().add(new Image("/graphics/LogoIcon.png"));
