@@ -11,6 +11,8 @@ public class SingleThreadCircuitRunner implements ICircuitRunner {
     public void assignInnerCircuit(ICircuit circuit) {
         innerCircuit = circuit;
         simulationThread = new Thread(innerCircuit.getCircuitRunnable());
+        simulationThread.setPriority(10);
+        simulationThread.setDaemon(true);
     }
 
     @Override
@@ -20,12 +22,14 @@ public class SingleThreadCircuitRunner implements ICircuitRunner {
     }
 
     @Override
-    public void reset() {
+    public void reset() throws Exception {
         if (innerCircuit != null) {
             stop();
             innerCircuit.reset();
             innerCircuit.pause();
             simulationThread=new Thread(innerCircuit.getCircuitRunnable());
+            simulationThread.setPriority(10);
+            simulationThread.setDaemon(true);
             simulationThread.start();
         }
     }
@@ -43,7 +47,7 @@ public class SingleThreadCircuitRunner implements ICircuitRunner {
     }
 
     @Override
-    public void stop() {
+    public void stop() throws Exception {
         if (innerCircuit != null && simulationThread!=null) {
             innerCircuit.stop();
             innerCircuit.switchMode(SimulationMode.NONSTOP);

@@ -2,8 +2,8 @@ package interfaces.elements;
 
 import java.util.concurrent.TimeUnit;
 
-public interface IScheduledLogicElement extends ILogicElement,Runnable {
+public interface IScheduledLogicElement extends ILogicElement {
     TimeUnit getDelayTimeUnits();
-    long getDelay();
+    int getDelay();
     boolean isFixedDelay();
 }
