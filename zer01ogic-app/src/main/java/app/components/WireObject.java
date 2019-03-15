@@ -8,12 +8,7 @@ import java.util.Collection;
 
 public class WireObject extends Line{
 
-    public WireObject(double sourceX, double sourceY, double destX, double destY) {
-        this.setStartX(sourceX);
-        this.setStartY(sourceY);
-        this.setEndX(destX);
-        this.setEndY(destY);
-
+    public WireObject() {
         //Set up the wire's CSS in build mode
         this.recolor("build");
     }
@@ -21,11 +16,31 @@ public class WireObject extends Line{
     /**
      * Takes 4 coordinates and redraws the wire when one if its connected nodes are moved
      */
-    public void redraw (double sourceX, double sourceY, double destX, double destY){
+    public void draw (double sourceX, double sourceY, double destX, double destY){
         this.setStartX(sourceX);
         this.setStartY(sourceY);
         this.setEndX(destX);
         this.setEndY(destY);
+    }
+
+    /**
+     * Takes two coordinates (the new start point of the wire) and redraws the wire
+     */
+    public void redrawStartPoint(double xPosition, double yPosition){
+        System.out.println("WireObject.redrawStartPoint was called");
+
+        this.setStartX(xPosition);
+        this.setStartY(yPosition);
+    }
+
+    /**
+     * Takes two coordinates (the new end point of the wire) and redraws the wire
+     */
+    public void redrawEndPoint(double xPosition, double yPosition){
+        System.out.println("WireObject.redrawEndPoint was called with coordinates: " + xPosition + ", " + yPosition);
+        
+        this.setEndX(xPosition);
+        this.setEndY(yPosition);
     }
 
     public void recolor(String newStatus){

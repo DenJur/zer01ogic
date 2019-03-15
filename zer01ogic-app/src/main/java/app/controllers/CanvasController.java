@@ -49,52 +49,59 @@ public class CanvasController implements Initializable{
         );
     }
 
-    public void createWire(Pin box){
+    public void createWire(Pin thisPin, WireObject wireObject, WireLogic wireLogic){
         /*
+        thisPin is the source pin, DragContainer.getSource().getClass() is the destination pin
+
         Do not allow connections in the following cases:
         if the linked pin is of the same type (input/output)
         if the linked pin is part of the same DraggableNode
+        if the input pin already has a connection
         */
-        if(!(box.getClass() == (DragContainer.getSource().getClass())
-          || box.getParent() == DragContainer.getSource().getParent())){
+        if(!(thisPin.getClass() == (DragContainer.getSource().getClass())
+          || thisPin.getParent() == DragContainer.getSource().getParent())){
 
-            //Get the bounds & coordinates to allow a line to be drawn from this pin
-            Bounds boundsOnCanvas = box.getParent().getBoundsInParent();
-            Bounds boundsOnNode = box.getBoundsInParent();
-
-            double sourceX = boundsOnCanvas.getMinX() + boundsOnNode.getMinX() + boundsOnNode.getWidth() / 2;
-            double sourceY = boundsOnCanvas.getMinY() + boundsOnNode.getMinY() + boundsOnNode.getHeight() / 2;
-
-            //Get the bounds & coordinates to allow a line to be drawn to the linked pin
-            boundsOnCanvas = DragContainer.getSource().getParent().getBoundsInParent();
-            boundsOnNode = DragContainer.getSource().getBoundsInParent();
-
-            double destX = boundsOnCanvas.getMinX() + boundsOnNode.getMinX() + boundsOnNode.getWidth() / 2;
-            double destY = boundsOnCanvas.getMinY() + boundsOnNode.getMinY() + boundsOnNode.getHeight() / 2;
-
-            //draw the WireObject on the Canvas
-            WireObject wireObject = new WireObject(sourceX, sourceY, destX, destY);
-            anchorpane_canvas.getChildren().add(wireObject);
-
-            //create a WireLogic object for this wire
-            WireLogic wireLogic;
-            InputPin input;
             OutputPin output;
+            InputPin input;
 
-            //If the source pin is an OutputPin
-            //TODO SORT THIS CLASS COMPARISON, IT MAY BE BROKEN-----------------------------------------------------------------------------------
-            if(box instanceof OutputPin){
+            //We want the source of the WireObject to always be the OutputPin, and the destination always be the InputPin
+            //If the pin the WireObject was drawn from is an input pin, draw the WireObject in reverse, and connect the WireLogic in reverse
+            if(thisPin instanceof OutputPin){
+                output = (OutputPin) thisPin;
                 input = (InputPin) DragContainer.getSource();
-                output = (OutputPin)  box;
-                wireLogic = new WireLogic(input, output);
             }
-            //the source pin is an InputPin
             else{
-                input = (InputPin) box;
                 output = (OutputPin) DragContainer.getSource();
-                wireLogic = new WireLogic(input, output);
+                input = (InputPin) thisPin;
             }
 
+            //Only create a connection if the input has no wire connected to it already
+            WireLogic[] inputConnection = input.getWiresLogic();
+            if(inputConnection[0] == null){
+                //the bounds of the Node on the Canvas, and the bounds of the Pin on the Node
+                //these allow a line to be drawn from this pin
+                Bounds boundsOnCanvas = output.getParent().getBoundsInParent();
+                Bounds boundsOnNode = output.getBoundsInParent();
+
+                //the start coordinates of the WireObject to be drawn
+                double sourceX = boundsOnCanvas.getMinX() + boundsOnNode.getMinX() + boundsOnNode.getWidth() / 2;
+                double sourceY = boundsOnCanvas.getMinY() + boundsOnNode.getMinY() + boundsOnNode.getHeight() / 2;
+
+                //bounds of the input pin to connect it to
+                boundsOnCanvas = input.getParent().getBoundsInParent();
+                boundsOnNode = input.getBoundsInParent();
+
+                //the end coordinates of the WireObject to be drawn
+                double destX = boundsOnCanvas.getMinX() + boundsOnNode.getMinX() + boundsOnNode.getWidth() / 2;
+                double destY = boundsOnCanvas.getMinY() + boundsOnNode.getMinY() + boundsOnNode.getHeight() / 2;
+
+                //draw the WireObject on the Canvas
+                wireObject.draw(sourceX, sourceY, destX, destY);
+                anchorpane_canvas.getChildren().add(wireObject);
+
+                //connect the WireLogic
+                wireLogic.createConnection(input, output);
+            }
         }
     }
 }

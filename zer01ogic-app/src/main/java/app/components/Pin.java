@@ -19,13 +19,21 @@ public abstract class Pin extends Rectangle {
     private EventHandler <DragEvent> mContextLinkDragOver;
     private EventHandler <DragEvent> mContextLinkDragDropped;
 
+    //Coordinates relative to container node
+    protected double xPosition;
+    protected double yPosition;
+
     /**
-     * @param xPosition horizontal position of the pin relative to the container class
-     * @param yPosition vertical position of the pin relative to the container class
+     * @param xPosition horizontal position of the pin relative to the container node
+     * @param yPosition vertical position of the pin relative to the container node
      */
     public Pin(double xPosition, double yPosition) {
         this.setHeight(10);
         this.setWidth(10);
+
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
+
         this.setTranslateX(xPosition);
         this.setTranslateY(yPosition);
 
@@ -37,17 +45,21 @@ public abstract class Pin extends Rectangle {
         this.canvasController = draggableNode.getCanvasController(); //allows for new wires to be added to the Canvas by this pin
     }
 
-    public abstract void connectWire(WireLogic wire);
+    //WIRING--------------------------------------------------------------------------------------
 
-    public void updateWires(){
-        //TODO REDRAW THE WIRES (remove and redraw them with new coordinates) --------------------------------------------------------------------------------
-    }
+    public abstract void connectWire(WireObject wireObject, WireLogic wireLogic);
 
-    public abstract WireLogic[] getWires();
+    public abstract void redrawWires(double xPosition, double yPosition);
 
+    public abstract WireObject[] getWiresObject();
+
+    public abstract WireLogic[] getWiresLogic();
+
+
+    //DRAG AND DROP-------------------------------------------------------------------------------
     private void buildWireDragHandlers(){
-        //box allows us to refer to this Pin object within the EventHandlers
-        Pin box = this;
+        //thisPin allows us to refer to this Pin object within the EventHandlers (as the 'this' operator refers to the handler)
+        Pin thisPin = this;
 
         mLinkHandleDragDetected = new EventHandler <MouseEvent> () {
 
@@ -67,7 +79,7 @@ public abstract class Pin extends Rectangle {
                 Dragboard bd = startDragAndDrop(TransferMode.ANY);
                 ClipboardContent content = new ClipboardContent();
                 DragContainer container = new DragContainer();
-                container.setSource(box);
+                container.setSource(thisPin);
                 content.put(DragContainer.DraggableLink, container);
                 bd.setContent(content);
 //                startDragAndDrop(TransferMode.ANY);
@@ -84,8 +96,18 @@ public abstract class Pin extends Rectangle {
 
                 event.acceptTransferModes(TransferMode.ANY);
 
+                //Create blank wire object/logic
+                WireObject wireObject = new WireObject();
+                WireLogic wireLogic = new WireLogic();
+
                 //Send a wire creation request to the CanvasController
-                canvasController.createWire(box);
+                //this fills the data in for the wire object/logic
+                canvasController.createWire(thisPin, wireObject, wireLogic);
+
+                //add the wire object/logic to this pin
+                thisPin.connectWire(wireObject, wireLogic);
+                //add the wire object/logic to the other pin
+                DragContainer.getSource().connectWire(wireObject, wireLogic);
 
                 event.setDropCompleted(true);
                 event.consume();
@@ -120,7 +142,6 @@ public abstract class Pin extends Rectangle {
 //            }
 //
 //        };
-
 
 
         this.setOnDragDropped(mLinkHandleDragDropped);

@@ -3,16 +3,12 @@ package app.dragdrop.logicGates;
 import app.components.InputPin;
 import app.components.OutputPin;
 import app.components.Pin;
-import app.controllers.CanvasController;
 import app.dragdrop.DraggableNode;
 import interfaces.circuits.ICircuitElementRegister;
 import interfaces.elements.ILogicElementFrontEnd;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
-import simulation.gates.AndGate;
-import simulation.gates.BaseLogicGate;
 
-import java.util.ArrayList;
 import java.util.Collections;
 
 import static app.graphics.GraphicsHelper.AnchorAll;
@@ -71,8 +67,6 @@ public abstract class BaseLogicGateDraggable extends DraggableNode implements IL
     @Override
     public void relocateToPoint(Point2D p) {
         super.relocateToPoint(p);
-        pins.forEach(Pin::updateWires);
-
     }
 }
 

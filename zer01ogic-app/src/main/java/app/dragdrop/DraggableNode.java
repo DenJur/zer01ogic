@@ -23,6 +23,8 @@ public abstract class DraggableNode extends AnchorPane {
     private Point2D mDragOffset = new Point2D(0.0, 0.0);
 
     //data fields
+    private double xPosition; //X coordinate of this node relative to the canvas
+    private double yPosition; //Y coordinate of this node relative to the canvas
     protected ArrayList<Pin> pins;
 
     public DraggableNode() {
@@ -30,14 +32,6 @@ public abstract class DraggableNode extends AnchorPane {
         this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         buildNodeDragHandlers();
     }
-
-    public void setCanvasController(CanvasController canvasController){
-        this.canvasController = canvasController;
-    }
-
-    public CanvasController getCanvasController(){
-        return canvasController;
-    };
 
     protected abstract void createPins(double lineWidth);
 
@@ -55,12 +49,17 @@ public abstract class DraggableNode extends AnchorPane {
     /**
      * Whenever the draggable node is moved, visually update any wires connected to its pins
      */
-    public void updateWires(){
+    public void redrawWires(){
+        //Call the redraw method of every pin connected to this node
+        //Passing the new X and Y coordinates of this node
         for (Pin pin:pins){
-            //TODO ADD THE REST OF THIS---------------------------------------------------------------------------------------------------------------------
-            pin.updateWires();
+            pin.redrawWires(xPosition, yPosition);
         }
     }
+
+
+    //DRAG AND DROP-----------------------------------------------------------------------------
+
 
     public void relocateToPoint(Point2D p) {
 
@@ -98,6 +97,15 @@ public abstract class DraggableNode extends AnchorPane {
                 getParent().setOnDragOver(null);
                 getParent().setOnDragDropped(null);
 
+                //Update the X and Y coordinates of this node
+                Point2D p = new Point2D(event.getSceneX(), event.getSceneY());
+                Point2D localCoords = getParent().sceneToLocal(p);
+                xPosition= (int) (localCoords.getX() - mDragOffset.getX());
+                yPosition = (int) (localCoords.getY() - mDragOffset.getY());
+
+                //Update the wires for any connected pins
+                redrawWires();
+
                 event.setDropCompleted(true);
 
                 event.consume();
@@ -134,4 +142,15 @@ public abstract class DraggableNode extends AnchorPane {
 
         });
     }
+
+    //GETTERS AND SETTERS-----------------------------------------------------------------------------
+
+    public CanvasController getCanvasController(){
+        return canvasController;
+    };
+
+    public void setCanvasController(CanvasController canvasController){
+        this.canvasController = canvasController;
+    }
+
 }
