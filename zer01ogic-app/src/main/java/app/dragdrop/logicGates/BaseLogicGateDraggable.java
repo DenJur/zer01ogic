@@ -8,6 +8,7 @@ import interfaces.circuits.ICircuitElementRegister;
 import interfaces.elements.ILogicElement;
 import interfaces.elements.ILogicElementFrontEnd;
 import interfaces.elements.IObservableValue;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import simulation.values.MultibitValue;
@@ -49,7 +50,7 @@ public abstract class BaseLogicGateDraggable extends DraggableNode {
         ILogicElement gate = register.getWorkingElementFor(this);
         pins.stream().filter(InputPin.class::isInstance).map(InputPin.class::cast).forEach(pin -> {
             if(pin.getConnectedWire()!=null) {
-                outputPin = pin.getConnectedWire().getOutputPin();
+                OutputPin outputPin = pin.getConnectedWire().getOutputPin();
                 IObservableValue observableValue = outputPin.getDraggableNode().getObservableValueForPin(outputPin, register);
                 gate.addInput(observableValue);
             }
@@ -57,6 +58,11 @@ public abstract class BaseLogicGateDraggable extends DraggableNode {
                 gate.addInput(new MultibitValue(0));
             }
         });
+
+        IObservableValue observableValue=getObservableValueForPin(outputPin, register);
+        for(WireLogic wireLogic: outputPin.getWiresLogic()){
+            observableValue.registerObserver(wireLogic);
+        }
     }
 
     @Override
