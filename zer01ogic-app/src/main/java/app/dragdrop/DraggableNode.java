@@ -1,7 +1,11 @@
 package app.dragdrop;
 
+import app.components.OutputPin;
 import app.components.Pin;
 import app.controllers.CanvasController;
+import interfaces.circuits.ICircuitElementRegister;
+import interfaces.elements.ILogicElementFrontEnd;
+import interfaces.elements.IObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.input.ClipboardContent;
@@ -13,7 +17,7 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
-public abstract class DraggableNode extends AnchorPane {
+public abstract class DraggableNode extends AnchorPane implements ILogicElementFrontEnd {
     //Controller
     private CanvasController canvasController;
 
@@ -153,4 +157,5 @@ public abstract class DraggableNode extends AnchorPane {
         this.canvasController = canvasController;
     }
 
+    public abstract IObservableValue getObservableValueForPin(OutputPin outputPin, ICircuitElementRegister register);
 }

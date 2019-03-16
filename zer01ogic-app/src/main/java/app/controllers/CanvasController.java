@@ -3,16 +3,15 @@ package app.controllers;
 import app.components.InputPin;
 import app.components.OutputPin;
 import app.components.Pin;
-import app.components.WireObject;
 import app.dragdrop.DragContainer;
 import app.dragdrop.DraggableNode;
 import app.models.WireLogic;
+import interfaces.elements.ILogicElementFrontEnd;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.layout.AnchorPane;
-import jdk.internal.util.xml.impl.Input;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,9 +21,11 @@ public class CanvasController implements Initializable{
 
     @FXML private AnchorPane anchorpane_canvas;
     private ArrayList<WireLogic> wires;
+    private ArrayList<ILogicElementFrontEnd> nodes;
 
     public CanvasController(MainSceneController mainSceneController){
         wires=new ArrayList<>();
+        nodes=new ArrayList<>();
     }
 
     @Override
@@ -45,6 +46,7 @@ public class CanvasController implements Initializable{
 
         //Add the new node to the Canvas
         anchorpane_canvas.getChildren().add(newNode);
+        nodes.add(newNode);
 
         newNode.relocateToPoint(
                 new Point2D(cursorPoint.getX() - newNode.getWidth() / 2, cursorPoint.getY() - newNode.getHeight() / 2)
@@ -106,5 +108,9 @@ public class CanvasController implements Initializable{
                 wireLogic.createConnection(input, output);
             }
         }
+    }
+
+    public Iterable<ILogicElementFrontEnd> getNodes() {
+        return nodes;
     }
 }

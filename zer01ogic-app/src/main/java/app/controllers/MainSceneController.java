@@ -3,6 +3,7 @@ package app.controllers;
 import app.dragdrop.DragContainer;
 import app.dragdrop.DraggableNode;
 import app.models.ToolboxItem;
+import interfaces.circuits.ICircuitRunner;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import simulation.DefaultCircuitBuilder;
 
 import java.io.IOException;
 import java.net.URL;
@@ -45,6 +47,8 @@ public class MainSceneController implements Initializable {
     private EventHandler<DragEvent> mIconDragOverMain = null;
     private EventHandler<DragEvent> mIconDragDropped = null;
     private EventHandler<DragEvent> mIconDragOverCanvas = null;
+
+    private ICircuitRunner simulationRunner;
 
 
     @Override
@@ -234,10 +238,28 @@ public class MainSceneController implements Initializable {
             menuBarBuild.setVisible(false);
             menuBarSimulation.setVisible(true);
             toolbox.setDisable(true);
+            if(simulationRunner!=null){
+                try {
+                    simulationRunner.stop();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            simulationRunner = new DefaultCircuitBuilder().usingSingleThreadRunner().addBusyScheduledExecutor()
+                    .buildBusyCircuit().build(canvasController.getNodes());
+            simulationRunner.startSimulation();
         } else {
             menuBarBuild.setVisible(true);
             menuBarSimulation.setVisible(false);
             toolbox.setDisable(false);
+            if(simulationRunner!=null){
+                try {
+                    simulationRunner.stop();
+                    simulationRunner=null;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

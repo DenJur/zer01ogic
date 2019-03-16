@@ -9,6 +9,7 @@ import javafx.scene.input.*;
 import javafx.scene.shape.Rectangle;
 
 public abstract class Pin extends Rectangle {
+
     //DraggableNode parent and CanvasController classes
     private DraggableNode draggableNode;
     private CanvasController canvasController;
@@ -143,5 +144,10 @@ public abstract class Pin extends Rectangle {
 
         this.setOnDragDropped(mLinkHandleDragDropped);
         this.setOnDragDetected(mLinkHandleDragDetected);
+    }
+
+
+    public DraggableNode getDraggableNode() {
+        return draggableNode;
     }
 }

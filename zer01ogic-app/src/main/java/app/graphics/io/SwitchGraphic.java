@@ -1,10 +1,18 @@
 package app.graphics.io;
 
 import app.graphics.GraphicsHelper;
+import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.shape.SVGPath;
 
+import java.util.Collections;
+
 public class SwitchGraphic extends Group {
+
+    public static final String switchStyle = "Switch";
+    public static final String switchOnStyle = "SwitchOn";
+    public static final String switchOffStyle = "SwitchOff";
+
     public SwitchGraphic(){
         super();
         Group container=new Group();
@@ -22,6 +30,23 @@ public class SwitchGraphic extends Group {
         GraphicsHelper.resize(container, 50,50);
         this.getChildren().add(container);
 
-        this.getStyleClass().add("Switch");
+        //TODO setup default graphics
+        this.getStyleClass().addAll(SwitchGraphic.switchStyle, SwitchGraphic.switchOffStyle);
+    }
+
+    public void setStyle(SwitchStyle style) {
+        ObservableList<String> currentStyles = this.getStyleClass();
+        currentStyles.clear();
+        if(style== SwitchStyle.On){
+            currentStyles.addAll(SwitchGraphic.switchStyle, SwitchGraphic.switchOnStyle);
+        }
+        else {
+            currentStyles.addAll(SwitchGraphic.switchStyle, SwitchGraphic.switchOffStyle);
+        }
+    }
+
+    public enum SwitchStyle{
+        On,
+        Off
     }
 }

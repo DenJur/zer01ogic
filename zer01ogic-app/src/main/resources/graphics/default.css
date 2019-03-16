@@ -32,11 +32,25 @@
 }
 
 .Switch * {
-    -fx-fill: orange;
+}
+
+.SwitchOn * {
+    -fx-fill: green;
+}
+
+.SwitchOff * {
+    -fx-fill: red;
 }
 
 .Lightbulb * {
-    -fx-fill: brown;
+}
+
+.LightbulbOn * {
+    -fx-fill: green;
+}
+
+.LightbulbOff * {
+    -fx-fill: red;
 }
 
 /* PINS */

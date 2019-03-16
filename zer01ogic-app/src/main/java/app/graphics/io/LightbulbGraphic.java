@@ -1,13 +1,21 @@
 package app.graphics.io;
 
 import app.graphics.GraphicsHelper;
+import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.shape.SVGPath;
 
+import java.util.Collections;
+
 public class LightbulbGraphic extends Group {
-    public LightbulbGraphic(){
+
+    public static final String lightbulbStyle = "Lightbulb";
+    public static final String lightbulbOnStyle = "LightbulbOn";
+    public static final String lightbulbOffStyle = "LightbulbOff";
+
+    public LightbulbGraphic() {
         super();
-        SVGPath path=new SVGPath();
+        SVGPath path = new SVGPath();
         path.setContent("M298.4,424.7v14.2c0,11.3-8.3,20.7-19.1,22.3l-3.5,12.9c-1.9,7-8.2,11.9-15.5,11.9h-34.7\n" +
                 "\t\tc-7.3,0-13.6-4.9-15.5-11.9l-3.4-12.9c-10.9-1.7-19.2-11-19.2-22.4v-14.2c0-7.6,6.1-13.7,13.7-13.7h83.5\n" +
                 "\t\tC292.3,411,298.4,417.1,298.4,424.7z M362.7,233.3c0,32.3-12.8,61.6-33.6,83.1c-15.8,16.4-26,37.3-29.4,59.6\n" +
@@ -23,11 +31,28 @@ public class LightbulbGraphic extends Group {
                 "\t\tC358,123.5,361.4,124.8,364.9,124.8z M111.6,120.8c2.6,2.6,6.1,3.9,9.5,3.9s6.9-1.3,9.5-3.9c5.3-5.3,5.3-13.8,0-19.1L97.1,68.2\n" +
                 "\t\tc-5.3-5.3-13.8-5.3-19.1,0c-5.3,5.3-5.3,13.8,0,19.1L111.6,120.8z M374.4,345.6c-5.3-5.3-13.8-5.3-19.1,0c-5.3,5.3-5.3,13.8,0,19.1\n" +
                 "\t\tl33.5,33.5c2.6,2.6,6.1,3.9,9.5,3.9s6.9-1.3,9.5-3.9c5.3-5.3,5.3-13.8,0-19.1L374.4,345.6z");
-        Group container=new Group();
+        Group container = new Group();
         container.getChildren().add(path);
-        GraphicsHelper.resize(container, 50,50);
+        GraphicsHelper.resize(container, 50, 50);
         this.getChildren().add(container);
 
-        this.getStyleClass().add("Lightbulb");
+        //TODO setup default graphics
+        this.getStyleClass().addAll(LightbulbGraphic.lightbulbStyle, LightbulbGraphic.lightbulbOffStyle);
+    }
+
+    public void setStyle(LightbulbStyle style) {
+        ObservableList<String> currentStyles = this.getStyleClass();
+        currentStyles.clear();
+        if(style==LightbulbStyle.On){
+            currentStyles.addAll(LightbulbGraphic.lightbulbStyle, LightbulbGraphic.lightbulbOnStyle);
+        }
+        else {
+            currentStyles.addAll(LightbulbGraphic.lightbulbStyle, LightbulbGraphic.lightbulbOffStyle);
+        }
+    }
+
+    public enum LightbulbStyle{
+        On,
+        Off
     }
 }

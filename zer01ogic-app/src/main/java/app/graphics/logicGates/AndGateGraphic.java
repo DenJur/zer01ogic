@@ -1,7 +1,5 @@
 package app.graphics.logicGates;
 
-import app.Main;
-import app.graphics.GraphicsHelper;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.shape.*;
@@ -9,10 +7,8 @@ import javafx.scene.shape.*;
 import java.util.Arrays;
 import java.util.Collection;
 
-import static app.graphics.GraphicsHelper.getPathStrokeWidth;
-
 public class AndGateGraphic extends Group {
-    public static final Collection<String> styles= Arrays.asList("LogicGate", "AND");
+    public static final Collection<String> styles = Arrays.asList("LogicGate", "AND");
 
     public AndGateGraphic() {
         super();

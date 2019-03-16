@@ -1,8 +1,11 @@
 package app.dragdrop.logicGates;
 
+import app.components.OutputPin;
 import app.graphics.logicGates.OrGateGraphic;
 import interfaces.circuits.ICircuitElementRegister;
+import interfaces.elements.IObservableValue;
 import javafx.scene.layout.VBox;
+import simulation.gates.AndGate;
 import simulation.gates.OrGate;
 
 import static app.graphics.GraphicsHelper.getPathStrokeWidth;
@@ -20,4 +23,8 @@ public class OrGateDraggable extends BaseLogicGateDraggable {
         register.addCircuitWorkingElement(this, gate);
     }
 
+    @Override
+    public IObservableValue getObservableValueForPin(OutputPin outputPin, ICircuitElementRegister register) {
+        return ((OrGate)register.getWorkingElementFor(this)).getOutput();
+    }
 }

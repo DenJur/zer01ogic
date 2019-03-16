@@ -42,4 +42,8 @@ public class InputPin extends Pin {
         wireLogic[0] = connectedWireLogic;
         return wireLogic;
     }
+
+    public WireLogic getConnectedWire(){
+        return connectedWireLogic;
+    }
 }
