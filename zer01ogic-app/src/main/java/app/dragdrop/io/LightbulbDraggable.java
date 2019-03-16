@@ -9,6 +9,7 @@ import interfaces.circuits.ICircuitElementRegister;
 import interfaces.elements.ILogicElement;
 import interfaces.elements.IObservableValue;
 import javafx.scene.layout.VBox;
+import simulation.values.MultibitValue;
 
 import static app.graphics.GraphicsHelper.AnchorAll;
 
@@ -49,9 +50,13 @@ public class LightbulbDraggable extends DraggableNode {
     @Override
     public void connectLogicElementInputs(ICircuitElementRegister register) {
         LightbulbLogic lightbulbLogic = (LightbulbLogic)register.getWorkingElementFor(this);
-        OutputPin outputPin= inputPin.getConnectedWire().getOutputPin();
-        IObservableValue observableValue = outputPin.getDraggableNode().getObservableValueForPin(outputPin, register);
-        lightbulbLogic.addInput(observableValue);
+        if(inputPin.getConnectedWire()!=null) {
+            OutputPin outputPin = inputPin.getConnectedWire().getOutputPin();
+            IObservableValue observableValue = outputPin.getDraggableNode().getObservableValueForPin(outputPin, register);
+            lightbulbLogic.addInput(observableValue);
+        }
+        else
+            lightbulbLogic.addInput(new MultibitValue(0));
     }
 
     @Override
