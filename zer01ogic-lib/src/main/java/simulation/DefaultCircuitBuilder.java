@@ -41,7 +41,7 @@ public class DefaultCircuitBuilder implements ICircuitBuilder {
     }
 
     @Override
-    public ICircuitRunner build(Iterable<ILogicElementFrontEnd> source) {
+    public ICircuitRunner build(Iterable<? extends ILogicElementFrontEnd> source) {
         if(circuit==null) return null;
         if(circuitRunner==null) return null;
         //TODO throw

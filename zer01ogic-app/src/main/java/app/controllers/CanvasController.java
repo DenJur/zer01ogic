@@ -21,7 +21,7 @@ public class CanvasController implements Initializable{
 
     @FXML private AnchorPane anchorpane_canvas;
     private ArrayList<WireLogic> wires;
-    private ArrayList<ILogicElementFrontEnd> nodes;
+    private ArrayList<DraggableNode> nodes;
 
     public CanvasController(MainSceneController mainSceneController){
         wires=new ArrayList<>();
@@ -110,7 +110,7 @@ public class CanvasController implements Initializable{
         }
     }
 
-    public Iterable<ILogicElementFrontEnd> getNodes() {
+    public Iterable<DraggableNode> getNodes() {
         return nodes;
     }
 }
