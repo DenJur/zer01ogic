@@ -16,7 +16,6 @@ public class SwitchDraggable extends DraggableNode implements ILogicElementFront
 
     private final SwitchGraphic graphic;
     private OutputPin outputPin;
-    private SwitchLogic switchLogic;
 
     public SwitchDraggable() {
         this.graphic = new SwitchGraphic();
@@ -43,7 +42,7 @@ public class SwitchDraggable extends DraggableNode implements ILogicElementFront
 
     @Override
     public void createLogicElement(ICircuitElementRegister register) {
-        switchLogic = new SwitchLogic(this.graphic);
+        SwitchLogic switchLogic = new SwitchLogic(this.graphic);
         register.addCircuitWorkingElement(this, switchLogic);
 
         this.setOnMouseClicked(event -> {
@@ -53,6 +52,7 @@ public class SwitchDraggable extends DraggableNode implements ILogicElementFront
 
     @Override
     public void connectLogicElementInputs(ICircuitElementRegister register) {
+        SwitchLogic switchLogic = (SwitchLogic)register.getWorkingElementFor(this);
         for (WireLogic wireLogic: this.outputPin.getWiresLogic()) {
             switchLogic.getOutput().registerObserver(wireLogic);
         }

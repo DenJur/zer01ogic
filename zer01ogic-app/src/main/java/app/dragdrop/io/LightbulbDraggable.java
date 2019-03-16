@@ -16,7 +16,6 @@ public class LightbulbDraggable extends DraggableNode {
 
     private final LightbulbGraphic graphic;
     private InputPin inputPin;
-    private LightbulbLogic lightbulbLogic;
 
     public LightbulbDraggable() {
         this.graphic = new LightbulbGraphic();
@@ -43,12 +42,13 @@ public class LightbulbDraggable extends DraggableNode {
 
     @Override
     public void createLogicElement(ICircuitElementRegister register) {
-        lightbulbLogic=new LightbulbLogic(this.graphic);
+        LightbulbLogic lightbulbLogic = new LightbulbLogic(this.graphic);
         register.addCircuitWorkingElement(this, lightbulbLogic);
     }
 
     @Override
     public void connectLogicElementInputs(ICircuitElementRegister register) {
+        LightbulbLogic lightbulbLogic = (LightbulbLogic)register.getWorkingElementFor(this);
         OutputPin outputPin= inputPin.getConnectedWire().getOutputPin();
         IObservableValue observableValue = outputPin.getDraggableNode().getObservableValueForPin(outputPin, register);
         lightbulbLogic.addInput(observableValue);
