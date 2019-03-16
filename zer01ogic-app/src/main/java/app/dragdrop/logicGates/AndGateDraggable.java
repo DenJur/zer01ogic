@@ -2,6 +2,7 @@ package app.dragdrop.logicGates;
 
 import app.components.OutputPin;
 import app.graphics.logicGates.AndGateGraphic;
+import app.models.WireLogic;
 import interfaces.circuits.ICircuitElementRegister;
 import interfaces.elements.IObservableValue;
 import javafx.geometry.Point2D;
@@ -28,4 +29,5 @@ public class AndGateDraggable extends BaseLogicGateDraggable {
     public IObservableValue getObservableValueForPin(OutputPin outputPin, ICircuitElementRegister register) {
         return ((AndGate)register.getWorkingElementFor(this)).getOutput();
     }
+
 }

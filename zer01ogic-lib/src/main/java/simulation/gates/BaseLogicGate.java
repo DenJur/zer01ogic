@@ -44,7 +44,7 @@ public abstract class BaseLogicGate implements ILogicElement {
     }
 
     @Override
-    public void update() {
+    public void update(IObservableValue source) {
         if (parent != null) {
             parent.queueElementForUpdate(this);
         }

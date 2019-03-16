@@ -65,7 +65,7 @@ public class LightbulbLogic implements ILogicElement {
     }
 
     @Override
-    public void update() {
+    public void update(IObservableValue source) {
         queue.queueElementForUpdate(this);
     }
 }

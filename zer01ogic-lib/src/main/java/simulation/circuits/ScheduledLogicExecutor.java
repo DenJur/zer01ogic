@@ -94,7 +94,7 @@ public class ScheduledLogicExecutor implements IScheduledLogicExecutor {
 
         @Override
         public void run() {
-            logicElement.update();
+            logicElement.update(null);
         }
     }
 
@@ -122,7 +122,7 @@ public class ScheduledLogicExecutor implements IScheduledLogicExecutor {
 
         @Override
         public void run() {
-            logicElement.update();
+            logicElement.update(null);
             long newDelay=logicElement.getDelayTimeUnits().toNanos(logicElement.getDelay());
             if(newDelay!=oldDelay){
                 currentTasks.get(this).cancel(false);

@@ -68,7 +68,7 @@ public class NotGate implements ILogicElement {
     }
 
     @Override
-    public void update() {
+    public void update(IObservableValue source) {
         if (parent != null) {
             parent.queueElementForUpdate(this);
         }

@@ -81,7 +81,7 @@ public class Clock implements IScheduledLogicElement {
     }
 
     @Override
-    public void update() {
+    public void update(IObservableValue source) {
 //        calculateOutputs();
         parent.queueElementForUpdate(this);
     }

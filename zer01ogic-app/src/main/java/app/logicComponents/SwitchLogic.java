@@ -59,7 +59,7 @@ public class SwitchLogic implements ILogicElement {
     }
 
     @Override
-    public void update() {
+    public void update(IObservableValue source) {
         //Is never updated
     }
 

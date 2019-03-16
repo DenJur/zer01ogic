@@ -64,6 +64,6 @@ public class MultibitValue implements IObservableValue<Integer> {
 
     private synchronized void notifyObservers() {
         Iterator<IObserver> i=observers.iterator();
-        i.forEachRemaining(IObserver::update);
+        i.forEachRemaining(iObserver -> iObserver.update(this));
     }
 }

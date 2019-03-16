@@ -1,12 +1,37 @@
 package app.components;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.shape.Line;
+import javafx.util.Duration;
 
 public class WireObject extends Line {
+    public static final String wireStyle = "Wire";
+    public static final String wireBuildStyle = "WireBuild";
+    public static final String wireOnStyle = "WireOn";
+    public static final String wireOffStyle = "WireOff";
+    private final Timeline timeline;
+    private volatile WireStyle currentStyle;
 
     public WireObject() {
         //Set up the wire's CSS in build mode
-        this.recolor("build");
+        this.recolor(WireStyle.Build);
+        timeline = new Timeline(new KeyFrame(Duration.millis(1000 / 60), event -> {
+            this.getStyleClass().clear();
+            switch(currentStyle){
+                case Build:
+                    this.getStyleClass().addAll(WireObject.wireStyle, WireObject.wireBuildStyle);
+                    break;
+                case On:
+                    this.getStyleClass().addAll(WireObject.wireStyle, WireObject.wireOnStyle);
+                    break;
+                case Off:
+                    this.getStyleClass().addAll(WireObject.wireStyle, WireObject.wireOffStyle);
+                    break;
+            }
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
 
     /**
@@ -39,18 +64,13 @@ public class WireObject extends Line {
         this.setEndY(yPosition);
     }
 
-    public void recolor(String newStatus) {
-        //Clear all CSS, and re-add the base wire styling
-        this.getStyleClass().removeAll();
-        this.getStyleClass().add("Wire");
+    public void recolor(WireStyle newStyle) {
+        currentStyle = newStyle;
+    }
 
-        //format the wire color based on the wire's status
-        if (newStatus.equals("build")) {
-            this.getStyleClass().add("WireBuild");
-        } else if (newStatus.equals("off")) {
-            this.getStyleClass().add("WireOff");
-        } else { //status must equal "on"
-            this.getStyleClass().add("WireOn");
-        }
+    public enum WireStyle {
+        Build,
+        On,
+        Off
     }
 }

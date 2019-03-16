@@ -40,6 +40,6 @@ public class OutputPin extends Pin {
 
     @Override
     public WireLogic[] getWiresLogic() {
-        return (WireLogic[]) connectedWiresLogic.toArray();
+        return connectedWiresLogic.toArray(new WireLogic[0]);
     }
 }

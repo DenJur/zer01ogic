@@ -5,8 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.shape.SVGPath;
 
-import java.util.Collections;
-
 public class LightbulbGraphic extends Group {
 
     public static final String lightbulbStyle = "Lightbulb";
@@ -43,15 +41,14 @@ public class LightbulbGraphic extends Group {
     public void setStyle(LightbulbStyle style) {
         ObservableList<String> currentStyles = this.getStyleClass();
         currentStyles.clear();
-        if(style==LightbulbStyle.On){
+        if (style == LightbulbStyle.On) {
             currentStyles.addAll(LightbulbGraphic.lightbulbStyle, LightbulbGraphic.lightbulbOnStyle);
-        }
-        else {
+        } else {
             currentStyles.addAll(LightbulbGraphic.lightbulbStyle, LightbulbGraphic.lightbulbOffStyle);
         }
     }
 
-    public enum LightbulbStyle{
+    public enum LightbulbStyle {
         On,
         Off
     }

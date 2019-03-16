@@ -1,5 +1,5 @@
 package interfaces.elements;
 
 public interface IObserver {
-    void update();
+    void update(IObservableValue source);
 }

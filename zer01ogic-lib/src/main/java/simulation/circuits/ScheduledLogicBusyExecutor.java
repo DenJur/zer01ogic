@@ -120,7 +120,7 @@ public class ScheduledLogicBusyExecutor implements IScheduledLogicExecutor, Runn
                 nanosWait -= timeDelta;
                 if (nanosWait <= 0) {
                     nanosWait = logicElement.getDelayTimeUnits().toNanos(logicElement.getDelay());
-                    logicElement.update();
+                    logicElement.update(null);
                 }
             }
         }

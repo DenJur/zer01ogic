@@ -4,6 +4,7 @@ import app.components.OutputPin;
 import app.dragdrop.DraggableNode;
 import app.graphics.io.SwitchGraphic;
 import app.logicComponents.SwitchLogic;
+import app.models.WireLogic;
 import interfaces.circuits.ICircuitElementRegister;
 import interfaces.elements.ILogicElementFrontEnd;
 import interfaces.elements.IObservableValue;
@@ -52,7 +53,9 @@ public class SwitchDraggable extends DraggableNode implements ILogicElementFront
 
     @Override
     public void connectLogicElementInputs(ICircuitElementRegister register) {
-        //No inputs
+        for (WireLogic wireLogic: this.outputPin.getWiresLogic()) {
+            switchLogic.getOutput().registerObserver(wireLogic);
+        }
     }
 
     @Override

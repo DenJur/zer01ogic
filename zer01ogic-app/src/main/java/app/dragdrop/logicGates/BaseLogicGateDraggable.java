@@ -3,6 +3,7 @@ package app.dragdrop.logicGates;
 import app.components.InputPin;
 import app.components.OutputPin;
 import app.dragdrop.DraggableNode;
+import app.models.WireLogic;
 import interfaces.circuits.ICircuitElementRegister;
 import interfaces.elements.ILogicElement;
 import interfaces.elements.ILogicElementFrontEnd;
@@ -56,6 +57,10 @@ public abstract class BaseLogicGateDraggable extends DraggableNode {
         outputPin=inputPin2.getConnectedWire().getOutputPin();
         observableValue = outputPin.getDraggableNode().getObservableValueForPin(outputPin, register);
         gate.addInput(observableValue);
+
+        for (WireLogic wireLogic: this.outputPin.getWiresLogic()) {
+            gate.getOutputByIndex(0).registerObserver(wireLogic);
+        }
     }
 
     @Override
