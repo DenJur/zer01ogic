@@ -52,12 +52,14 @@ public abstract class DraggableNode extends AnchorPane implements ILogicElementF
 
     /**
      * Whenever the draggable node is moved, visually update any wires connected to its pins
+     * @param x
+     * @param y
      */
-    public void redrawWires(){
+    public void redrawWires(int x, int y){
         //Call the redraw method of every pin connected to this node
         //Passing the new X and Y coordinates of this node
         for (Pin pin:pins){
-            pin.redrawWires(xPosition, yPosition);
+            pin.redrawWires(x, y);
         }
     }
 
@@ -71,10 +73,13 @@ public abstract class DraggableNode extends AnchorPane implements ILogicElementF
         //scene coordinates
         Point2D localCoords = getParent().sceneToLocal(p);
 
-        relocate(
-                (int) (localCoords.getX() - mDragOffset.getX()),
-                (int) (localCoords.getY() - mDragOffset.getY())
-        );
+        int newX= (int) (localCoords.getX() - mDragOffset.getX());
+        int newY= (int) (localCoords.getY() - mDragOffset.getY());
+
+        relocate(newX,newY);
+
+        //Update the wires for any connected pins
+        redrawWires(newX, newY);
     }
 
     public void buildNodeDragHandlers() {
@@ -106,9 +111,6 @@ public abstract class DraggableNode extends AnchorPane implements ILogicElementF
                 Point2D localCoords = getParent().sceneToLocal(p);
                 xPosition= (int) (localCoords.getX() - mDragOffset.getX());
                 yPosition = (int) (localCoords.getY() - mDragOffset.getY());
-
-                //Update the wires for any connected pins
-                redrawWires();
 
                 event.setDropCompleted(true);
 
