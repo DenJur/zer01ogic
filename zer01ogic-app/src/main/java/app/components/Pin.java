@@ -47,11 +47,9 @@ public abstract class Pin extends Rectangle {
 
     //WIRING--------------------------------------------------------------------------------------
 
-    public abstract void connectWire(WireObject wireObject, WireLogic wireLogic);
+    public abstract void connectWire(WireLogic wireLogic);
 
     public abstract void redrawWires(double xPosition, double yPosition);
-
-    public abstract WireObject[] getWiresObject();
 
     public abstract WireLogic[] getWiresLogic();
 
@@ -79,7 +77,7 @@ public abstract class Pin extends Rectangle {
                 Dragboard bd = startDragAndDrop(TransferMode.ANY);
                 ClipboardContent content = new ClipboardContent();
                 DragContainer container = new DragContainer();
-                container.setSource(thisPin);
+                DragContainer.setSource(thisPin);
                 content.put(DragContainer.DraggableLink, container);
                 bd.setContent(content);
 //                startDragAndDrop(TransferMode.ANY);
@@ -97,17 +95,16 @@ public abstract class Pin extends Rectangle {
                 event.acceptTransferModes(TransferMode.ANY);
 
                 //Create blank wire object/logic
-                WireObject wireObject = new WireObject();
                 WireLogic wireLogic = new WireLogic();
 
                 //Send a wire creation request to the CanvasController
                 //this fills the data in for the wire object/logic
-                canvasController.createWire(thisPin, wireObject, wireLogic);
+                canvasController.createWire(thisPin, wireLogic);
 
                 //add the wire object/logic to this pin
-                thisPin.connectWire(wireObject, wireLogic);
+                thisPin.connectWire(wireLogic);
                 //add the wire object/logic to the other pin
-                DragContainer.getSource().connectWire(wireObject, wireLogic);
+                DragContainer.getSource().connectWire(wireLogic);
 
                 event.setDropCompleted(true);
                 event.consume();

@@ -15,14 +15,16 @@ import javafx.scene.layout.AnchorPane;
 import jdk.internal.util.xml.impl.Input;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class CanvasController implements Initializable{
 
     @FXML private AnchorPane anchorpane_canvas;
+    private ArrayList<WireLogic> wires;
 
     public CanvasController(MainSceneController mainSceneController){
-
+        wires=new ArrayList<>();
     }
 
     @Override
@@ -49,7 +51,7 @@ public class CanvasController implements Initializable{
         );
     }
 
-    public void createWire(Pin thisPin, WireObject wireObject, WireLogic wireLogic){
+    public void createWire(Pin thisPin, WireLogic wireLogic){
         /*
         thisPin is the source pin, DragContainer.getSource().getClass() is the destination pin
 
@@ -96,8 +98,9 @@ public class CanvasController implements Initializable{
                 double destY = boundsOnCanvas.getMinY() + boundsOnNode.getMinY() + boundsOnNode.getHeight() / 2;
 
                 //draw the WireObject on the Canvas
-                wireObject.draw(sourceX, sourceY, destX, destY);
-                anchorpane_canvas.getChildren().add(wireObject);
+                wireLogic.getWireObject().draw(sourceX, sourceY, destX, destY);
+                anchorpane_canvas.getChildren().add(wireLogic.getWireObject());
+                wires.add(wireLogic);
 
                 //connect the WireLogic
                 wireLogic.createConnection(input, output);

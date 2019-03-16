@@ -3,7 +3,6 @@ package app.components;
 import app.models.WireLogic;
 
 public class InputPin extends Pin {
-    private WireObject connectedWireObject;
     private WireLogic connectedWireLogic;
 
     /**
@@ -16,8 +15,7 @@ public class InputPin extends Pin {
     }
 
     @Override
-    public void connectWire(WireObject wireObject, WireLogic wireLogic) {
-        this.connectedWireObject = wireObject;
+    public void connectWire(WireLogic wireLogic) {
         this.connectedWireLogic = wireLogic;
     }
 
@@ -34,15 +32,8 @@ public class InputPin extends Pin {
 
             //As this is an InputPin, only the wire's end point changes when the node is moved
             //So redraw the wire, changing only its end point
-            connectedWireObject.redrawEndPoint(newXPosition, newYPosition);
+            connectedWireLogic.getWireObject().redrawEndPoint(newXPosition, newYPosition);
         }
-    }
-
-    @Override
-    public WireObject[] getWiresObject() {
-        WireObject[] wireObject = new WireObject[1];
-        wireObject[0] = connectedWireObject;
-        return wireObject;
     }
 
     @Override
