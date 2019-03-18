@@ -15,6 +15,7 @@ public class WireLogic implements IObserver {
 
     public WireLogic(){
         wireObject = new WireObject();
+        wireObject.setMouseTransparent(true); //TODO When adding the eraser tool, make the wire selectable so it can be deleted
     }
 
     public void createConnection(InputPin inputPin, OutputPin outputPin){

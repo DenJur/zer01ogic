@@ -100,47 +100,16 @@ public abstract class Pin extends Rectangle {
 
                 //Send a wire creation request to the CanvasController
                 //this fills the data in for the wire object/logic
-                canvasController.createWire(thisPin, wireLogic);
-
-                //add the wire object/logic to this pin
-                thisPin.connectWire(wireLogic);
-                //add the wire object/logic to the other pin
-                DragContainer.getSource().connectWire(wireLogic);
-
+                if(canvasController.tryCreateWire(thisPin, wireLogic)) {
+                    //add the wire object/logic to this pin
+                    thisPin.connectWire(wireLogic);
+                    //add the wire object/logic to the other pin
+                    DragContainer.getSource().connectWire(wireLogic);
+                }
                 event.setDropCompleted(true);
                 event.consume();
             }
         };
-
-
-
-//        mContextLinkDragOver = new EventHandler <DragEvent> () {
-//
-//            @Override
-//            public void handle(DragEvent event) {
-//                event.acceptTransferModes(TransferMode.ANY);
-//                System.out.println("drag ovr");
-//                event.consume();
-//
-//            }
-//        };
-//
-//        mContextLinkDragDropped = new EventHandler <DragEvent> () {
-//
-//            @Override
-//            public void handle(DragEvent event) {
-//                System.out.println("context drop");
-//
-//
-//                getParent().setOnDragOver(null);
-//                getParent().setOnDragDropped(null);
-//
-//                event.setDropCompleted(true);
-//                event.consume();
-//            }
-//
-//        };
-
 
         this.setOnDragDropped(mLinkHandleDragDropped);
         this.setOnDragDetected(mLinkHandleDragDetected);

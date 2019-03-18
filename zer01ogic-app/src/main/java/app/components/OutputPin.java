@@ -26,7 +26,7 @@ public class OutputPin extends Pin {
     @Override
     public void redrawWires(double xPosition, double yPosition) {
         //If there are any wires connected to this pin
-        if(!connectedWiresLogic.isEmpty()) {
+        if (!connectedWiresLogic.isEmpty()) {
             //create new coordinates for the nodes new position + the coordinates of the pin within the node
             double NewXPosition = xPosition + super.xPosition + this.getWidth() / 2;
             double NewYPosition = yPosition + super.yPosition + this.getHeight() / 2;

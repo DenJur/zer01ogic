@@ -1,9 +1,12 @@
 package app.dragdrop;
 
+import app.components.InputPin;
 import app.components.OutputPin;
 import app.components.Pin;
 import app.controllers.CanvasController;
+import app.models.WireLogic;
 import interfaces.circuits.ICircuitElementRegister;
+import interfaces.elements.ILogicElement;
 import interfaces.elements.ILogicElementFrontEnd;
 import interfaces.elements.IObservableValue;
 import javafx.event.EventHandler;
@@ -14,6 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import simulation.values.MultibitValue;
 
 import java.util.ArrayList;
 
@@ -52,8 +56,6 @@ public abstract class DraggableNode extends AnchorPane implements ILogicElementF
 
     /**
      * Whenever the draggable node is moved, visually update any wires connected to its pins
-     * @param x
-     * @param y
      */
     public void redrawWires(int x, int y){
         //Call the redraw method of every pin connected to this node
@@ -147,6 +149,33 @@ public abstract class DraggableNode extends AnchorPane implements ILogicElementF
             }
 
         });
+    }
+
+    @Override
+    public void connectLogicElementInputs(ICircuitElementRegister register) {
+        ILogicElement gate = register.getWorkingElementFor(this);
+
+        for(Pin pin:pins){
+            if(pin instanceof InputPin){
+                InputPin inputPin=(InputPin)pin;
+                if(inputPin.getConnectedWire()!=null) {
+                    OutputPin outputPin = inputPin.getConnectedWire().getOutputPin();
+                    IObservableValue observableValue = outputPin.getDraggableNode().getObservableValueForPin(outputPin, register);
+                    gate.addInput(observableValue);
+                }
+                else{
+                    gate.addInput(new MultibitValue(0));
+                }
+            }
+            else {
+                OutputPin outputPin=(OutputPin) pin;
+                IObservableValue observableValue=getObservableValueForPin(outputPin, register);
+                for(WireLogic wireLogic: outputPin.getWiresLogic()){
+                    observableValue.registerObserver(wireLogic);
+                    wireLogic.update(observableValue);
+                }
+            }
+        }
     }
 
     //GETTERS AND SETTERS-----------------------------------------------------------------------------

@@ -6,7 +6,6 @@ import app.components.Pin;
 import app.dragdrop.DragContainer;
 import app.dragdrop.DraggableNode;
 import app.models.WireLogic;
-import interfaces.elements.ILogicElementFrontEnd;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
@@ -17,15 +16,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class CanvasController implements Initializable{
+public class CanvasController implements Initializable {
 
-    @FXML private AnchorPane anchorpane_canvas;
+    @FXML
+    private AnchorPane anchorpane_canvas;
     private ArrayList<WireLogic> wires;
     private ArrayList<DraggableNode> nodes;
 
-    public CanvasController(MainSceneController mainSceneController){
-        wires=new ArrayList<>();
-        nodes=new ArrayList<>();
+    public CanvasController(MainSceneController mainSceneController) {
+        wires = new ArrayList<>();
+        nodes = new ArrayList<>();
     }
 
     @Override
@@ -53,7 +53,7 @@ public class CanvasController implements Initializable{
         );
     }
 
-    public void createWire(Pin thisPin, WireLogic wireLogic){
+    public boolean tryCreateWire(Pin thisPin, WireLogic wireLogic) {
         /*
         thisPin is the source pin, DragContainer.getSource().getClass() is the destination pin
 
@@ -62,26 +62,25 @@ public class CanvasController implements Initializable{
         if the linked pin is part of the same DraggableNode
         if the input pin already has a connection
         */
-        if(!(thisPin.getClass() == (DragContainer.getSource().getClass())
-          || thisPin.getParent() == DragContainer.getSource().getParent())){
+        if (!(thisPin.getClass() == (DragContainer.getSource().getClass())
+                || thisPin.getParent() == DragContainer.getSource().getParent())) {
 
             OutputPin output;
             InputPin input;
 
             //We want the source of the WireObject to always be the OutputPin, and the destination always be the InputPin
             //If the pin the WireObject was drawn from is an input pin, draw the WireObject in reverse, and connect the WireLogic in reverse
-            if(thisPin instanceof OutputPin){
+            if (thisPin instanceof OutputPin) {
                 output = (OutputPin) thisPin;
                 input = (InputPin) DragContainer.getSource();
-            }
-            else{
+            } else {
                 output = (OutputPin) DragContainer.getSource();
                 input = (InputPin) thisPin;
             }
 
             //Only create a connection if the input has no wire connected to it already
-            WireLogic[] inputConnection = input.getWiresLogic();
-            if(inputConnection[0] == null){
+            WireLogic inputConnection = input.getConnectedWire();
+            if (inputConnection == null) {
                 //the bounds of the Node on the Canvas, and the bounds of the Pin on the Node
                 //these allow a line to be drawn from this pin
                 Bounds boundsOnCanvas = output.getParent().getBoundsInParent();
@@ -106,8 +105,10 @@ public class CanvasController implements Initializable{
 
                 //connect the WireLogic
                 wireLogic.createConnection(input, output);
+                return true;
             }
         }
+        return false;
     }
 
     public Iterable<DraggableNode> getNodes() {

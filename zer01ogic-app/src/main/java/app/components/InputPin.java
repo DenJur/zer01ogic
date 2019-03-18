@@ -22,13 +22,10 @@ public class InputPin extends Pin {
     @Override
     public void redrawWires(double xPosition, double yPosition) {
         //If there is a wire connected to this pin
-        if(connectedWireLogic != null){
+        if (connectedWireLogic != null) {
             //create new coordinates for the nodes new position + the coordinates of the pin within the node
             double newXPosition = xPosition + super.xPosition + this.getWidth() / 2;
             double newYPosition = yPosition + super.yPosition + this.getHeight() / 2;
-
-
-            System.out.println("New endpoint drawn with coordinates " + newXPosition + ", " + newYPosition);
 
             //As this is an InputPin, only the wire's end point changes when the node is moved
             //So redraw the wire, changing only its end point
@@ -43,7 +40,7 @@ public class InputPin extends Pin {
         return wireLogic;
     }
 
-    public WireLogic getConnectedWire(){
+    public WireLogic getConnectedWire() {
         return connectedWireLogic;
     }
 }

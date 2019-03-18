@@ -46,26 +46,6 @@ public abstract class BaseLogicGateDraggable extends DraggableNode {
     }
 
     @Override
-    public void connectLogicElementInputs(ICircuitElementRegister register) {
-        ILogicElement gate = register.getWorkingElementFor(this);
-        pins.stream().filter(InputPin.class::isInstance).map(InputPin.class::cast).forEach(pin -> {
-            if(pin.getConnectedWire()!=null) {
-                OutputPin outputPin = pin.getConnectedWire().getOutputPin();
-                IObservableValue observableValue = outputPin.getDraggableNode().getObservableValueForPin(outputPin, register);
-                gate.addInput(observableValue);
-            }
-            else{
-                gate.addInput(new MultibitValue(0));
-            }
-        });
-
-        IObservableValue observableValue=getObservableValueForPin(outputPin, register);
-        for(WireLogic wireLogic: outputPin.getWiresLogic()){
-            observableValue.registerObserver(wireLogic);
-        }
-    }
-
-    @Override
     public void reset() {
     }
 

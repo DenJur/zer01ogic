@@ -8,6 +8,7 @@ import app.models.WireLogic;
 import interfaces.circuits.ICircuitElementRegister;
 import interfaces.elements.ILogicElementFrontEnd;
 import interfaces.elements.IObservableValue;
+import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
 
 import static app.graphics.GraphicsHelper.AnchorAll;
@@ -20,6 +21,7 @@ public class SwitchDraggable extends DraggableNode implements ILogicElementFront
     public SwitchDraggable() {
         this.graphic = new SwitchGraphic();
         VBox graphicBox = new VBox(graphic);
+        graphicBox.setMargin(graphic, new Insets(10));
         this.getChildren().add(graphicBox);
         AnchorAll(graphicBox, 0, 0, 0, 0);
         createPins(0);
@@ -48,14 +50,6 @@ public class SwitchDraggable extends DraggableNode implements ILogicElementFront
         this.setOnMouseClicked(event -> {
                 switchLogic.switchState();
         });
-    }
-
-    @Override
-    public void connectLogicElementInputs(ICircuitElementRegister register) {
-        SwitchLogic switchLogic = (SwitchLogic)register.getWorkingElementFor(this);
-        for (WireLogic wireLogic: this.outputPin.getWiresLogic()) {
-            switchLogic.getOutput().registerObserver(wireLogic);
-        }
     }
 
     @Override

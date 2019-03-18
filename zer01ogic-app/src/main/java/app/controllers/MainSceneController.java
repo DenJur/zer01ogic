@@ -235,6 +235,9 @@ public class MainSceneController implements Initializable {
      */
     private void SwitchBars() {
         if (menuBarBuild.isVisible()) {
+
+            //remove all action handlers on gui elements, except switch on/off
+
             menuBarBuild.setVisible(false);
             menuBarSimulation.setVisible(true);
             toolbox.setDisable(true);
@@ -249,6 +252,9 @@ public class MainSceneController implements Initializable {
                     .buildBusyCircuit().build(canvasController.getNodes());
             simulationRunner.startSimulation();
         } else {
+
+            //recreate the action handlers on the gui elements, except switch on/off, which will be disabled
+
             menuBarBuild.setVisible(true);
             menuBarSimulation.setVisible(false);
             toolbox.setDisable(false);
@@ -261,5 +267,8 @@ public class MainSceneController implements Initializable {
                 }
             }
         }
+
+        //Update the wires and gui elements to represent their new state
+
     }
 }

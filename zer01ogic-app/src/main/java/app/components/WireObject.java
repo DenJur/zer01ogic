@@ -6,10 +6,10 @@ import javafx.scene.shape.Line;
 import javafx.util.Duration;
 
 public class WireObject extends Line {
-    public static final String wireStyle = "Wire";
-    public static final String wireBuildStyle = "WireBuild";
-    public static final String wireOnStyle = "WireOn";
-    public static final String wireOffStyle = "WireOff";
+    public static final String WIRE_STYLE = "Wire";
+    public static final String WIRE_BUILD_STYLE = "WireBuild";
+    public static final String WIRE_ON_STYLE = "WireOn";
+    public static final String WIRE_OFF_STYLE = "WireOff";
     private final Timeline timeline;
     private volatile WireStyle currentStyle;
 
@@ -20,13 +20,13 @@ public class WireObject extends Line {
             this.getStyleClass().clear();
             switch(currentStyle){
                 case Build:
-                    this.getStyleClass().addAll(WireObject.wireStyle, WireObject.wireBuildStyle);
+                    this.getStyleClass().addAll(WireObject.WIRE_STYLE, WireObject.WIRE_BUILD_STYLE);
                     break;
                 case On:
-                    this.getStyleClass().addAll(WireObject.wireStyle, WireObject.wireOnStyle);
+                    this.getStyleClass().addAll(WireObject.WIRE_STYLE, WireObject.WIRE_ON_STYLE);
                     break;
                 case Off:
-                    this.getStyleClass().addAll(WireObject.wireStyle, WireObject.wireOffStyle);
+                    this.getStyleClass().addAll(WireObject.WIRE_STYLE, WireObject.WIRE_OFF_STYLE);
                     break;
             }
         }));
@@ -48,8 +48,6 @@ public class WireObject extends Line {
      * Takes two coordinates (the new start point of the wire) and redraws the wire
      */
     public void redrawStartPoint(double xPosition, double yPosition) {
-        System.out.println("WireObject.redrawStartPoint was called");
-
         this.setStartX(xPosition);
         this.setStartY(yPosition);
     }
@@ -58,8 +56,6 @@ public class WireObject extends Line {
      * Takes two coordinates (the new end point of the wire) and redraws the wire
      */
     public void redrawEndPoint(double xPosition, double yPosition) {
-        System.out.println("WireObject.redrawEndPoint was called with coordinates: " + xPosition + ", " + yPosition);
-
         this.setEndX(xPosition);
         this.setEndY(yPosition);
     }

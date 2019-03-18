@@ -8,6 +8,8 @@ import app.logicComponents.LightbulbLogic;
 import interfaces.circuits.ICircuitElementRegister;
 import interfaces.elements.ILogicElement;
 import interfaces.elements.IObservableValue;
+import javafx.geometry.Insets;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import simulation.values.MultibitValue;
 
@@ -21,6 +23,7 @@ public class LightbulbDraggable extends DraggableNode {
     public LightbulbDraggable() {
         this.graphic = new LightbulbGraphic();
         VBox graphicBox = new VBox(this.graphic);
+        graphicBox.setMargin(graphic, new Insets(10));
         this.getChildren().add(graphicBox);
         AnchorAll(graphicBox,0,0,0,0);
         createPins(0);
@@ -45,18 +48,6 @@ public class LightbulbDraggable extends DraggableNode {
     public void createLogicElement(ICircuitElementRegister register) {
         LightbulbLogic lightbulbLogic = new LightbulbLogic(this.graphic);
         register.addCircuitWorkingElement(this, lightbulbLogic);
-    }
-
-    @Override
-    public void connectLogicElementInputs(ICircuitElementRegister register) {
-        LightbulbLogic lightbulbLogic = (LightbulbLogic)register.getWorkingElementFor(this);
-        if(inputPin.getConnectedWire()!=null) {
-            OutputPin outputPin = inputPin.getConnectedWire().getOutputPin();
-            IObservableValue observableValue = outputPin.getDraggableNode().getObservableValueForPin(outputPin, register);
-            lightbulbLogic.addInput(observableValue);
-        }
-        else
-            lightbulbLogic.addInput(new MultibitValue(0));
     }
 
     @Override
