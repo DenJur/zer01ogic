@@ -30,7 +30,7 @@ public class SwitchDraggable extends DraggableNode implements ILogicElementFront
 
     @Override
     protected void createPins(double lineWidth) {
-        outputPin = new OutputPin(0, 0);
+        outputPin = new OutputPin(60, 30);
         AnchorAll(outputPin, 0, 0, 0, 0);
 
         super.pins.add(outputPin);

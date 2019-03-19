@@ -31,7 +31,7 @@ public class LightbulbDraggable extends DraggableNode {
 
     @Override
     protected void createPins(double lineWidth) {
-        inputPin = new InputPin(0, 0);
+        inputPin = new InputPin(0, 30);
         AnchorAll(inputPin, 0, 0, 0, 0);
 
         super.pins.add(inputPin);
