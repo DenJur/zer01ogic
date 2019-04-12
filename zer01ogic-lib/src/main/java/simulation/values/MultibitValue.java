@@ -27,6 +27,10 @@ public class MultibitValue implements IObservableValue<Integer> {
         this.initialValue=initialValue;
     }
 
+    public byte getValueBitSize() {
+        return valueBitSize;
+    }
+
     @Override
     public Integer getValue() {
         return value;

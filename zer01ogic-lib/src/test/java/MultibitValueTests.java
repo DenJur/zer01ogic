@@ -1,3 +1,4 @@
+import interfaces.elements.IObservableValue;
 import simulation.values.MultibitValue;
 import interfaces.elements.IObserver;
 import org.junit.jupiter.api.Test;
@@ -57,7 +58,7 @@ public class MultibitValueTests {
         public boolean called = false;
 
         @Override
-        public void update() {
+        public void update(IObservableValue value) {
             called = true;
         }
     }
