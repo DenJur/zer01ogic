@@ -9,16 +9,14 @@ import simulation.values.MultibitValue;
 import java.util.Collections;
 import java.util.List;
 
-public class Shifter implements ILogicElement {
+public class Comparer implements ILogicElement {
     protected IObservableValue<Integer> output;
     protected IObservableValue<Integer> inputA;
     protected IObservableValue<Integer> inputB;
     private ICircuitQueue parent;
-    private ShiftMode mode;
 
-    public Shifter(byte outputSize, ShiftMode mode) {
+    public Comparer(byte outputSize) {
         output = new MultibitValue(0, outputSize);
-        this.mode=mode;
     }
 
     @Override
@@ -28,30 +26,11 @@ public class Shifter implements ILogicElement {
 
     @Override
     public void calculateOutputs() {
-        Integer result=0;
-        Integer shiftAmount=0;
-        if(inputA!=null) result=inputA.getValue();
-        if(inputB!=null) shiftAmount=inputB.getValue();
-        int tmp;
-        switch (mode){
-            case LEFT:
-                result=result<<shiftAmount;
-                break;
-            case RIGHT:
-                result=result>>shiftAmount;
-                break;
-            case LEFT_WRAP:
-                tmp=result>>(Integer.SIZE-shiftAmount);
-                result=result<<shiftAmount;
-                result|=tmp;
-                break;
-            case RIGHT_WRAP:
-                tmp=result<<(Integer.SIZE-shiftAmount);
-                result=result>>shiftAmount;
-                result|=tmp;
-                break;
-        }
-        output.setValue(result);
+        Integer valueA = 0;
+        Integer valueB = 0;
+        if (inputA != null) valueA = inputA.getValue();
+        if (inputB != null) valueB = inputB.getValue();
+        output.setValue(Integer.compareUnsigned(valueA, valueB));
     }
 
     @Override
@@ -116,12 +95,5 @@ public class Shifter implements ILogicElement {
                 inputB = transformer;
             }
         }
-    }
-
-    public enum ShiftMode{
-        RIGHT,
-        LEFT,
-        RIGHT_WRAP,
-        LEFT_WRAP,
     }
 }

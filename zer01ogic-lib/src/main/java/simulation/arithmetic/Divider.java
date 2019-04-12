@@ -13,9 +13,9 @@ public class Divider extends BaseArithmeticGate {
     public void calculateOutputs() {
         long x = 0;
         long divisor = 1;
-        if(inputB!=null && inputB.getValue()!=0) divisor|=inputB.getValue();
-        if(inputA!=null) x=inputA.getValue();
-        x|=(bonusInput.getValue()<<outputSize);
+        if(inputB!=null && inputB.getValue()!=0) divisor=Integer.toUnsignedLong(inputB.getValue());
+        if(inputA!=null) x=Integer.toUnsignedLong(inputA.getValue());
+        x+=Integer.toUnsignedLong(bonusInput.getValue())<<outputSize;
         output.setValue((int) Long.divideUnsigned(x,divisor));
         bonusOutput.setValue((int)Long.remainderUnsigned(x,divisor));
     }
