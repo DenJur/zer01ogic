@@ -109,6 +109,18 @@ public class Comparer implements ILogicElement {
             this.inputB = inputB;
     }
 
+    public IObservableValue<Integer> getOutputLess() {
+        return outputLess;
+    }
+
+    public IObservableValue<Integer> getOutputMore() {
+        return outputMore;
+    }
+
+    public IObservableValue<Integer> getOutputEquals() {
+        return outputEquals;
+    }
+
     @Override
     public void addValueTransformer(IObservableValue value, IValueTransformer transformer) {
         if (Integer.class.isAssignableFrom(transformer.getValueType())) {
