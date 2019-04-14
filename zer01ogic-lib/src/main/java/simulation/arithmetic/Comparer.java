@@ -6,17 +6,21 @@ import interfaces.elements.IObservableValue;
 import interfaces.elements.IValueTransformer;
 import simulation.values.MultibitValue;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 public class Comparer implements ILogicElement {
-    protected IObservableValue<Integer> output;
+    protected IObservableValue<Integer> outputLess;
+    protected IObservableValue<Integer> outputMore;
+    protected IObservableValue<Integer> outputEquals;
     protected IObservableValue<Integer> inputA;
     protected IObservableValue<Integer> inputB;
     private ICircuitQueue parent;
 
     public Comparer(byte outputSize) {
-        output = new MultibitValue(0, outputSize);
+        outputLess = new MultibitValue(0, (byte) 1);
+        outputMore = new MultibitValue(0, (byte) 1);
+        outputEquals = new MultibitValue(0, (byte) 1);
     }
 
     @Override
@@ -30,18 +34,42 @@ public class Comparer implements ILogicElement {
         Integer valueB = 0;
         if (inputA != null) valueA = inputA.getValue();
         if (inputB != null) valueB = inputB.getValue();
-        output.setValue(Integer.compareUnsigned(valueA, valueB));
+        switch (Integer.compareUnsigned(valueA, valueB)) {
+            case -1:
+                outputLess.setValue(1);
+                outputEquals.setValue(0);
+                outputMore.setValue(0);
+                break;
+            case 0:
+                outputLess.setValue(0);
+                outputEquals.setValue(1);
+                outputMore.setValue(0);
+                break;
+            case 1:
+                outputLess.setValue(0);
+                outputEquals.setValue(0);
+                outputMore.setValue(1);
+                break;
+        }
     }
 
     @Override
     public List<IObservableValue<Integer>> getOutputs() {
-        return Collections.singletonList(output);
+        return Arrays.asList(outputLess, outputEquals, outputMore);
     }
 
     @Override
     public IObservableValue getOutputByIndex(int index) {
-        if (index != 0) return null;
-        return output;
+        switch (index) {
+            case 0:
+                return outputLess;
+            case 1:
+                return outputEquals;
+            case 2:
+                return outputMore;
+            default:
+                return null;
+        }
     }
 
     @Override
@@ -58,11 +86,9 @@ public class Comparer implements ILogicElement {
 
     @Override
     public void reset() {
-        output.reset();
-    }
-
-    public IObservableValue<Integer> getOutput() {
-        return output;
+        outputLess.reset();
+        outputMore.reset();
+        outputEquals.reset();
     }
 
     public IObservableValue<Integer> getInputA() {
@@ -87,8 +113,12 @@ public class Comparer implements ILogicElement {
     public void addValueTransformer(IObservableValue value, IValueTransformer transformer) {
         if (Integer.class.isAssignableFrom(transformer.getValueType())) {
             transformer.setInnerValue(value);
-            if (output == value) {
-                output = transformer;
+            if (outputEquals == value) {
+                outputEquals = transformer;
+            } else if (outputLess == value) {
+                outputLess = transformer;
+            } else if (outputMore == value) {
+                outputMore = transformer;
             } else if (inputA == value) {
                 inputA = transformer;
             } else if (inputB == value) {
