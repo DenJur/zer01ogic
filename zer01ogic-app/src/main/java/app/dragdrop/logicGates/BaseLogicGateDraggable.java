@@ -3,22 +3,11 @@ package app.dragdrop.logicGates;
 import app.components.InputPin;
 import app.components.OutputPin;
 import app.dragdrop.DraggableNode;
-import app.models.WireLogic;
-import interfaces.circuits.ICircuitElementRegister;
-import interfaces.elements.ILogicElement;
-import interfaces.elements.ILogicElementFrontEnd;
-import interfaces.elements.IObservableValue;
-import javafx.beans.value.ObservableValue;
-import javafx.geometry.Point2D;
 import javafx.scene.Node;
-import simulation.values.MultibitValue;
 
-import java.util.ArrayList;
 import java.util.Collections;
 
 import static app.graphics.GraphicsHelper.AnchorAll;
-
-/*TODO DO THE GUI STUFF IN THESE CLASSES*/
 
 public abstract class BaseLogicGateDraggable extends DraggableNode {
     private OutputPin outputPin;
