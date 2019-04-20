@@ -1,9 +1,11 @@
 package app.controllers;
 
+import app.componentFactories.io.ClockFactory;
 import app.componentFactories.io.LightbulbFactory;
 import app.componentFactories.io.SwitchFactory;
 import app.componentFactories.logicGates.*;
 import app.components.ToolboxListCell;
+import app.graphics.io.ClockGraphic;
 import app.graphics.io.LightbulbGraphic;
 import app.graphics.io.SwitchGraphic;
 import app.graphics.logicGates.*;
@@ -59,7 +61,8 @@ public class ToolboxController implements Initializable {
         //Inputs/Outputs
         toolboxItemObservableListInputsOutputs.addAll(
                 new ToolboxItem("Switch",new SwitchGraphic(),0,1, new SwitchFactory()),
-                new ToolboxItem("Lightbulb",new LightbulbGraphic(),1,0, new LightbulbFactory())
+                new ToolboxItem("Lightbulb",new LightbulbGraphic(),1,0, new LightbulbFactory()),
+                new ToolboxItem("Clock",new ClockGraphic(),0,1,new ClockFactory())
         );
 
         //Memory
