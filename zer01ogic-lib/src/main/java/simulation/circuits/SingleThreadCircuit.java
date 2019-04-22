@@ -76,7 +76,6 @@ abstract class SingleThreadCircuit implements ICircuit, ICircuitQueue, ICircuitE
 
     @Override
     public void setUpRegister(ICircuitElementRegister register) {
-//        if (register!==this) throw
     }
 
     @Override

@@ -4,26 +4,24 @@ import app.components.InputPin;
 import app.components.OutputPin;
 import app.dragdrop.DraggableNode;
 import app.graphics.io.ClockGraphic;
-import app.logicComponents.ClockLogic;
-import app.logicComponents.LightbulbLogic;
 import interfaces.circuits.ICircuitElementRegister;
 import interfaces.elements.IObservableValue;
 import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
+import simulation.io.Clock;
 
 import static app.graphics.GraphicsHelper.AnchorAll;
 
 public class ClockDraggable extends DraggableNode {
 
     private final ClockGraphic graphic;
-    private InputPin inputPin;
 
     public ClockDraggable() {
         this.graphic = new ClockGraphic();
         VBox graphicBox = new VBox(this.graphic);
         graphicBox.setMargin(graphic, new Insets(10));
         this.getChildren().add(graphicBox);
-        AnchorAll(graphicBox,0,0,0,0);
+        AnchorAll(graphicBox, 0, 0, 0, 0);
         createPins(0);
     }
 
@@ -38,13 +36,12 @@ public class ClockDraggable extends DraggableNode {
 
     @Override
     public IObservableValue getObservableValueForPin(OutputPin outputPin, ICircuitElementRegister register) {
-        //TODO no output pins, should throw
-        return null;
+        return ((Clock) register.getWorkingElementFor(this)).getOutput();
     }
 
     @Override
     public void createLogicElement(ICircuitElementRegister register) {
-        ClockLogic clockLogic = new ClockLogic(this.graphic);
+        Clock clockLogic = new Clock(1000);
         register.addCircuitWorkingElement(this, clockLogic);
     }
 

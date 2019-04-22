@@ -30,56 +30,57 @@ public class SingleThreadCircuitWaiting extends SingleThreadCircuit {
                             element.calculateOutputs();
                             if (mode == SimulationMode.TICK) pause();
                         }
-                        } else{
-                            lock.wait();
-                        }
-                    } catch(InterruptedException e){
-                        e.printStackTrace();
+                    } else {
+                        lock.wait();
                     }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         }
+    }
 
-        @Override
-        public void queueElementForUpdate (ILogicElement item){
-            synchronized (lock) {
-                if (!queue.contains(item)) {
-                    queue.add(item);
-                    lock.notify();
-                }
-            }
-        }
-
-        @Override
-        public void addCircuitWorkingElement (ILogicElementFrontEnd source, ILogicElement item){
-            synchronized (lock) {
-                if (!workingNodes.containsKey(source) && !finalized) {
-                    workingNodes.put(source, item);
-                    queue.add(item);
-                    item.setParentCircuit(this);
-                    lock.notify();
-                }
-            }
-        }
-
-        @Override
-        public void addCircuitWorkingElement (ILogicElementFrontEnd source, IScheduledLogicElement item){
-            synchronized (lock) {
-                if (!workingNodes.containsKey(source) && !finalized) {
-                    item.setParentCircuit(this);
-                    if (scheduledLogicExecutor != null)
-                        scheduledLogicExecutor.addScheduledLogicElement(item);
-                    lock.notify();
-                }
-            }
-        }
-
-        @Override
-        public void unpause () {
-            synchronized (lock) {
-                super.unpause();
+    @Override
+    public void queueElementForUpdate(ILogicElement item) {
+        synchronized (lock) {
+            if (!queue.contains(item)) {
+                queue.add(item);
                 lock.notify();
             }
         }
-
     }
+
+    @Override
+    public void addCircuitWorkingElement(ILogicElementFrontEnd source, ILogicElement item) {
+        synchronized (lock) {
+            if (!workingNodes.containsKey(source) && !finalized) {
+                workingNodes.put(source, item);
+                queue.add(item);
+                item.setParentCircuit(this);
+                lock.notify();
+            }
+        }
+    }
+
+    @Override
+    public void addCircuitWorkingElement(ILogicElementFrontEnd source, IScheduledLogicElement item) {
+        synchronized (lock) {
+            if (!workingNodes.containsKey(source) && !finalized) {
+                workingNodes.put(source, item);
+                item.setParentCircuit(this);
+                if (scheduledLogicExecutor != null)
+                    scheduledLogicExecutor.addScheduledLogicElement(item);
+                lock.notify();
+            }
+        }
+    }
+
+    @Override
+    public void unpause() {
+        synchronized (lock) {
+            super.unpause();
+            lock.notify();
+        }
+    }
+
+}

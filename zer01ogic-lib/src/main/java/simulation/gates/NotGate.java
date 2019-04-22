@@ -36,7 +36,9 @@ public class NotGate implements ILogicElement {
 
     @Override
     public void addInput(IObservableValue input) {
+        if(this.input!=null) this.input.deregisterObserver(this);
         this.input=input;
+        input.registerObserver(this);
     }
 
     @Override

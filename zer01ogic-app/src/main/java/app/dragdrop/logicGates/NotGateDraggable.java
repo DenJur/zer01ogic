@@ -3,10 +3,10 @@ package app.dragdrop.logicGates;
 import app.components.InputPin;
 import app.components.OutputPin;
 import app.graphics.logicGates.NotGateGraphic;
+import interfaces.circuits.ICircuitElementRegister;
 import interfaces.elements.IObservableValue;
 import javafx.scene.layout.VBox;
 import simulation.gates.NotGate;
-import interfaces.circuits.ICircuitElementRegister;
 
 import java.util.Collections;
 
@@ -38,7 +38,6 @@ public class NotGateDraggable extends BaseLogicGateDraggable {
         this.getChildren().addAll(inputPin1, outputPin);
     }
 
-
     @Override
     public void createLogicElement(ICircuitElementRegister register) {
         NotGate gate = new NotGate((byte) 1);
@@ -47,6 +46,6 @@ public class NotGateDraggable extends BaseLogicGateDraggable {
 
     @Override
     public IObservableValue getObservableValueForPin(OutputPin outputPin, ICircuitElementRegister register) {
-        return null;
+        return ((NotGate) register.getWorkingElementFor(this)).getOutput();
     }
 }

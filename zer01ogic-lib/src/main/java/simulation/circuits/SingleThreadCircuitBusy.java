@@ -49,6 +49,7 @@ public class SingleThreadCircuitBusy extends SingleThreadCircuit {
     @Override
     public void addCircuitWorkingElement(ILogicElementFrontEnd source, IScheduledLogicElement item) {
         if (!workingNodes.containsKey(source) && !finalized) {
+            workingNodes.put(source, item);
             item.setParentCircuit(this);
             if (scheduledLogicExecutor != null)
                 scheduledLogicExecutor.addScheduledLogicElement(item);
