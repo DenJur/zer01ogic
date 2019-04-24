@@ -111,6 +111,43 @@ public class CanvasController implements Initializable {
         return false;
     }
 
+    public void setActiveTool(String tool, boolean buildModeEnabled){
+        //First destroy active drag handlers
+        destroyHandlers();
+
+        //Call the appropriate method to set up the new tool's handlers
+        switch (tool) {
+            case "selection":
+
+                break;
+            case "wire":
+
+                break;
+            case "eraser":
+
+                break;
+            case "hand":
+
+                break;
+            case "pointer":
+
+                break;
+        }
+
+    }
+
+    private void destroyHandlers(){
+        for(DraggableNode node : nodes){
+            //destroy node dragging handlers from the DraggableNode
+            node.destroyNodeDragHandlers();
+
+            //destroy wire creation handlers from each Pin
+            node.destroyPinDragHandlers();
+        }
+
+
+    }
+
     public Iterable<DraggableNode> getNodes() {
         return nodes;
     }

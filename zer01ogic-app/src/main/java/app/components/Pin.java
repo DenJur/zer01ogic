@@ -56,7 +56,7 @@ public abstract class Pin extends Rectangle {
 
 
     //DRAG AND DROP-------------------------------------------------------------------------------
-    private void buildWireDragHandlers(){
+    public void buildWireDragHandlers(){
         //thisPin allows us to refer to this Pin object within the EventHandlers (as the 'this' operator refers to the handler)
         Pin thisPin = this;
 
@@ -115,6 +115,10 @@ public abstract class Pin extends Rectangle {
         this.setOnDragDetected(mLinkHandleDragDetected);
     }
 
+    public void destroyWireDragHandlers(){
+        this.setOnDragDropped(null);
+        this.setOnDragDetected(null);
+    }
 
     public DraggableNode getDraggableNode() {
         return draggableNode;

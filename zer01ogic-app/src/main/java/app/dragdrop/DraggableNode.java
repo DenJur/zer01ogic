@@ -55,6 +55,24 @@ public abstract class DraggableNode extends AnchorPane implements ILogicElementF
     }
 
     /**
+     * Creates drag handlers for pins that allow wire connections
+     */
+    public void createPinDragHandlers(){
+        for(Pin pin : pins) {
+            pin.buildWireDragHandlers();
+        }
+    }
+
+    /**
+     * Destroys drag handlers for pins that allow wire connections
+     */
+    public void destroyPinDragHandlers(){
+        for(Pin pin : pins) {
+            pin.destroyWireDragHandlers();
+        }
+    }
+
+    /**
      * Whenever the draggable node is moved, visually update any wires connected to its pins
      */
     public void redrawWires(int x, int y){
@@ -67,8 +85,6 @@ public abstract class DraggableNode extends AnchorPane implements ILogicElementF
 
 
     //DRAG AND DROP-----------------------------------------------------------------------------
-
-
     public void relocateToPoint(Point2D p) {
 
         //relocates the object to a point that has been converted to
@@ -149,6 +165,10 @@ public abstract class DraggableNode extends AnchorPane implements ILogicElementF
             }
 
         });
+    }
+
+    public void destroyNodeDragHandlers(){
+        this.setOnDragDetected(null);
     }
 
     @Override
