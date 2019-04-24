@@ -61,7 +61,7 @@ public class MenuBarBuildController implements Initializable {
         button_menu_toolbar_selection.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                canvasController.setActiveTool("selection", true);
+                canvasController.setActiveTool("selection");
             }
         });
 
@@ -69,7 +69,7 @@ public class MenuBarBuildController implements Initializable {
         button_menu_toolbar_wire.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                canvasController.setActiveTool("wire", true);
+                canvasController.setActiveTool("wire");
             }
         });
 
@@ -77,7 +77,7 @@ public class MenuBarBuildController implements Initializable {
         button_menu_toolbar_eraser.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                canvasController.setActiveTool("eraser", true);
+                canvasController.setActiveTool("eraser");
             }
         });
 
@@ -85,7 +85,7 @@ public class MenuBarBuildController implements Initializable {
         button_menu_toolbar_hand.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                canvasController.setActiveTool("hand", true);
+                canvasController.setActiveTool("hand");
             }
         });
 
@@ -93,7 +93,7 @@ public class MenuBarBuildController implements Initializable {
         button_menu_toolbar_pointer.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                canvasController.setActiveTool("pointer", true);
+                canvasController.setActiveTool("pointer");
             }
         });
     }

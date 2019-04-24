@@ -20,12 +20,19 @@ public class CanvasController implements Initializable {
 
     @FXML
     private AnchorPane anchorpane_canvas;
+
     private ArrayList<WireLogic> wires;
     private ArrayList<DraggableNode> nodes;
+
+    private String activeTool;
+    private boolean buildModeEnabled;
 
     public CanvasController(MainSceneController mainSceneController) {
         wires = new ArrayList<>();
         nodes = new ArrayList<>();
+
+        //The pointer is set as the active tool in build mode when starting the program
+        setActiveTool("pointer");
     }
 
     @Override
@@ -43,6 +50,8 @@ public class CanvasController implements Initializable {
         newNode.setCanvasController(this);
         //update the node's pins so they have access to their parent DraggableNode and the CanvasController
         newNode.addDraggableNodeToPins();
+        //add the appropriate event handlers to the DraggableNode and its Pins depending on the active tool
+        newNode.buildHandlersByActiveTool();
 
         //Add the new node to the Canvas
         anchorpane_canvas.getChildren().add(newNode);
@@ -111,31 +120,34 @@ public class CanvasController implements Initializable {
         return false;
     }
 
-    public void setActiveTool(String tool, boolean buildModeEnabled){
+    public void setActiveTool(String tool){
         //First destroy active drag handlers
         destroyHandlers();
 
         //Call the appropriate method to set up the new tool's handlers
         switch (tool) {
             case "selection":
-
+                //TODO SET UP SELECTION METHOD
                 break;
             case "wire":
-
+                createWireToolHandlers();
                 break;
             case "eraser":
-
+                //TODO SET UP ERASER METHOD
                 break;
             case "hand":
-
+                //TODO SET UP HAND METHOD
                 break;
             case "pointer":
-
+                createPointerToolHandlers();
                 break;
         }
 
     }
 
+    /**
+     * Destroys the drag handlers for all active DraggableNodes and their Pins
+     */
     private void destroyHandlers(){
         for(DraggableNode node : nodes){
             //destroy node dragging handlers from the DraggableNode
@@ -144,11 +156,32 @@ public class CanvasController implements Initializable {
             //destroy wire creation handlers from each Pin
             node.destroyPinDragHandlers();
         }
+    }
 
+    private void createWireToolHandlers() {
+        activeTool = "wire";
+
+        for(DraggableNode node : nodes){
+            //build wire creation handlers for each Pin
+            node.buildPinDragHandlers();
+        }
+    }
+
+    private void createPointerToolHandlers() {
+        activeTool = "pointer";
+
+        for(DraggableNode node : nodes){
+            //build drag handlers for each DraggableNode
+            node.buildCanvasDragHandlers();
+        }
 
     }
 
     public Iterable<DraggableNode> getNodes() {
         return nodes;
+    }
+
+    public String getActiveTool() {
+        return activeTool;
     }
 }

@@ -37,8 +37,6 @@ public abstract class Pin extends Rectangle {
 
         this.setTranslateX(xPosition);
         this.setTranslateY(yPosition);
-
-        buildWireDragHandlers();
     }
 
     public void connectDraggableNode(DraggableNode draggableNode){
