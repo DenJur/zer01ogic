@@ -5,31 +5,31 @@
 }
 
 .OR * {
-    -fx-fill: aqua;
+    /*-fx-fill: aqua;*/
 }
 
 .AND * {
-    -fx-fill: red;
+    /*-fx-fill: red;*/
 }
 
 .NAND * {
-    -fx-fill: coral;
+    /*-fx-fill: coral;*/
 }
 
 .NOT * {
-    -fx-fill: green;
+    /*-fx-fill: green;*/
 }
 
 .XOR * {
-    -fx-fill: yellow;
+    /*-fx-fill: yellow;*/
 }
 
 .NOR * {
-    -fx-fill: purple;
+    /*-fx-fill: purple;*/
 }
 
 .XNOR * {
-    -fx-fill: pink;
+    /*-fx-fill: pink;*/
 }
 
 

@@ -249,7 +249,7 @@ public class MainSceneController implements Initializable {
                 }
             }
             simulationRunner = new DefaultCircuitBuilder().usingSingleThreadRunner().addBusyScheduledExecutor()
-                    .buildBusyCircuit().build(canvasController.getNodes());
+                    .buildWaitingCircuit().build(canvasController.getNodes());
             simulationRunner.startSimulation();
         } else {
 
