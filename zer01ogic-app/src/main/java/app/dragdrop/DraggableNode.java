@@ -38,7 +38,7 @@ public abstract class DraggableNode extends AnchorPane implements ILogicElementF
     public DraggableNode() {
         pins = new ArrayList<Pin>();
         this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        buildNodeDragHandlers();
+        buildToolboxDragHandlers(); //Build the drag handlers enabling drag+drop from the toolbox to the canvas
     }
 
     protected abstract void createPins(double lineWidth);
@@ -55,6 +55,24 @@ public abstract class DraggableNode extends AnchorPane implements ILogicElementF
     }
 
     /**
+     * Creates drag handlers for pins that allow wire connections
+     */
+    public void buildPinDragHandlers(){
+        for(Pin pin : pins) {
+            pin.buildWireDragHandlers();
+        }
+    }
+
+    /**
+     * Destroys drag handlers for pins that allow wire connections
+     */
+    public void destroyPinDragHandlers(){
+        for(Pin pin : pins) {
+            pin.destroyWireDragHandlers();
+        }
+    }
+
+    /**
      * Whenever the draggable node is moved, visually update any wires connected to its pins
      */
     public void redrawWires(int x, int y){
@@ -67,8 +85,6 @@ public abstract class DraggableNode extends AnchorPane implements ILogicElementF
 
 
     //DRAG AND DROP-----------------------------------------------------------------------------
-
-
     public void relocateToPoint(Point2D p) {
 
         //relocates the object to a point that has been converted to
@@ -84,8 +100,7 @@ public abstract class DraggableNode extends AnchorPane implements ILogicElementF
         redrawWires(newX, newY);
     }
 
-    public void buildNodeDragHandlers() {
-
+    private void buildToolboxDragHandlers() {
         mContextDragOver = new EventHandler<DragEvent>() {
 
             //dragover to handle node dragging in the right pane view
@@ -119,7 +134,20 @@ public abstract class DraggableNode extends AnchorPane implements ILogicElementF
                 event.consume();
             }
         };
+    }
 
+    public void buildHandlersByActiveTool() {
+        String activeTool = canvasController.getActiveTool();
+        if(activeTool.equals("pointer")){
+            buildCanvasDragHandlers();
+            //TODO build click handler for selected item
+        }
+        else if(activeTool.equals("wire")){
+            buildPinDragHandlers();
+        }
+    }
+
+    public void buildCanvasDragHandlers() {
         //drag detection for node dragging
         this.setOnDragDetected(new EventHandler<MouseEvent>() {
 
@@ -149,6 +177,11 @@ public abstract class DraggableNode extends AnchorPane implements ILogicElementF
             }
 
         });
+    }
+
+
+    public void destroyNodeDragHandlers(){
+        this.setOnDragDetected(null);
     }
 
     @Override

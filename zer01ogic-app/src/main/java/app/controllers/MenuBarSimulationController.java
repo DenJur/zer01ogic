@@ -12,12 +12,16 @@ import java.util.ResourceBundle;
 
 public class MenuBarSimulationController implements Initializable {
     private MenuBarSwitchLambda switchLambda;
+
+    private CanvasController canvasController;
+
     @FXML
     private Button button_menu_mode_build;
 
 
-    public MenuBarSimulationController(MenuBarSwitchLambda switchLambda){
+    public MenuBarSimulationController(MenuBarSwitchLambda switchLambda, CanvasController canvasController){
         this.switchLambda=switchLambda;
+        this.canvasController = canvasController;
     }
 
     @Override

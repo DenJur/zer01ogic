@@ -57,14 +57,21 @@ public class MainSceneController implements Initializable {
         try {
             //LOAD SCENES
 
+            //load the canvas
+            FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/app/view/Canvas.fxml"));
+            //As the MainSceneController communicates with the canvas, it needs to be a class field
+            canvasController = new CanvasController(this);
+            canvasLoader.setController(canvasController);
+            canvas = canvasLoader.load();
+
             //load the menu bar with the build menu
             FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("/app/view/BuildMenu.fxml"));
-            menuLoader.setController(new MenuBarBuildController(this::SwitchBars));
+            menuLoader.setController(new MenuBarBuildController(this::SwitchBars, canvasController));
             menuBarBuild = menuLoader.load();
 
             //load the menu bar with the simulation menu (so it can be switched when needed)
             menuLoader = new FXMLLoader(getClass().getResource("/app/view/SimulationMenu.fxml"));
-            menuLoader.setController(new MenuBarSimulationController(this::SwitchBars));
+            menuLoader.setController(new MenuBarSimulationController(this::SwitchBars, canvasController));
             menuBarSimulation = menuLoader.load();
 
             //load the toolbox
@@ -74,12 +81,7 @@ public class MainSceneController implements Initializable {
             toolbox.setCursor(Cursor.HAND); //set the cursor to a hand when selecting
             //TODO When selecting an item using drag + drop, perhaps a closed hand? ----------------------------------------------------------------------------------------------------
 
-            //load the canvas
-            FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/app/view/Canvas.fxml"));
-            //As the MainSceneController communicates with the canvas, it needs to be a class field
-            canvasController = new CanvasController(this);
-            canvasLoader.setController(canvasController);
-            canvas = canvasLoader.load();
+
 
             //TODO load the selected item properties -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -231,7 +233,7 @@ public class MainSceneController implements Initializable {
     }
 
     /**
-     * Switch the menu bars when requested
+     * Switch the menu bars from build to simulation mode or vice versa
      */
     private void SwitchBars() {
         if (menuBarBuild.isVisible()) {
