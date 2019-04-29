@@ -28,13 +28,6 @@ public class NotGate implements ILogicElement {
         return Collections.singletonList(output);
     }
 
-    @Override
-    public IObservableValue getOutputByIndex(int index) {
-        if (index != 0) return null;
-        return output;
-    }
-
-    @Override
     public void addInput(IObservableValue input) {
         if(this.input!=null) this.input.deregisterObserver(this);
         this.input=input;

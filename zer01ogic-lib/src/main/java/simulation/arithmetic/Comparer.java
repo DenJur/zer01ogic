@@ -24,11 +24,6 @@ public class Comparer implements ILogicElement {
     }
 
     @Override
-    public void addInput(IObservableValue input) {
-        //TODO throw
-    }
-
-    @Override
     public void calculateOutputs() {
         Integer valueA = 0;
         Integer valueB = 0;
@@ -56,20 +51,6 @@ public class Comparer implements ILogicElement {
     @Override
     public List<IObservableValue<Integer>> getOutputs() {
         return Arrays.asList(outputLess, outputEquals, outputMore);
-    }
-
-    @Override
-    public IObservableValue getOutputByIndex(int index) {
-        switch (index) {
-            case 0:
-                return outputLess;
-            case 1:
-                return outputEquals;
-            case 2:
-                return outputMore;
-            default:
-                return null;
-        }
     }
 
     @Override

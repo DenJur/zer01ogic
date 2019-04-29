@@ -2,14 +2,13 @@ package app.dragdrop.io;
 
 import app.components.InputPin;
 import app.components.OutputPin;
+import app.components.Pin;
 import app.dragdrop.DraggableNode;
 import app.graphics.io.LightbulbGraphic;
 import app.logicComponents.LightbulbLogic;
 import interfaces.circuits.ICircuitElementRegister;
-import interfaces.elements.ILogicElement;
 import interfaces.elements.IObservableValue;
 import javafx.geometry.Insets;
-import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import simulation.values.MultibitValue;
 
@@ -25,7 +24,7 @@ public class LightbulbDraggable extends DraggableNode {
         VBox graphicBox = new VBox(this.graphic);
         graphicBox.setMargin(graphic, new Insets(10));
         this.getChildren().add(graphicBox);
-        AnchorAll(graphicBox,0,0,0,0);
+        AnchorAll(graphicBox, 0, 0, 0, 0);
         createPins(0);
     }
 
@@ -52,5 +51,24 @@ public class LightbulbDraggable extends DraggableNode {
 
     @Override
     public void reset() {
+    }
+
+    @Override
+    public void connectLogicElementInputs(ICircuitElementRegister register) {
+        LightbulbLogic lightBulb = (LightbulbLogic) register.getWorkingElementFor(this);
+
+        for (Pin pin : pins) {
+            if (pin instanceof InputPin) {
+                InputPin inputPin = (InputPin) pin;
+                if (inputPin.getConnectedWire() != null) {
+                    OutputPin outputPin = inputPin.getConnectedWire().getOutputPin();
+                    IObservableValue observableValue = outputPin.getDraggableNode().getObservableValueForPin(outputPin, register);
+                    lightBulb.addInput(observableValue);
+                } else {
+                    lightBulb.addInput(new MultibitValue(0));
+                }
+                return;
+            }
+        }
     }
 }

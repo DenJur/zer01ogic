@@ -25,25 +25,8 @@ public abstract class BaseArithmeticGate implements ILogicElement {
     }
 
     @Override
-    public void addInput(IObservableValue input) {
-        //TODO throw
-    }
-
-    @Override
     public List<IObservableValue<Integer>> getOutputs() {
         return Arrays.asList(output, bonusOutput);
-    }
-
-    @Override
-    public IObservableValue getOutputByIndex(int index) {
-        switch (index) {
-            case 0:
-                return output;
-            case 1:
-                return bonusOutput;
-            default:
-                return null;
-        }
     }
 
     @Override

@@ -22,11 +22,6 @@ public class Shifter implements ILogicElement {
     }
 
     @Override
-    public void addInput(IObservableValue input) {
-        //TODO throw
-    }
-
-    @Override
     public void calculateOutputs() {
         Integer result=0;
         Integer shiftAmount=0;
@@ -57,12 +52,6 @@ public class Shifter implements ILogicElement {
     @Override
     public List<IObservableValue<Integer>> getOutputs() {
         return Collections.singletonList(output);
-    }
-
-    @Override
-    public IObservableValue getOutputByIndex(int index) {
-        if (index != 0) return null;
-        return output;
     }
 
     @Override

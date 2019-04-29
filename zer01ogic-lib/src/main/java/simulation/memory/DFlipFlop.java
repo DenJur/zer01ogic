@@ -20,11 +20,6 @@ public class DFlipFlop implements ILogicElement {
     }
 
     @Override
-    public void addInput(IObservableValue input) {
-        //TODO throw
-    }
-
-    @Override
     public void calculateOutputs() {
         Integer clockValue = 0;
         if (inputClock != null) clockValue = inputClock.getValue();
@@ -38,12 +33,6 @@ public class DFlipFlop implements ILogicElement {
     @Override
     public List<IObservableValue<Integer>> getOutputs() {
         return Collections.singletonList(output);
-    }
-
-    @Override
-    public IObservableValue getOutputByIndex(int index) {
-        if (index != 0) return null;
-        return output;
     }
 
     @Override

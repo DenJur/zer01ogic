@@ -45,17 +45,6 @@ public class Clock implements IScheduledLogicElement {
     }
 
     @Override
-    public IObservableValue getOutputByIndex(int index) {
-        if (index != 0) return null;
-        return output;
-    }
-
-    @Override
-    public void addInput(IObservableValue input) {
-        //TODO throw
-    }
-
-    @Override
     public void calculateOutputs() {
         output.setValue(~output.getValue());
     }

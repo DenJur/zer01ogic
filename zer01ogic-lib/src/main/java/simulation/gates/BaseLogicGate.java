@@ -19,7 +19,6 @@ public abstract class BaseLogicGate implements ILogicElement {
         output = new MultibitValue(0, outputSize);
     }
 
-    @Override
     public void addInput(IObservableValue input) {
         if (Integer.class.isAssignableFrom(input.getValueType()) && !inputs.contains(input)) {
             inputs.add(input);
@@ -30,12 +29,6 @@ public abstract class BaseLogicGate implements ILogicElement {
     @Override
     public List<IObservableValue<Integer>> getOutputs() {
         return Collections.singletonList(output);
-    }
-
-    @Override
-    public IObservableValue getOutputByIndex(int index) {
-        if (index != 0) return null;
-        return output;
     }
 
     @Override

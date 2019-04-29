@@ -25,17 +25,6 @@ public class SwitchLogic implements ILogicElement {
     }
 
     @Override
-    public IObservableValue getOutputByIndex(int index) {
-//        if(index!=0) throw
-        return output;
-    }
-
-    @Override
-    public void addInput(IObservableValue input) {
-        //TODO throw?
-    }
-
-    @Override
     public void calculateOutputs() {
     }
 

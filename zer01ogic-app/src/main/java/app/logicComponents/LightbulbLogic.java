@@ -23,13 +23,6 @@ public class LightbulbLogic implements ILogicElement {
         return null;
     }
 
-    @Override
-    public IObservableValue getOutputByIndex(int index) {
-        //TODO throw exception?
-        return null;
-    }
-
-    @Override
     public void addInput(IObservableValue input) {
         if (Integer.class.isAssignableFrom(input.getValueType())) {
             this.input = input;

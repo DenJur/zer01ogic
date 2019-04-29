@@ -186,21 +186,8 @@ public abstract class DraggableNode extends AnchorPane implements ILogicElementF
 
     @Override
     public void connectLogicElementInputs(ICircuitElementRegister register) {
-        ILogicElement gate = register.getWorkingElementFor(this);
-
         for(Pin pin:pins){
-            if(pin instanceof InputPin){
-                InputPin inputPin=(InputPin)pin;
-                if(inputPin.getConnectedWire()!=null) {
-                    OutputPin outputPin = inputPin.getConnectedWire().getOutputPin();
-                    IObservableValue observableValue = outputPin.getDraggableNode().getObservableValueForPin(outputPin, register);
-                    gate.addInput(observableValue);
-                }
-                else{
-                    gate.addInput(new MultibitValue(0));
-                }
-            }
-            else {
+            if(pin instanceof OutputPin){
                 OutputPin outputPin=(OutputPin) pin;
                 IObservableValue observableValue=getObservableValueForPin(outputPin, register);
                 for(WireLogic wireLogic: outputPin.getWiresLogic()){
