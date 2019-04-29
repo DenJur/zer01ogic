@@ -3,6 +3,7 @@ package app.controllers;
 import app.dragdrop.DragContainer;
 import app.dragdrop.DraggableNode;
 import app.models.ToolboxItem;
+import exceptions.SimulationBuildException;
 import interfaces.circuits.ICircuitRunner;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -250,9 +251,14 @@ public class MainSceneController implements Initializable {
                     e.printStackTrace();
                 }
             }
-            simulationRunner = new DefaultCircuitBuilder().usingSingleThreadRunner().addBusyScheduledExecutor()
-                    .buildWaitingCircuit().build(canvasController.getNodes());
-            simulationRunner.startSimulation();
+            try {
+                simulationRunner = new DefaultCircuitBuilder().usingSingleThreadRunner().addBusyScheduledExecutor()
+                        .buildWaitingCircuit().build(canvasController.getNodes());
+                simulationRunner.startSimulation();
+            } catch (SimulationBuildException e){
+                //TODO error dialog to user?
+                e.printStackTrace();
+            }
         } else {
 
             //recreate the action handlers on the gui elements, except switch on/off, which will be disabled
