@@ -26,10 +26,10 @@ public class WireLogic implements IObserver {
     @Override
     public void update(IObservableValue source) {
         if(((IObservableValue<Integer>)source).getValue()!=0){
-            wireObject.recolor(WireObject.WireStyle.On);
+            wireObject.setWireStyle(WireObject.WireStyle.On);
         }
         else {
-            wireObject.recolor(WireObject.WireStyle.Off);
+            wireObject.setWireStyle(WireObject.WireStyle.Off);
         }
     }
 

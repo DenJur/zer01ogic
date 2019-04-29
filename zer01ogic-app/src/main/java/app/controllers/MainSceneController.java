@@ -80,8 +80,6 @@ public class MainSceneController implements Initializable {
             toolboxLoader.setController(new ToolboxController(this));
             toolbox = toolboxLoader.load();
             toolbox.setCursor(Cursor.HAND); //set the cursor to a hand when selecting
-            //TODO When selecting an item using drag + drop, perhaps a closed hand? ----------------------------------------------------------------------------------------------------
-
 
 
             //TODO load the selected item properties -----------------------------------------------------------------------------------------------------------------------------------
@@ -259,13 +257,13 @@ public class MainSceneController implements Initializable {
                 //TODO error dialog to user?
                 e.printStackTrace();
             }
+
         } else {
-
-            //recreate the action handlers on the gui elements, except switch on/off, which will be disabled
-
+            //TODO recreate the action handlers on the gui elements, except switch on/off, which will be disabled
             menuBarBuild.setVisible(true);
             menuBarSimulation.setVisible(false);
             toolbox.setDisable(false);
+            canvasController.setToBuildMode();
             if(simulationRunner!=null){
                 try {
                     simulationRunner.stop();
@@ -274,9 +272,7 @@ public class MainSceneController implements Initializable {
                     e.printStackTrace();
                 }
             }
+
         }
-
-        //Update the wires and gui elements to represent their new state
-
     }
 }
