@@ -2,11 +2,15 @@ package app.dragdrop.logicGates;
 
 import app.components.InputPin;
 import app.components.OutputPin;
+import app.components.Pin;
 import app.graphics.logicGates.NotGateGraphic;
+import app.models.WireLogic;
 import interfaces.circuits.ICircuitElementRegister;
 import interfaces.elements.IObservableValue;
 import javafx.scene.layout.VBox;
+import simulation.gates.BaseLogicGate;
 import simulation.gates.NotGate;
+import simulation.values.MultibitValue;
 
 import java.util.Collections;
 
@@ -47,5 +51,32 @@ public class NotGateDraggable extends BaseLogicGateDraggable {
     @Override
     public IObservableValue getObservableValueForPin(OutputPin outputPin, ICircuitElementRegister register) {
         return ((NotGate) register.getWorkingElementFor(this)).getOutput();
+    }
+
+    @Override
+    public void connectLogicElementInputs(ICircuitElementRegister register) {
+        NotGate gate = (NotGate)register.getWorkingElementFor(this);
+
+        for(Pin pin:pins){
+            if(pin instanceof InputPin){
+                InputPin inputPin=(InputPin)pin;
+                if(inputPin.getConnectedWire()!=null) {
+                    OutputPin outputPin = inputPin.getConnectedWire().getOutputPin();
+                    IObservableValue observableValue = outputPin.getDraggableNode().getObservableValueForPin(outputPin, register);
+                    gate.setInput(observableValue);
+                }
+                else{
+                    gate.setInput(new MultibitValue(0));
+                }
+            }
+            else {
+                OutputPin outputPin=(OutputPin) pin;
+                IObservableValue observableValue=getObservableValueForPin(outputPin, register);
+                for(WireLogic wireLogic: outputPin.getWiresLogic()){
+                    observableValue.registerObserver(wireLogic);
+                    wireLogic.update(observableValue);
+                }
+            }
+        }
     }
 }

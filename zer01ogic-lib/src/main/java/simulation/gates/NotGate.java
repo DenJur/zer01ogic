@@ -28,7 +28,7 @@ public class NotGate implements ILogicElement {
         return Collections.singletonList(output);
     }
 
-    public void addInput(IObservableValue input) {
+    public void setInput(IObservableValue input) {
         if(this.input!=null) this.input.deregisterObserver(this);
         this.input=input;
         input.registerObserver(this);
