@@ -1,5 +1,6 @@
 package simulation.circuits;
 
+import exceptions.SimulationStoppingException;
 import interfaces.circuits.ICircuit;
 import interfaces.circuits.ICircuitRunner;
 
@@ -58,7 +59,7 @@ public class SingleThreadCircuitRunner implements ICircuitRunner {
                 e.printStackTrace();
             }
             if(simulationThread.isAlive()){
-                //TODO Throw
+                throw new SimulationStoppingException("Error stopping logic simulation thread.");
             }
         }
     }

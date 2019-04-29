@@ -1,5 +1,6 @@
 package simulation.circuits;
 
+import exceptions.SimulationStoppingException;
 import interfaces.circuits.IScheduledLogicExecutor;
 import interfaces.elements.ILogicElement;
 import interfaces.elements.IScheduledLogicElement;
@@ -54,8 +55,7 @@ public class ScheduledLogicBusyExecutor implements IScheduledLogicExecutor, Runn
                 e.printStackTrace();
             }
             if (counterThread.isAlive()) {
-                //TODO Throw
-                throw new Exception("23");
+                throw new SimulationStoppingException("Error stopping clocked simulation thread.");
             }
         }
     }
