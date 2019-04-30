@@ -24,7 +24,7 @@ public class AdderGraphic extends Group {
         elements.add(new MoveTo(0.0, 50.0));
         elements.add(new LineTo(20.0, 50.0));
 
-        //clock input
+        //third input
         elements.add(new MoveTo(0.0, 80.0));
         elements.add(new LineTo(20.0, 80.0));
 

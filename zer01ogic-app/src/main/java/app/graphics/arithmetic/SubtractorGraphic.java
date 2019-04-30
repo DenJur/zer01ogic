@@ -24,7 +24,7 @@ public class SubtractorGraphic extends Group {
         elements.add(new MoveTo(0.0, 50.0));
         elements.add(new LineTo(20.0, 50.0));
 
-        //clock input
+        //third input
         elements.add(new MoveTo(0.0, 80.0));
         elements.add(new LineTo(20.0, 80.0));
 
@@ -71,10 +71,10 @@ public class SubtractorGraphic extends Group {
         sum.setTranslateX(143);
         sum.setTranslateY(43);
 
-        Text cOut = new Text("B OUT");
-        cOut.setTranslateX(125);
-        cOut.setTranslateY(73);
-        labelledImage.getChildren().addAll(aInput,bInput, cInput, sum, cOut, path);
+        Text bOut = new Text("B OUT");
+        bOut.setTranslateX(125);
+        bOut.setTranslateY(73);
+        labelledImage.getChildren().addAll(aInput,bInput, cInput, sum, bOut, path);
 
         labelledImage.setScaleX(0.7);
         labelledImage.setScaleY(0.7);

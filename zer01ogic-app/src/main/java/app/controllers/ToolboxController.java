@@ -1,6 +1,7 @@
 package app.controllers;
 
 import app.componentFactories.arithmetic.AdderFactory;
+import app.componentFactories.arithmetic.ComparatorFactory;
 import app.componentFactories.arithmetic.SubtractorFactory;
 import app.componentFactories.io.ClockFactory;
 import app.componentFactories.io.LightbulbFactory;
@@ -9,6 +10,7 @@ import app.componentFactories.logicGates.*;
 import app.componentFactories.memory.*;
 import app.components.ToolboxListCell;
 import app.graphics.arithmetic.AdderGraphic;
+import app.graphics.arithmetic.ComparatorGraphic;
 import app.graphics.arithmetic.SubtractorGraphic;
 import app.graphics.io.ClockGraphic;
 import app.graphics.io.LightbulbGraphic;
@@ -24,6 +26,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 
+import javax.tools.Tool;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -84,7 +87,8 @@ public class ToolboxController implements Initializable {
         //TODO Add Arithmetic Units --------------------------------------------------
         toolboxItemObservableListArithmeticUnits.addAll(
                 new ToolboxItem("Adder",new AdderGraphic(), 3,2, new AdderFactory()),
-                new ToolboxItem("Subtractor", new SubtractorGraphic(), 3, 2, new SubtractorFactory())
+                new ToolboxItem("Subtractor", new SubtractorGraphic(), 3, 2, new SubtractorFactory()),
+                new ToolboxItem("Comparator", new ComparatorGraphic(), 2,3, new ComparatorFactory())
         );
         //User Created Circuits
         //TODO Load in user created simulation -----------------------------------------
