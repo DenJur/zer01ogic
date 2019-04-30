@@ -30,7 +30,7 @@ public class TFlipFlop implements ILogicElement {
             Integer clockValue = 0;
             if (inputClock != null) clockValue = inputClock.getValue();
             if (!previousClock.equals(clockValue)) {
-                previousClock=clockValue;
+                previousClock = clockValue;
                 if (clockValue != 0) {
                     output.setValue(~output.getValue());
                 }
@@ -69,7 +69,9 @@ public class TFlipFlop implements ILogicElement {
     }
 
     public void setInputData(IObservableValue<Integer> inputData) {
+        if (this.inputData != null) this.inputData.deregisterObserver(this);
         this.inputData = inputData;
+        inputData.registerObserver(this);
     }
 
     public IObservableValue<Integer> getInputClock() {
@@ -77,8 +79,10 @@ public class TFlipFlop implements ILogicElement {
     }
 
     public void setInputClock(IObservableValue<Integer> inputClock) {
+        if (this.inputClock != null) this.inputClock.deregisterObserver(this);
         this.inputClock = inputClock;
         previousClock = inputClock.getValue();
+        inputClock.registerObserver(this);
     }
 
     @Override

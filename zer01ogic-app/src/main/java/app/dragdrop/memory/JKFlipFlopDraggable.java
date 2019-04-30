@@ -4,10 +4,12 @@ import app.components.InputPin;
 import app.components.OutputPin;
 import app.dragdrop.DraggableNode;
 import app.graphics.memory.JKFlipFlopGraphic;
+import app.models.WireLogic;
 import interfaces.circuits.ICircuitElementRegister;
 import interfaces.elements.IObservableValue;
 import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
+import simulation.memory.JKFlipFlop;
 
 import java.util.Collections;
 
@@ -17,6 +19,10 @@ import static app.graphics.GraphicsHelper.getPathStrokeWidth;
 public class JKFlipFlopDraggable extends DraggableNode {
 
     private final JKFlipFlopGraphic graphic;
+    private InputPin inputPinJ;
+    private InputPin inputPinK;
+    private OutputPin outputPin;
+    private InputPin inputPinClock;
 
     public JKFlipFlopDraggable() {
         this.graphic = new JKFlipFlopGraphic();
@@ -30,32 +36,49 @@ public class JKFlipFlopDraggable extends DraggableNode {
 
     @Override
     protected void createPins(double lineWidth) {
-        //create 2 input and 1 output pins
-        InputPin inputPin1 = new InputPin(0, 18 + lineWidth / 2 + .5);
-        AnchorAll(inputPin1, 0, 0, 0, 0);
+        inputPinJ = new InputPin(0, 18 + lineWidth / 2 + .5);
+        AnchorAll(inputPinJ, 0, 0, 0, 0);
 
-        InputPin inputPin2 = new InputPin(0, 39 + lineWidth / 2 + .5);
-        AnchorAll(inputPin2, 0, 0, 0, 0);
+        inputPinK = new InputPin(0, 39 + lineWidth / 2 + .5);
+        AnchorAll(inputPinK, 0, 0, 0, 0);
 
-        InputPin inputPin3 = new InputPin(0, 60 + lineWidth / 2 + .5);
-        AnchorAll(inputPin3, 0, 0, 0, 0);
+        inputPinClock = new InputPin(0, 60 + lineWidth / 2 + .5);
+        AnchorAll(inputPinClock, 0, 0, 0, 0);
 
-        OutputPin outputPin = new OutputPin(94.0 + lineWidth, 19 + lineWidth / 2 + .5);
+        outputPin = new OutputPin(94.0 + lineWidth, 19 + lineWidth / 2 + .5);
         AnchorAll(outputPin, 0, 0, 0, 0);
 
         //Add the pins to the DraggableNode's Pins ArrayList
-        Collections.addAll(super.pins, inputPin1, inputPin2, inputPin3, outputPin);
-        this.getChildren().addAll(inputPin1, inputPin2, inputPin3, outputPin);
+        Collections.addAll(super.pins, inputPinJ, inputPinK, inputPinClock, outputPin);
+        this.getChildren().addAll(inputPinJ, inputPinK, inputPinClock, outputPin);
     }
 
     @Override
     public IObservableValue getObservableValueForPin(OutputPin outputPin, ICircuitElementRegister register) {
-        return null;
+        return ((JKFlipFlop) register.getWorkingElementFor(this)).getOutput();
     }
 
     @Override
     public void createLogicElement(ICircuitElementRegister register) {
+        JKFlipFlop flipFlop = new JKFlipFlop();
+        register.addCircuitWorkingElement(this, flipFlop);
+    }
 
+    @Override
+    public void connectLogicElementInputs(ICircuitElementRegister register) {
+        JKFlipFlop flipFlop = (JKFlipFlop) register.getWorkingElementFor(this);
+        OutputPin outputPin = inputPinJ.getConnectedWire().getOutputPin();
+        flipFlop.setInputJ(outputPin.getDraggableNode().getObservableValueForPin(outputPin, register));
+        outputPin = inputPinK.getConnectedWire().getOutputPin();
+        flipFlop.setInputK(outputPin.getDraggableNode().getObservableValueForPin(outputPin, register));
+        outputPin = inputPinClock.getConnectedWire().getOutputPin();
+        flipFlop.setInputClock(outputPin.getDraggableNode().getObservableValueForPin(outputPin, register));
+
+        IObservableValue<Integer> observableValue = flipFlop.getOutput();
+        for (WireLogic wireLogic : this.outputPin.getWiresLogic()) {
+            observableValue.registerObserver(wireLogic);
+            wireLogic.update(observableValue);
+        }
     }
 
     @Override
