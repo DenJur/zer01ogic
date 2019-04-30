@@ -1,18 +1,20 @@
 package app.controllers;
 
+import app.componentFactories.arithmetic.AdderFactory;
+import app.componentFactories.arithmetic.SubtractorFactory;
 import app.componentFactories.io.ClockFactory;
 import app.componentFactories.io.LightbulbFactory;
 import app.componentFactories.io.SwitchFactory;
 import app.componentFactories.logicGates.*;
 import app.componentFactories.memory.*;
-import app.componentFactories.memory.AdderFactory;
 import app.components.ToolboxListCell;
+import app.graphics.arithmetic.AdderGraphic;
+import app.graphics.arithmetic.SubtractorGraphic;
 import app.graphics.io.ClockGraphic;
 import app.graphics.io.LightbulbGraphic;
 import app.graphics.io.SwitchGraphic;
 import app.graphics.logicGates.*;
 import app.graphics.memory.*;
-import app.graphics.memory.AdderGraphic;
 import app.models.ToolboxItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -81,7 +83,8 @@ public class ToolboxController implements Initializable {
         //Arithmetic Units
         //TODO Add Arithmetic Units --------------------------------------------------
         toolboxItemObservableListArithmeticUnits.addAll(
-                new ToolboxItem("Adder",new AdderGraphic(), 3,2, new AdderFactory())
+                new ToolboxItem("Adder",new AdderGraphic(), 3,2, new AdderFactory()),
+                new ToolboxItem("Subtractor", new SubtractorGraphic(), 3, 2, new SubtractorFactory())
         );
         //User Created Circuits
         //TODO Load in user created simulation -----------------------------------------

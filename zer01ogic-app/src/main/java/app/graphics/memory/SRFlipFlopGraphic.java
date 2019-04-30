@@ -38,7 +38,7 @@ public class SRFlipFlopGraphic extends Group {
         //bottom line of box
         elements.add(new LineTo(20,100));
 
-        //left line line of box
+        //left line of box
         elements.add(new MoveTo(20,0));
         elements.add(new LineTo(20,100));
 

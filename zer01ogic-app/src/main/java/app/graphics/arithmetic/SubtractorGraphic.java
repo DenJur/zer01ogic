@@ -1,4 +1,4 @@
-package app.graphics.memory;
+package app.graphics.arithmetic;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
@@ -9,10 +9,10 @@ import java.util.Arrays;
 import java.util.Collection;
 
 
-public class JKFlipFlopGraphic extends Group {
-    public static final Collection<String> styles = Arrays.asList("LabelledNode", "Memory", "JKFlipFlopGraphic");
+public class SubtractorGraphic extends Group {
+    public static final Collection<String> styles = Arrays.asList("LabelledNode", "Arithmetic", "SubtractorGraphic");
 
-    public JKFlipFlopGraphic() {
+    public SubtractorGraphic() {
         super();
         Path path = new Path();
         ObservableList<PathElement> elements = path.getElements();
@@ -30,10 +30,10 @@ public class JKFlipFlopGraphic extends Group {
 
         //top line of box
         elements.add(new MoveTo(20,0));
-        elements.add(new LineTo(100,0));
+        elements.add(new LineTo(170,0));
 
         //right line of box
-        elements.add(new LineTo(100,100));
+        elements.add(new LineTo(170,100));
 
         //bottom line of box
         elements.add(new LineTo(20,100));
@@ -43,28 +43,34 @@ public class JKFlipFlopGraphic extends Group {
         elements.add(new LineTo(20,100));
 
         //first output
-        elements.add(new MoveTo(100, 20));
-        elements.add(new LineTo(120, 20));
+        elements.add(new MoveTo(170, 35));
+        elements.add(new LineTo(190, 35));
 
-        //triangle clock
-        elements.add(new MoveTo(20,70));
-        elements.add(new LineTo(35, 80));
-        elements.add(new LineTo(20,90));
-
+        //second output
+        elements.add(new MoveTo(170, 65));
+        elements.add(new LineTo(190, 65));
 
         this.getStyleClass().addAll(styles);
 
         Group labelledImage = new Group();
-        Text jInput = new Text("J");
-        jInput.setTranslateX(25);
-        jInput.setTranslateY(28);
-        Text kInput = new Text("K");
-        kInput.setTranslateX(25);
-        kInput.setTranslateY(58);
-        Text q = new Text("Q");
-        q.setTranslateX(75);
-        q.setTranslateY(28);
-        labelledImage.getChildren().addAll(jInput,kInput,q,path);
+        Text aInput = new Text("A");
+        aInput.setTranslateX(25);
+        aInput.setTranslateY(28);
+        Text bInput = new Text("B");
+        bInput.setTranslateX(25);
+        bInput.setTranslateY(58);
+        Text cInput = new Text("B IN");
+        cInput.setTranslateX(25);
+        cInput.setTranslateY(88);
+
+        Text d = new Text("D");
+        d.setTranslateX(113);
+        d.setTranslateY(43);
+
+        Text bOut = new Text("B OUT");
+        bOut.setTranslateX(95);
+        bOut.setTranslateY(73);
+        labelledImage.getChildren().addAll(aInput,bInput, cInput, d, bOut, path);
 
         labelledImage.setScaleX(0.7);
         labelledImage.setScaleY(0.7);

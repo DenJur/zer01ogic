@@ -3,7 +3,8 @@ package app.dragdrop.arithmetic;
 import app.components.InputPin;
 import app.components.OutputPin;
 import app.dragdrop.DraggableNode;
-import app.graphics.arithmetic.AdderGraphic;
+import app.graphics.arithmetic.SubtractorGraphic;
+import app.graphics.memory.SRFlipFlopGraphic;
 import interfaces.circuits.ICircuitElementRegister;
 import interfaces.elements.IObservableValue;
 import javafx.geometry.Insets;
@@ -14,18 +15,18 @@ import java.util.Collections;
 import static app.graphics.GraphicsHelper.AnchorAll;
 import static app.graphics.GraphicsHelper.getPathStrokeWidth;
 
-public class AdderDraggable extends DraggableNode {
+public class SubtractorDraggable extends DraggableNode {
 
-    private final AdderGraphic graphic;
+    private final SubtractorGraphic graphic;
 
-    public AdderDraggable() {
-        this.graphic = new AdderGraphic();
+    public SubtractorDraggable() {
+        this.graphic = new SubtractorGraphic();
         VBox graphicBox = new VBox(graphic);
         graphicBox.setMargin(graphic, new Insets(10));
         this.getChildren().add(graphicBox);
         AnchorAll(graphicBox, 0, 0, 0, 0);
 
-        createPins(getPathStrokeWidth(AdderGraphic.styles));
+        createPins(getPathStrokeWidth(SRFlipFlopGraphic.styles));
     }
 
     @Override
