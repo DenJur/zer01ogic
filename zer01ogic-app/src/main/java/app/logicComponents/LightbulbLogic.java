@@ -1,5 +1,6 @@
 package app.logicComponents;
 
+import app.enums.DrawStyle;
 import app.graphics.io.LightbulbGraphic;
 import interfaces.circuits.ICircuitQueue;
 import interfaces.elements.ILogicElement;
@@ -33,9 +34,9 @@ public class LightbulbLogic implements ILogicElement {
     @Override
     public void calculateOutputs() {
         if (input.getValue() != 0)
-            parentGraphic.setStyle(LightbulbGraphic.LightbulbStyle.On);
+            parentGraphic.setStyle(DrawStyle.On);
         else
-            parentGraphic.setStyle(LightbulbGraphic.LightbulbStyle.Off);
+            parentGraphic.setStyle(DrawStyle.Off);
     }
 
     @Override

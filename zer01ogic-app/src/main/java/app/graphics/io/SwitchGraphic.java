@@ -1,5 +1,6 @@
 package app.graphics.io;
 
+import app.enums.DrawStyle;
 import app.graphics.GraphicsHelper;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
@@ -9,9 +10,12 @@ import java.util.Collections;
 
 public class SwitchGraphic extends Group {
 
-    public static final String switchStyle = "Switch";
-    public static final String switchOnStyle = "SwitchOn";
-    public static final String switchOffStyle = "SwitchOff";
+    public static final String SWITCH_STYLE = "Switch";
+    public static final String SWITCH_BUILD_STYLE = "SwitchBuild";
+    public static final String SWITCH_ON_STYLE = "SwitchOn";
+    public static final String SWITCH_OFF_STYLE = "SwitchOff";
+
+    private volatile DrawStyle currentStyle;
 
     public SwitchGraphic(){
         super();
@@ -30,23 +34,27 @@ public class SwitchGraphic extends Group {
         GraphicsHelper.resize(container, 50,50);
         this.getChildren().add(container);
 
-        //TODO setup default graphics
-        this.getStyleClass().addAll(SwitchGraphic.switchStyle, SwitchGraphic.switchOffStyle);
+        //Set up graphic in build mode
+        setStyle(DrawStyle.Build);
     }
 
-    public void setStyle(SwitchStyle style) {
+    public void updateStyle() {
         ObservableList<String> currentStyles = this.getStyleClass();
         currentStyles.clear();
-        if(style== SwitchStyle.On){
-            currentStyles.addAll(SwitchGraphic.switchStyle, SwitchGraphic.switchOnStyle);
-        }
-        else {
-            currentStyles.addAll(SwitchGraphic.switchStyle, SwitchGraphic.switchOffStyle);
+        switch(currentStyle){
+            case Build:
+                this.getStyleClass().addAll(SWITCH_STYLE, SWITCH_BUILD_STYLE);
+                break;
+            case On:
+                this.getStyleClass().addAll(SWITCH_STYLE, SWITCH_ON_STYLE);
+                break;
+            case Off:
+                this.getStyleClass().addAll(SWITCH_STYLE, SWITCH_OFF_STYLE);
+                break;
         }
     }
 
-    public enum SwitchStyle{
-        On,
-        Off
+    public void setStyle(DrawStyle newStyle){
+        currentStyle = newStyle;
     }
 }

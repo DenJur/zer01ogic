@@ -4,7 +4,9 @@ import app.components.InputPin;
 import app.components.OutputPin;
 import app.components.Pin;
 import app.dragdrop.DraggableNode;
+import app.enums.DrawStyle;
 import app.graphics.io.LightbulbGraphic;
+import app.interfaces.StatefulNode;
 import app.logicComponents.LightbulbLogic;
 import interfaces.circuits.ICircuitElementRegister;
 import interfaces.elements.IObservableValue;
@@ -14,7 +16,7 @@ import simulation.values.MultibitValue;
 
 import static app.graphics.GraphicsHelper.AnchorAll;
 
-public class LightbulbDraggable extends DraggableNode {
+public class LightbulbDraggable extends DraggableNode implements StatefulNode {
 
     private final LightbulbGraphic graphic;
     private InputPin inputPin;
@@ -25,7 +27,11 @@ public class LightbulbDraggable extends DraggableNode {
         graphicBox.setMargin(graphic, new Insets(10));
         this.getChildren().add(graphicBox);
         AnchorAll(graphicBox, 0, 0, 0, 0);
+
         createPins(0);
+
+        ///Set up the clock's CSS in build mode
+        setNodeStyle(DrawStyle.Build);
     }
 
     @Override
@@ -70,5 +76,15 @@ public class LightbulbDraggable extends DraggableNode {
                 return;
             }
         }
+    }
+
+    @Override
+    public void updateStyle() {
+        graphic.updateStyle();
+    }
+
+    @Override
+    public void setNodeStyle(DrawStyle newStyle) {
+        graphic.setStyle(newStyle);
     }
 }

@@ -21,7 +21,7 @@
 }
 
 .XOR * {
-    /*-fx-fill: yellow;*/
+    /*-fx-fill: orange;*/
 }
 
 .NOR * {
@@ -37,6 +37,10 @@
 .Switch * {
 }
 
+.SwitchBuild * {
+    -fx-fill: orange;
+}
+
 .SwitchOn * {
     -fx-fill: green;
 }
@@ -48,6 +52,10 @@
 .Lightbulb * {
 }
 
+.LightbulbBuild * {
+    -fx-fill: orange;
+}
+
 .LightbulbOn * {
     -fx-fill: green;
 }
@@ -57,6 +65,10 @@
 }
 
 .Clock * {
+}
+
+.ClockBuild * {
+    -fx-fill: orange;
 }
 
 .ClockOn * {
@@ -83,7 +95,7 @@
 }
 
 .WireBuild {
-    -fx-stroke: yellow;
+    -fx-stroke: orange;
 }
 
 .WireOff {

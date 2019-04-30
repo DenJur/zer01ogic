@@ -1,5 +1,6 @@
 package app.graphics.io;
 
+import app.enums.DrawStyle;
 import app.graphics.GraphicsHelper;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
@@ -7,9 +8,12 @@ import javafx.scene.shape.SVGPath;
 
 public class ClockGraphic extends Group {
 
-    public static final String clockStyle = "Clock";
-    public static final String clockOnStyle = "ClockOn";
-    public static final String clockOffStyle = "ClockOff";
+    public static final String CLOCK_STYLE = "Clock";
+    public static final String CLOCK_BUILD_STYLE = "ClockBuild";
+    public static final String CLOCK_ON_STYLE = "ClockOn";
+    public static final String CLOCK_OFF_STYLE = "ClockOff";
+
+    private volatile DrawStyle currentStyle;
 
     public ClockGraphic() {
         super();
@@ -39,22 +43,27 @@ public class ClockGraphic extends Group {
         GraphicsHelper.resize(container, 50, 50);
         this.getChildren().add(container);
 
-        //TODO setup default graphics
-        this.getStyleClass().addAll(ClockGraphic.clockStyle, ClockGraphic.clockOffStyle);
+        //Set up graphic in build mode
+        setStyle(DrawStyle.Build);
     }
 
-    public void setStyle(ClockStyle style) {
+    public void updateStyle() {
         ObservableList<String> currentStyles = this.getStyleClass();
         currentStyles.clear();
-        if (style == ClockStyle.On) {
-            currentStyles.addAll(ClockGraphic.clockStyle, ClockGraphic.clockOnStyle);
-        } else {
-            currentStyles.addAll(ClockGraphic.clockStyle, ClockGraphic.clockOffStyle);
+        switch(currentStyle){
+            case Build:
+                this.getStyleClass().addAll(CLOCK_STYLE, CLOCK_BUILD_STYLE);
+                break;
+            case On:
+                this.getStyleClass().addAll(CLOCK_STYLE, CLOCK_ON_STYLE);
+                break;
+            case Off:
+                this.getStyleClass().addAll(CLOCK_STYLE, CLOCK_OFF_STYLE);
+                break;
         }
     }
 
-    public enum ClockStyle {
-        On,
-        Off
+    public void setStyle(DrawStyle newStyle){
+        currentStyle = newStyle;
     }
 }

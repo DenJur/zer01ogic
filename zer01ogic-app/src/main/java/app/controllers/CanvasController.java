@@ -3,14 +3,21 @@ package app.controllers;
 import app.components.InputPin;
 import app.components.OutputPin;
 import app.components.Pin;
+import app.components.WireObject;
 import app.dragdrop.DragContainer;
 import app.dragdrop.DraggableNode;
+import app.enums.DrawStyle;
+import app.interfaces.InputNode;
+import app.interfaces.StatefulNode;
 import app.models.WireLogic;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -23,16 +30,40 @@ public class CanvasController implements Initializable {
 
     private ArrayList<WireLogic> wires;
     private ArrayList<DraggableNode> nodes;
+    private ArrayList<StatefulNode> statefulNodes;
 
     private String activeTool;
     private boolean buildModeEnabled;
+    private final Timeline timeline;
+
 
     public CanvasController(MainSceneController mainSceneController) {
         wires = new ArrayList<>();
         nodes = new ArrayList<>();
+        statefulNodes = new ArrayList<>();
 
         //The pointer is set as the active tool in build mode when starting the program
         setActiveTool("pointer");
+
+        //the timeline will update the canvas once per 60 milliseconds to reflect any changes in node states
+        timeline = new Timeline(new KeyFrame(Duration.millis(1000 / 60), event -> {
+            //Update wires
+            WireObject wireObject;
+            for(WireLogic wireLogic : wires){
+                wireObject = wireLogic.getWireObject();
+                wireObject.updateStyle();
+            }
+
+            //Update StatefulNodes
+            for(StatefulNode statefulNode : statefulNodes){
+                statefulNode.updateStyle();
+            }
+
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+
+
     }
 
     @Override
@@ -56,6 +87,9 @@ public class CanvasController implements Initializable {
         //Add the new node to the Canvas
         anchorpane_canvas.getChildren().add(newNode);
         nodes.add(newNode);
+        if(newNode instanceof StatefulNode){
+            statefulNodes.add((StatefulNode) newNode);
+        }
 
         newNode.relocateToPoint(
                 new Point2D(cursorPoint.getX() - newNode.getWidth() / 2, cursorPoint.getY() - newNode.getHeight() / 2)
@@ -120,6 +154,29 @@ public class CanvasController implements Initializable {
         return false;
     }
 
+    public void setToBuildMode(){
+        //Update wires
+        WireObject wireObject;
+        for(WireLogic wireLogic : wires){
+            wireObject = wireLogic.getWireObject();
+            wireObject.setWireStyle(DrawStyle.Build);
+        }
+
+        //Update nodes
+        for(StatefulNode statefulNode : statefulNodes){
+            statefulNode.setNodeStyle(DrawStyle.Build);
+        }
+    }
+
+    public void setToSimulationMode(){
+        //Set the style of input nodes to red (default to off)
+        for(StatefulNode statefulNode : statefulNodes){
+            if(statefulNode instanceof InputNode){
+                statefulNode.setNodeStyle(DrawStyle.Off);
+            }
+        }
+    }
+
     public void setActiveTool(String tool){
         //First destroy active drag handlers
         destroyHandlers();
@@ -144,6 +201,8 @@ public class CanvasController implements Initializable {
         }
 
     }
+
+    //----------------------------------HANDLER CREATION/ DESTRUCTION---------------------------------------------------
 
     /**
      * Destroys the drag handlers for all active DraggableNodes and their Pins
@@ -176,6 +235,8 @@ public class CanvasController implements Initializable {
         }
 
     }
+
+    //---------------------------------------GETTERS AND SETTERS--------------------------------------------------------
 
     public Iterable<DraggableNode> getNodes() {
         return nodes;

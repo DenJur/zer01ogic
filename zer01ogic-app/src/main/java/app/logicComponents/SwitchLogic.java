@@ -1,5 +1,6 @@
 package app.logicComponents;
 
+import app.enums.DrawStyle;
 import app.graphics.io.SwitchGraphic;
 import interfaces.circuits.ICircuitQueue;
 import interfaces.elements.ILogicElement;
@@ -59,8 +60,8 @@ public class SwitchLogic implements ILogicElement {
     public void switchState() {
         output.setValue(~output.getValue());
         if (output.getValue() != 0)
-            parentGraphic.setStyle(SwitchGraphic.SwitchStyle.On);
+            parentGraphic.setStyle(DrawStyle.On);
         else
-            parentGraphic.setStyle(SwitchGraphic.SwitchStyle.Off);
+            parentGraphic.setStyle(DrawStyle.Off);
     }
 }
