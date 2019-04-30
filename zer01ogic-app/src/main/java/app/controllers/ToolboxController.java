@@ -4,19 +4,15 @@ import app.componentFactories.io.ClockFactory;
 import app.componentFactories.io.LightbulbFactory;
 import app.componentFactories.io.SwitchFactory;
 import app.componentFactories.logicGates.*;
-import app.componentFactories.memory.DFlipFlopFactory;
-import app.componentFactories.memory.JKFlipFlopFactory;
-import app.componentFactories.memory.SRFlipFlopFactory;
-import app.componentFactories.memory.TFlipFlopFactory;
+import app.componentFactories.memory.*;
+import app.componentFactories.memory.AdderFactory;
 import app.components.ToolboxListCell;
 import app.graphics.io.ClockGraphic;
 import app.graphics.io.LightbulbGraphic;
 import app.graphics.io.SwitchGraphic;
 import app.graphics.logicGates.*;
-import app.graphics.memory.DFlipFlopGraphic;
-import app.graphics.memory.JKFlipFlopGraphic;
-import app.graphics.memory.SRFlipFlopGraphic;
-import app.graphics.memory.TFlipFlopGraphic;
+import app.graphics.memory.*;
+import app.graphics.memory.AdderGraphic;
 import app.models.ToolboxItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -84,7 +80,9 @@ public class ToolboxController implements Initializable {
 
         //Arithmetic Units
         //TODO Add Arithmetic Units --------------------------------------------------
-
+        toolboxItemObservableListArithmeticUnits.addAll(
+                new ToolboxItem("Adder",new AdderGraphic(), 3,2, new AdderFactory())
+        );
         //User Created Circuits
         //TODO Load in user created simulation -----------------------------------------
     }
@@ -99,6 +97,9 @@ public class ToolboxController implements Initializable {
 
         listview_memory.setItems(toolboxItemObservableListMemory);
         listview_memory.setCellFactory(memoryListView -> new ToolboxListCell());
+
+        listview_arithmeticUnits.setItems(toolboxItemObservableListArithmeticUnits);
+        listview_arithmeticUnits.setCellFactory(arithmeticUnits -> new ToolboxListCell());
 
         //Add drag handler for listviews
         addDragDetection(listview_logicGates);

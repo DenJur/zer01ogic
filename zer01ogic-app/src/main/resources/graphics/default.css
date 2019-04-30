@@ -119,3 +119,7 @@
 .Memory * {
     -fx-stroke-width: 3.0;
 }
+
+.Arithmetic * {
+    -fx-stroke-width: 3.0;
+}
