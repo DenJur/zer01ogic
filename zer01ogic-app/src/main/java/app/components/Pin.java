@@ -5,7 +5,10 @@ import app.dragdrop.DragContainer;
 import app.dragdrop.DraggableNode;
 import app.models.WireLogic;
 import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
+import javafx.geometry.Point2D;
 import javafx.scene.input.*;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
 public abstract class Pin extends Rectangle {
@@ -17,8 +20,6 @@ public abstract class Pin extends Rectangle {
     //Drag and drop
     private EventHandler <MouseEvent> mLinkHandleDragDetected;
     private EventHandler <DragEvent> mLinkHandleDragDropped;
-    private EventHandler <DragEvent> mContextLinkDragOver;
-    private EventHandler <DragEvent> mContextLinkDragDropped;
 
     //Coordinates relative to container node
     protected double xPosition;
@@ -62,13 +63,13 @@ public abstract class Pin extends Rectangle {
 
             @Override
             public void handle(MouseEvent event) {
-
                 getParent().getParent().setOnDragOver(null);
                 getParent().getParent().setOnDragDropped(null);
                 getParent().getParent().setOnDragOver(new EventHandler<DragEvent>() {
                     @Override
                     public void handle(DragEvent event) {
                         event.acceptTransferModes(TransferMode.ANY);
+
                         event.consume();
                     }
                 });
@@ -83,6 +84,7 @@ public abstract class Pin extends Rectangle {
                 event.consume();
             }
         };
+
 
         mLinkHandleDragDropped = new EventHandler <DragEvent> () {
 
