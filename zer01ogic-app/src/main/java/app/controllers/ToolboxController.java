@@ -4,11 +4,19 @@ import app.componentFactories.io.ClockFactory;
 import app.componentFactories.io.LightbulbFactory;
 import app.componentFactories.io.SwitchFactory;
 import app.componentFactories.logicGates.*;
+import app.componentFactories.memory.DFlipFlopFactory;
+import app.componentFactories.memory.JKFlipFlopFactory;
+import app.componentFactories.memory.SRFlipFlopFactory;
+import app.componentFactories.memory.TFlipFlopFactory;
 import app.components.ToolboxListCell;
 import app.graphics.io.ClockGraphic;
 import app.graphics.io.LightbulbGraphic;
 import app.graphics.io.SwitchGraphic;
 import app.graphics.logicGates.*;
+import app.graphics.memory.DFlipFlopGraphic;
+import app.graphics.memory.JKFlipFlopGraphic;
+import app.graphics.memory.SRFlipFlopGraphic;
+import app.graphics.memory.TFlipFlopGraphic;
 import app.models.ToolboxItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -67,6 +75,12 @@ public class ToolboxController implements Initializable {
 
         //Memory
         //TODO Add Memory units ------------------------------------------------------
+        toolboxItemObservableListMemory.addAll(
+                new ToolboxItem("DFlipFlop",new DFlipFlopGraphic(),2,1, new DFlipFlopFactory()),
+                new ToolboxItem("TFlipFlop", new TFlipFlopGraphic(), 2, 1, new TFlipFlopFactory()),
+                new ToolboxItem("JKFlipFlop", new JKFlipFlopGraphic(), 3, 1, new JKFlipFlopFactory()),
+                new ToolboxItem("SRFlipFlop", new SRFlipFlopGraphic(), 3, 1, new SRFlipFlopFactory())
+        );
 
         //Arithmetic Units
         //TODO Add Arithmetic Units --------------------------------------------------
@@ -82,6 +96,9 @@ public class ToolboxController implements Initializable {
 
         listview_inputsOutputs.setItems(toolboxItemObservableListInputsOutputs);
         listview_inputsOutputs.setCellFactory(inputsOutputsListView -> new ToolboxListCell());
+
+        listview_memory.setItems(toolboxItemObservableListMemory);
+        listview_memory.setCellFactory(memoryListView -> new ToolboxListCell());
 
         //Add drag handler for listviews
         addDragDetection(listview_logicGates);

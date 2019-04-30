@@ -105,3 +105,7 @@
 .WireOn {
     -fx-stroke: green;
 }
+
+.Memory * {
+    -fx-stroke-width: 3.0;
+}
