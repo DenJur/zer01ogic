@@ -7,6 +7,7 @@ import app.components.WireObject;
 import app.dragdrop.DragContainer;
 import app.dragdrop.DraggableNode;
 import app.enums.DrawStyle;
+import app.interfaces.InputNode;
 import app.interfaces.StatefulNode;
 import app.models.WireLogic;
 import javafx.animation.KeyFrame;
@@ -167,6 +168,15 @@ public class CanvasController implements Initializable {
         }
     }
 
+    public void setToSimulationMode(){
+        //Set the style of input nodes to red (default to off)
+        for(StatefulNode statefulNode : statefulNodes){
+            if(statefulNode instanceof InputNode){
+                statefulNode.setNodeStyle(DrawStyle.Off);
+            }
+        }
+    }
+
     public void setActiveTool(String tool){
         //First destroy active drag handlers
         destroyHandlers();
@@ -192,7 +202,7 @@ public class CanvasController implements Initializable {
 
     }
 
-    //---------------------------------------GETTERS AND SETTERS--------------------------------------------------------
+    //----------------------------------HANDLER CREATION/ DESTRUCTION---------------------------------------------------
 
     /**
      * Destroys the drag handlers for all active DraggableNodes and their Pins

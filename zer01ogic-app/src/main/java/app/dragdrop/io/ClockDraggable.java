@@ -4,6 +4,7 @@ import app.components.OutputPin;
 import app.dragdrop.DraggableNode;
 import app.enums.DrawStyle;
 import app.graphics.io.ClockGraphic;
+import app.interfaces.InputNode;
 import app.interfaces.StatefulNode;
 import interfaces.circuits.ICircuitElementRegister;
 import interfaces.elements.IObservableValue;
@@ -14,7 +15,7 @@ import simulation.io.Clock;
 
 import static app.graphics.GraphicsHelper.AnchorAll;
 
-public class ClockDraggable extends DraggableNode implements IObserver, StatefulNode {
+public class ClockDraggable extends DraggableNode implements IObserver, StatefulNode, InputNode {
 
     private final ClockGraphic graphic;
 

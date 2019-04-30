@@ -242,6 +242,7 @@ public class MainSceneController implements Initializable {
             menuBarBuild.setVisible(false);
             menuBarSimulation.setVisible(true);
             toolbox.setDisable(true);
+            canvasController.setToSimulationMode();
             if(simulationRunner!=null){
                 try {
                     simulationRunner.stop();

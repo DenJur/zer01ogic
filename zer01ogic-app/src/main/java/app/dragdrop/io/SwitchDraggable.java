@@ -4,9 +4,9 @@ import app.components.OutputPin;
 import app.dragdrop.DraggableNode;
 import app.enums.DrawStyle;
 import app.graphics.io.SwitchGraphic;
+import app.interfaces.InputNode;
 import app.interfaces.StatefulNode;
 import app.logicComponents.SwitchLogic;
-import app.models.WireLogic;
 import interfaces.circuits.ICircuitElementRegister;
 import interfaces.elements.ILogicElementFrontEnd;
 import interfaces.elements.IObservableValue;
@@ -15,7 +15,7 @@ import javafx.scene.layout.VBox;
 
 import static app.graphics.GraphicsHelper.AnchorAll;
 
-public class SwitchDraggable extends DraggableNode implements ILogicElementFrontEnd, StatefulNode {
+public class SwitchDraggable extends DraggableNode implements ILogicElementFrontEnd, StatefulNode, InputNode {
 
     private final SwitchGraphic graphic;
     private OutputPin outputPin;
