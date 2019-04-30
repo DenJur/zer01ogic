@@ -5,8 +5,11 @@ import interfaces.elements.ILogicElementFrontEnd;
 import interfaces.elements.IScheduledLogicElement;
 
 import java.util.ArrayDeque;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
+/**
+ * Version of busy waiting circuit but without synchronization so should not be used with GUI controls or
+ * scheduled elements. Unsafe.
+ */
 public class SingleThreadCircuitBusyUnsynced extends SingleThreadCircuit {
 
     public SingleThreadCircuitBusyUnsynced() {

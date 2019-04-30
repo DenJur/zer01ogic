@@ -8,11 +8,18 @@ import interfaces.elements.IScheduledLogicElement;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+/**
+ * Scheduled executor using busy waiting to achieve high precision real-time timings
+ */
 public class ScheduledLogicBusyExecutor implements IScheduledLogicExecutor, Runnable {
     private final Object lock = new Object();
+    //set of elements that need time based updates
     private HashSet<IScheduledLogicElement> elements;
+    //indicates if simulation was finished creating and has started
     private boolean finalized;
+    //list of time based tasks that need execution
     private ArrayList<ScheduledTask> tasks;
+    //thread used to run the executor
     private Thread counterThread;
     private volatile boolean stopped;
     private boolean paused;
@@ -43,8 +50,9 @@ public class ScheduledLogicBusyExecutor implements IScheduledLogicExecutor, Runn
     }
 
     @Override
-    public synchronized void stop() throws Exception {
+    public synchronized void stop() throws SimulationStoppingException {
         stopped = true;
+        //unlock thread if waiting to allow it to stop
         synchronized (lock) {
             lock.notifyAll();
         }
@@ -63,6 +71,7 @@ public class ScheduledLogicBusyExecutor implements IScheduledLogicExecutor, Runn
     @Override
     public void start() {
         finalized = true;
+        //start counters for all tasks
         tasks.forEach(ScheduledTask::start);
         if (tasks.size() > 0) {
             counterThread = new Thread(this);
@@ -85,15 +94,20 @@ public class ScheduledLogicBusyExecutor implements IScheduledLogicExecutor, Runn
         long currentTime;
         long delta;
         while (!stopped) {
+            //record current time and calculate time delta to the previous loop iteration
             currentTime = System.nanoTime();
             delta = currentTime - previousTime;
+            //find when the next task needs to be executed
             long smallestWait = Long.MAX_VALUE;
             for (ScheduledTask task : tasks) {
                 task.run(delta);
                 if (task.nanosWait < smallestWait) smallestWait = task.nanosWait;
             }
             previousTime = currentTime;
+            //if next task to be executed is less than 30 millis away use busy waiting else suspend thread
+            //until next task becomes 20 milli away
             if (smallestWait <= 30000000)
+                //use tight wait loop to get precise timings
                 while (!stopped && (System.nanoTime() - previousTime < smallestWait)) ;
             else {
                 try {
@@ -107,6 +121,9 @@ public class ScheduledLogicBusyExecutor implements IScheduledLogicExecutor, Runn
         }
     }
 
+    /**
+     * Class used to keep track of wait timers for individual circuit elements
+     */
     private class ScheduledTask {
         private IScheduledLogicElement logicElement;
         private long nanosWait;
@@ -115,7 +132,13 @@ public class ScheduledLogicBusyExecutor implements IScheduledLogicExecutor, Runn
             this.logicElement = element;
         }
 
+        /**
+         * Execute logic element update if it's timer reached 0 since the last update
+         *
+         * @param timeDelta - amount of nanoseconds passed since last time task was run
+         */
         void run(long timeDelta) {
+            //if paused, do not keep track of passed time
             if (!paused) {
                 nanosWait -= timeDelta;
                 if (nanosWait <= 0) {
@@ -125,6 +148,9 @@ public class ScheduledLogicBusyExecutor implements IScheduledLogicExecutor, Runn
             }
         }
 
+        /**
+         * Initialize delay timer
+         */
         void start() {
             nanosWait = logicElement.getDelayTimeUnits().toNanos(logicElement.getDelay());
         }

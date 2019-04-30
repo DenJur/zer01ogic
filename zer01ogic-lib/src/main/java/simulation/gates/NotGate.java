@@ -1,16 +1,19 @@
 package simulation.gates;
 
-import simulation.values.MultibitValue;
-import simulation.values.NotTransform;
-import simulation.values.TransformerMode;
 import interfaces.circuits.ICircuitQueue;
 import interfaces.elements.ILogicElement;
 import interfaces.elements.IObservableValue;
 import interfaces.elements.IValueTransformer;
+import simulation.values.MultibitValue;
+import simulation.values.NotTransform;
+import simulation.values.TransformerMode;
 
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Single input, single output NOT gate
+ */
 public class NotGate implements ILogicElement {
     protected IObservableValue<Integer> output;
     protected IObservableValue<Integer> input;
@@ -18,9 +21,9 @@ public class NotGate implements ILogicElement {
 
     public NotGate(byte outputSize) {
         output = new MultibitValue(0, outputSize);
-        NotTransform wrapper=new NotTransform(TransformerMode.SET);
+        NotTransform wrapper = new NotTransform(TransformerMode.SET);
         wrapper.setInnerValue(output);
-        output=wrapper;
+        output = wrapper;
     }
 
     @Override
@@ -28,9 +31,14 @@ public class NotGate implements ILogicElement {
         return Collections.singletonList(output);
     }
 
+    /**
+     * Set input observable. If input was previously set, it will be overwritten.
+     *
+     * @param input
+     */
     public void setInput(IObservableValue input) {
-        if(this.input!=null) this.input.deregisterObserver(this);
-        this.input=input;
+        if (this.input != null) this.input.deregisterObserver(this);
+        this.input = input;
         input.registerObserver(this);
     }
 
@@ -41,18 +49,18 @@ public class NotGate implements ILogicElement {
 
     @Override
     public void setParentCircuit(ICircuitQueue circuit) {
-        parent=circuit;
+        parent = circuit;
     }
 
     @Override
     public void addValueTransformer(IObservableValue value, IValueTransformer transformer) {
         if (Integer.class.isAssignableFrom(transformer.getValueType())) {
             transformer.setInnerValue(value);
-            if (input==value) {
-                input=transformer;
+            if (input == value) {
+                input = transformer;
             }
-            if(output==value){
-                output=transformer;
+            if (output == value) {
+                output = transformer;
             }
         }
     }
@@ -69,6 +77,11 @@ public class NotGate implements ILogicElement {
         }
     }
 
+    /**
+     * Output observable getter
+     *
+     * @return - output observable value
+     */
     public IObservableValue<Integer> getOutput() {
         return output;
     }

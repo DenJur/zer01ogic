@@ -11,42 +11,65 @@ import simulation.circuits.SingleThreadCircuitWaiting;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Circuit builder that allows to build single threaded circuit runners using circuits currently available in the library.
+ */
 public class DefaultCircuitBuilder implements ICircuitBuilder {
     private ICircuitRunner circuitRunner;
     private ICircuit circuit;
     private ICircuitElementRegister register;
     private IScheduledLogicExecutor scheduledExecutor;
 
-    public DefaultCircuitBuilder usingSingleThreadRunner(){
-        circuitRunner=new SingleThreadCircuitRunner();
+    /**
+     * Use single thread circuit runner
+     *
+     * @return - "this" for method chaining
+     */
+    public DefaultCircuitBuilder usingSingleThreadRunner() {
+        circuitRunner = new SingleThreadCircuitRunner();
         return this;
     }
 
-    public DefaultCircuitBuilder buildBusyCircuit(){
+    /**
+     * Use SingleThreadCircuitBusy circuit for simulation
+     *
+     * @return - "this" for method chaining
+     */
+    public DefaultCircuitBuilder buildBusyCircuit() {
         SingleThreadCircuitBusy circuitBusy = new SingleThreadCircuitBusy();
-        circuit=circuitBusy;
-        register=circuitBusy;
+        circuit = circuitBusy;
+        register = circuitBusy;
         return this;
     }
 
-    public DefaultCircuitBuilder buildWaitingCircuit(){
+    /**
+     * Use SingleThreadCircuitWaiting circuit for simulation
+     *
+     * @return - "this" for method chaining
+     */
+    public DefaultCircuitBuilder buildWaitingCircuit() {
         SingleThreadCircuitWaiting circuitWaiting = new SingleThreadCircuitWaiting();
-        circuit=circuitWaiting;
-        register=circuitWaiting;
+        circuit = circuitWaiting;
+        register = circuitWaiting;
         return this;
     }
 
-    public DefaultCircuitBuilder addBusyScheduledExecutor(){
-        scheduledExecutor=new ScheduledLogicBusyExecutor();
+    /**
+     * Add ScheduledLogicBusyExecutor to the simulation
+     *
+     * @return - "this" for method chaining
+     */
+    public DefaultCircuitBuilder addBusyScheduledExecutor() {
+        scheduledExecutor = new ScheduledLogicBusyExecutor();
         return this;
     }
 
     @Override
     public ICircuitRunner build(Iterable<? extends ILogicElementFrontEnd> source) throws SimulationBuildException {
-        if(circuit==null) throw new SimulationBuildException("Simulation Circuit type not set");
-        if(circuitRunner==null) throw new SimulationBuildException("Circuit runner type not set");
+        if (circuit == null) throw new SimulationBuildException("Simulation Circuit type not set");
+        if (circuitRunner == null) throw new SimulationBuildException("Circuit runner type not set");
 
-        if(scheduledExecutor!=null){
+        if (scheduledExecutor != null) {
             circuit.addScheduledExecutor(scheduledExecutor);
         }
 

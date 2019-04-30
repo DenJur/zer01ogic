@@ -6,6 +6,9 @@ import interfaces.elements.IScheduledLogicElement;
 
 import java.util.ArrayDeque;
 
+/**
+ * Circuit that uses wait/notify mechanism when queue is empty.
+ */
 public class SingleThreadCircuitWaiting extends SingleThreadCircuit {
     private final Object lock = new Object();
 

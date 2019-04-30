@@ -6,27 +6,35 @@ import interfaces.elements.IObserver;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 
+/**
+ * Observable value that uses Integer as the data storage type and can be used for representing 1 to 32 bit values.
+ */
 public class MultibitValue implements IObservableValue<Integer> {
+    private final Integer initialValue;
     private Integer value;
     private LinkedHashSet<IObserver> observers;
     private byte valueBitSize;
-    private final Integer initialValue;
 
     public MultibitValue() {
-        this(0,(byte)1);
+        this(0, (byte) 1);
     }
 
     public MultibitValue(Integer initialValue) {
-        this(initialValue, (byte)1);
+        this(initialValue, (byte) 1);
     }
 
     public MultibitValue(Integer initialValue, byte bitSize) {
         observers = new LinkedHashSet<>();
         valueBitSize = bitSize;
         this.setValue(initialValue);
-        this.initialValue=initialValue;
+        this.initialValue = initialValue;
     }
 
+    /**
+     * Get bit size of the value this observable represents
+     *
+     * @return - bit size of value
+     */
     public byte getValueBitSize() {
         return valueBitSize;
     }
@@ -38,8 +46,10 @@ public class MultibitValue implements IObservableValue<Integer> {
 
     @Override
     public synchronized void setValue(Integer newValue) {
-        if(newValue==null) return;
+        if (newValue == null) return;
+        //truncate value to bit size
         newValue = (newValue << (Integer.SIZE - valueBitSize)) >>> (Integer.SIZE - valueBitSize);
+        //only change if value is different than the current value
         if (!newValue.equals(value)) {
             value = newValue;
             notifyObservers();
@@ -66,8 +76,11 @@ public class MultibitValue implements IObservableValue<Integer> {
         return Integer.class;
     }
 
+    /**
+     * Notify all observers that subscribed to this value
+     */
     private synchronized void notifyObservers() {
-        Iterator<IObserver> i=observers.iterator();
+        Iterator<IObserver> i = observers.iterator();
         i.forEachRemaining(iObserver -> iObserver.update(this));
     }
 }

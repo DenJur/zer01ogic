@@ -1,11 +1,11 @@
 package gateTests;
 
+import interfaces.elements.IObservableValue;
+import org.junit.jupiter.api.Test;
 import simulation.gates.XorGate;
 import simulation.values.MultibitValue;
 import simulation.values.NotTransform;
 import simulation.values.TransformerMode;
-import interfaces.elements.IObservableValue;
-import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

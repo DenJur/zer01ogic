@@ -4,6 +4,9 @@ import exceptions.SimulationStoppingException;
 import interfaces.circuits.ICircuit;
 import interfaces.circuits.ICircuitRunner;
 
+/**
+ * Circuit runner for single thread circuits.
+ */
 public class SingleThreadCircuitRunner implements ICircuitRunner {
     private Thread simulationThread;
     private ICircuit innerCircuit;
@@ -18,17 +21,17 @@ public class SingleThreadCircuitRunner implements ICircuitRunner {
 
     @Override
     public void startSimulation() {
-        if (simulationThread != null)
+        if (simulationThread != null && simulationThread.getState() == Thread.State.NEW)
             simulationThread.start();
     }
 
     @Override
-    public void reset() throws Exception {
+    public void reset() throws SimulationStoppingException {
         if (innerCircuit != null) {
             stop();
             innerCircuit.reset();
             innerCircuit.pause();
-            simulationThread=new Thread(innerCircuit.getCircuitRunnable());
+            simulationThread = new Thread(innerCircuit.getCircuitRunnable());
             simulationThread.setPriority(10);
             simulationThread.setDaemon(true);
             simulationThread.start();
@@ -48,8 +51,8 @@ public class SingleThreadCircuitRunner implements ICircuitRunner {
     }
 
     @Override
-    public void stop() throws Exception {
-        if (innerCircuit != null && simulationThread!=null) {
+    public void stop() throws SimulationStoppingException {
+        if (innerCircuit != null && simulationThread != null) {
             innerCircuit.stop();
             innerCircuit.switchMode(SimulationMode.NONSTOP);
             innerCircuit.unpause();
@@ -58,7 +61,7 @@ public class SingleThreadCircuitRunner implements ICircuitRunner {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if(simulationThread.isAlive()){
+            if (simulationThread.isAlive()) {
                 throw new SimulationStoppingException("Error stopping logic simulation thread.");
             }
         }

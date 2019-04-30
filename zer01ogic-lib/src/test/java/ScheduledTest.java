@@ -1,16 +1,7 @@
 import interfaces.circuits.ICircuitElementRegister;
-import interfaces.circuits.ICircuitRunner;
 import interfaces.elements.ILogicElementFrontEnd;
-import org.junit.jupiter.api.Test;
-import simulation.DefaultCircuitBuilder;
 import simulation.io.Clock;
-import simulation.values.MultibitValue;
-import testHelpers.TestAndWrapper;
 import testHelpers.ValueUpdateCounter;
-
-import java.util.Arrays;
-
-import static org.junit.jupiter.api.Assertions.fail;
 
 public class ScheduledTest {
     //TODO write actual tests
@@ -52,7 +43,7 @@ public class ScheduledTest {
         public Clock clock;
         public ValueUpdateCounter counter;
 
-        ClockWrapper(){
+        ClockWrapper() {
             clock = new Clock(1);
             counter = new ValueUpdateCounter();
             clock.getOutput().registerObserver(counter);

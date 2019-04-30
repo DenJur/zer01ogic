@@ -6,9 +6,15 @@ import interfaces.elements.IScheduledLogicElement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.concurrent.*;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
-
+/**
+ * Scheduled executor using ScheduledExecutorService. Requires small amount of system resources but is not precise
+ * when used in sub 100 millisecond frequency tasks
+ */
 public class ScheduledLogicExecutor implements IScheduledLogicExecutor {
     private ScheduledExecutorService executor;
     private HashSet<IScheduledLogicElement> elements;
@@ -23,7 +29,7 @@ public class ScheduledLogicExecutor implements IScheduledLogicExecutor {
         tasks = new ArrayList<>();
         currentTasks = new HashMap<>();
         pausedTasks = new HashMap<>();
-        finalized=false;
+        finalized = false;
     }
 
     @Override
@@ -42,6 +48,7 @@ public class ScheduledLogicExecutor implements IScheduledLogicExecutor {
         pausedTasks.clear();
         currentTasks.forEach((scheduledTask, scheduledFuture) -> {
             scheduledFuture.cancel(false);
+            //save current delays to reschedule tasks when unpaused
             pausedTasks.put(scheduledTask, scheduledFuture.getDelay(TimeUnit.NANOSECONDS));
         });
         currentTasks.clear();
@@ -62,8 +69,8 @@ public class ScheduledLogicExecutor implements IScheduledLogicExecutor {
 
     @Override
     public void start() {
-        finalized=true;
-        elements=null;
+        finalized = true;
+        elements = null;
         tasks.forEach(ScheduledTask::schedule);
     }
 
@@ -75,6 +82,9 @@ public class ScheduledLogicExecutor implements IScheduledLogicExecutor {
         start();
     }
 
+    /**
+     * Class used for tasks that have a fixed execution schedule
+     */
     private class ScheduledTask implements Runnable {
         IScheduledLogicElement logicElement;
 
@@ -82,11 +92,19 @@ public class ScheduledLogicExecutor implements IScheduledLogicExecutor {
             this.logicElement = element;
         }
 
+        /**
+         * Schedule task for the delay provided by logic element
+         */
         void schedule() {
             currentTasks.put(this, executor.scheduleWithFixedDelay(this, logicElement.getDelay(),
                     logicElement.getDelay(), logicElement.getDelayTimeUnits()));
         }
 
+        /**
+         * Schedule task wit specified delay. Used to reschedule task after pause
+         *
+         * @param delay - delay in nanoseconds
+         */
         void schedule(long delay) {
             currentTasks.put(this, executor.scheduleAtFixedRate(this, delay,
                     logicElement.getDelayTimeUnits().toNanos(logicElement.getDelay()), TimeUnit.NANOSECONDS));
@@ -98,6 +116,9 @@ public class ScheduledLogicExecutor implements IScheduledLogicExecutor {
         }
     }
 
+    /**
+     * Class used for tasks that have a non-fixed execution schedule
+     */
     private class ReScheduledTask extends ScheduledTask {
 
         private long oldDelay;
@@ -108,14 +129,14 @@ public class ScheduledLogicExecutor implements IScheduledLogicExecutor {
 
         @Override
         void schedule() {
-            oldDelay=logicElement.getDelayTimeUnits().toNanos(logicElement.getDelay());
+            oldDelay = logicElement.getDelayTimeUnits().toNanos(logicElement.getDelay());
             currentTasks.put(this, executor.scheduleAtFixedRate(this, logicElement.getDelay(),
                     logicElement.getDelay(), logicElement.getDelayTimeUnits()));
         }
 
         @Override
         void schedule(long delay) {
-            oldDelay=logicElement.getDelayTimeUnits().toNanos(logicElement.getDelay());
+            oldDelay = logicElement.getDelayTimeUnits().toNanos(logicElement.getDelay());
             currentTasks.put(this, executor.scheduleAtFixedRate(this, delay,
                     logicElement.getDelayTimeUnits().toNanos(logicElement.getDelay()), TimeUnit.NANOSECONDS));
         }
@@ -123,8 +144,9 @@ public class ScheduledLogicExecutor implements IScheduledLogicExecutor {
         @Override
         public void run() {
             logicElement.update(null);
-            long newDelay=logicElement.getDelayTimeUnits().toNanos(logicElement.getDelay());
-            if(newDelay!=oldDelay){
+            //get delay until the next update execution and reschedule to that delay
+            long newDelay = logicElement.getDelayTimeUnits().toNanos(logicElement.getDelay());
+            if (newDelay != oldDelay) {
                 currentTasks.get(this).cancel(false);
                 this.schedule();
             }

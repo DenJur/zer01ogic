@@ -1,13 +1,18 @@
 package simulation.gates;
 
-import simulation.values.MultibitValue;
 import interfaces.circuits.ICircuitQueue;
 import interfaces.elements.ILogicElement;
 import interfaces.elements.IObservableValue;
 import interfaces.elements.IValueTransformer;
+import simulation.values.MultibitValue;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+/**
+ * Abstract base class for logic gates that have any number of inputs and single output
+ */
 public abstract class BaseLogicGate implements ILogicElement {
     protected static final int maxWireValue = 0xFFFFFFFF;
     protected IObservableValue<Integer> output;
@@ -19,6 +24,11 @@ public abstract class BaseLogicGate implements ILogicElement {
         output = new MultibitValue(0, outputSize);
     }
 
+    /**
+     * Add new input value to the gate
+     *
+     * @param input - input observable value to add
+     */
     public void addInput(IObservableValue input) {
         if (Integer.class.isAssignableFrom(input.getValueType()) && !inputs.contains(input)) {
             inputs.add(input);
@@ -48,6 +58,11 @@ public abstract class BaseLogicGate implements ILogicElement {
         output.reset();
     }
 
+    /**
+     * Output observable getter
+     *
+     * @return - output observable value
+     */
     public IObservableValue<Integer> getOutput() {
         return output;
     }
@@ -60,8 +75,8 @@ public abstract class BaseLogicGate implements ILogicElement {
                 inputs.remove(value);
                 inputs.add(transformer);
             }
-            if(output==value){
-                output=transformer;
+            if (output == value) {
+                output = transformer;
             }
         }
     }

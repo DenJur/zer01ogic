@@ -1,5 +1,8 @@
 package simulation.values;
 
+/**
+ * Transformer that performs binary NOT on read, write or both actions.
+ */
 public class NotTransform extends ValueTransformerBase<Integer> {
 
     public NotTransform(TransformerMode mode) {

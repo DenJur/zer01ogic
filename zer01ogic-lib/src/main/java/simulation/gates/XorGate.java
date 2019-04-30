@@ -2,6 +2,9 @@ package simulation.gates;
 
 import interfaces.elements.IObservableValue;
 
+/**
+ * Binary XOR gate
+ */
 public class XorGate extends BaseLogicGate {
 
     public XorGate(byte outputSize) {

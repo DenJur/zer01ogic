@@ -2,6 +2,9 @@ package simulation.gates;
 
 import interfaces.elements.IObservableValue;
 
+/**
+ * Binary OR gate
+ */
 public class OrGate extends BaseLogicGate {
 
     public OrGate(byte outputSize) {

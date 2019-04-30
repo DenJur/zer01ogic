@@ -6,6 +6,10 @@ import interfaces.elements.IScheduledLogicElement;
 
 import java.util.ArrayDeque;
 
+/**
+ * Circuit that uses busy waiting when the queue is empty. Higher performance than await() but also high system
+ * resource consumption
+ */
 public class SingleThreadCircuitBusy extends SingleThreadCircuit {
 
     public SingleThreadCircuitBusy() {

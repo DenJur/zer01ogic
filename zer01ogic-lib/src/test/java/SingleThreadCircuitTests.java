@@ -1,7 +1,7 @@
-import simulation.DefaultCircuitBuilder;
-import simulation.values.MultibitValue;
 import interfaces.circuits.ICircuitRunner;
 import org.junit.jupiter.api.Test;
+import simulation.DefaultCircuitBuilder;
+import simulation.values.MultibitValue;
 import testHelpers.TestAndWrapper;
 import testHelpers.TestXNorWrapper;
 

@@ -2,6 +2,9 @@ package simulation.arithmetic;
 
 import simulation.values.MultibitValue;
 
+/**
+ * Binary multiplier
+ */
 public class Multiplier extends BaseArithmeticGate {
 
     public Multiplier(byte outputSize) {
@@ -14,8 +17,10 @@ public class Multiplier extends BaseArithmeticGate {
         long result = 0;
         if (inputA != null) result = Integer.toUnsignedLong(inputA.getValue());
         if (inputB != null) result *= Integer.toUnsignedLong(inputB.getValue());
-        result += Integer.toUnsignedLong(bonusInput.getValue());
+        //add carry bits
+        if (bonusInput != null) result += Integer.toUnsignedLong(bonusInput.getValue());
         output.setValue((int) result);
+        //output carry bits that did not fit the output
         bonusOutput.setValue((int) (result >> outputSize));
     }
 }

@@ -1,7 +1,7 @@
 import interfaces.elements.IObservableValue;
-import simulation.values.MultibitValue;
 import interfaces.elements.IObserver;
 import org.junit.jupiter.api.Test;
+import simulation.values.MultibitValue;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -16,7 +16,7 @@ public class MultibitValueTests {
         tested.setValue(7);
         assertEquals(1, tested.getValue().intValue(), "Expected to truncate leading bits leaving 1");
         tested = new MultibitValue(7, (byte) 2);
-        assertEquals(3, tested.getValue().intValue(),"Expected to truncate leading bits leaving 3");
+        assertEquals(3, tested.getValue().intValue(), "Expected to truncate leading bits leaving 3");
     }
 
     @Test

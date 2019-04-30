@@ -1,9 +1,9 @@
 package testHelpers;
 
+import interfaces.circuits.ICircuitElementRegister;
 import simulation.gates.XorGate;
 import simulation.values.NotTransform;
 import simulation.values.TransformerMode;
-import interfaces.circuits.ICircuitElementRegister;
 
 public class TestXNorWrapper extends BaseGateWrapper {
     public ValueUpdateCounter counter;
@@ -16,7 +16,7 @@ public class TestXNorWrapper extends BaseGateWrapper {
     public void createLogicElement(ICircuitElementRegister register) {
         gate = new XorGate((byte) 1);
         output = gate.getOutputByIndex(0);
-        gate.addValueTransformer(output,new NotTransform(TransformerMode.SET));
+        gate.addValueTransformer(output, new NotTransform(TransformerMode.SET));
         output = gate.getOutputByIndex(0);
         register.addCircuitWorkingElement(this, gate);
     }

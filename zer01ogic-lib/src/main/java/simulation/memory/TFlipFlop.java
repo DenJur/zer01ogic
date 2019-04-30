@@ -9,6 +9,9 @@ import simulation.values.MultibitValue;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * T Flip-flop logic element
+ */
 public class TFlipFlop implements ILogicElement {
     protected IObservableValue<Integer> output;
     protected IObservableValue<Integer> inputData;
@@ -60,24 +63,49 @@ public class TFlipFlop implements ILogicElement {
         output.reset();
     }
 
+    /**
+     * Output observable getter
+     *
+     * @return - output observable value
+     */
     public IObservableValue<Integer> getOutput() {
         return output;
     }
 
+    /**
+     * Getter for the data input
+     *
+     * @return - observable value for data input
+     */
     public IObservableValue<Integer> getInputData() {
         return inputData;
     }
 
+    /**
+     * Setter for data input
+     *
+     * @param inputData - new observable value for data input
+     */
     public void setInputData(IObservableValue<Integer> inputData) {
         if (this.inputData != null) this.inputData.deregisterObserver(this);
         this.inputData = inputData;
         inputData.registerObserver(this);
     }
 
+    /**
+     * Getter for the clock input
+     *
+     * @return - observable value for clock input
+     */
     public IObservableValue<Integer> getInputClock() {
         return inputClock;
     }
 
+    /**
+     * Setter for clock input
+     *
+     * @param inputClock - new observable value for clock input
+     */
     public void setInputClock(IObservableValue<Integer> inputClock) {
         if (this.inputClock != null) this.inputClock.deregisterObserver(this);
         this.inputClock = inputClock;

@@ -1,5 +1,6 @@
 package simulation.circuits;
 
+import exceptions.SimulationStoppingException;
 import interfaces.circuits.ICircuit;
 import interfaces.circuits.ICircuitElementRegister;
 import interfaces.circuits.ICircuitQueue;
@@ -10,6 +11,9 @@ import interfaces.elements.ILogicElementFrontEnd;
 import java.util.HashMap;
 import java.util.Queue;
 
+/**
+ * Abstract class for circuits that are intended to run in a single thread
+ */
 abstract class SingleThreadCircuit implements ICircuit, ICircuitQueue, ICircuitElementRegister, Runnable {
     protected boolean stopped;
     protected boolean paused;
@@ -30,11 +34,13 @@ abstract class SingleThreadCircuit implements ICircuit, ICircuitQueue, ICircuitE
 
     @Override
     public void reset() {
+        //reset state of all logic elements
         workingNodes.forEach((iLogicElementFrontEnd, iLogicElement) -> {
             iLogicElement.reset();
             iLogicElementFrontEnd.reset();
         });
         queue.clear();
+        //queue all logic elements for update
         workingNodes.forEach((iLogicElementFrontEnd, iLogicElement) -> {
             queue.add(iLogicElement);
         });
@@ -58,7 +64,7 @@ abstract class SingleThreadCircuit implements ICircuit, ICircuitQueue, ICircuitE
     }
 
     @Override
-    public void stop() throws Exception {
+    public void stop() throws SimulationStoppingException {
         if (scheduledLogicExecutor != null)
             scheduledLogicExecutor.stop();
         stopped = true;

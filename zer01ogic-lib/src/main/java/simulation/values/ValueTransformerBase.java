@@ -4,12 +4,17 @@ import interfaces.elements.IObservableValue;
 import interfaces.elements.IObserver;
 import interfaces.elements.IValueTransformer;
 
+/**
+ * Base for value transformers that proxies most of observable value method calls to the inner value.
+ *
+ * @param <T>
+ */
 public abstract class ValueTransformerBase<T> implements IValueTransformer<T> {
     protected IObservableValue<T> value;
     protected TransformerMode mode;
 
-    public ValueTransformerBase(TransformerMode mode){
-        this.mode=mode;
+    public ValueTransformerBase(TransformerMode mode) {
+        this.mode = mode;
     }
 
     @Override
@@ -24,7 +29,7 @@ public abstract class ValueTransformerBase<T> implements IValueTransformer<T> {
 
     @Override
     public void setInnerValue(IObservableValue<T> value) {
-        this.value=value;
+        this.value = value;
     }
 
     @Override

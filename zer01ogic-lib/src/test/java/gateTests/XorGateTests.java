@@ -1,9 +1,9 @@
 package gateTests;
 
-import simulation.gates.XorGate;
-import simulation.values.MultibitValue;
 import interfaces.elements.IObservableValue;
 import org.junit.jupiter.api.Test;
+import simulation.gates.XorGate;
+import simulation.values.MultibitValue;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

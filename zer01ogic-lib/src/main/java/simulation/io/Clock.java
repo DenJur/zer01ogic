@@ -10,6 +10,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Clock simulation element
+ */
 public class Clock implements IScheduledLogicElement {
     private final int delay;
     protected IObservableValue<Integer> output;
@@ -40,6 +43,11 @@ public class Clock implements IScheduledLogicElement {
         return Collections.singletonList(output);
     }
 
+    /**
+     * Output observable getter
+     *
+     * @return - output observable value
+     */
     public IObservableValue<Integer> getOutput() {
         return output;
     }
