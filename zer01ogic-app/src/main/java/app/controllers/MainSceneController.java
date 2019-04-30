@@ -98,6 +98,8 @@ public class MainSceneController implements Initializable {
             //add the canvas
             splitpane_main.getItems().add(canvas);
 
+
+
             //TODO add the selected item properties ------------------------------------------------------------------------------------------------------------------------------------
 
             buildDragHandlers();
