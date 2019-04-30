@@ -30,7 +30,7 @@ public class AdderDraggable extends DraggableNode {
 
     @Override
     protected void createPins(double lineWidth) {
-        //create 2 input and 1 output pins
+        //create 3 input and 2 output pins
         InputPin inputPin1 = new InputPin(0, 18 + lineWidth / 2 + .5);
         AnchorAll(inputPin1, 0, 0, 0, 0);
 
@@ -40,12 +40,15 @@ public class AdderDraggable extends DraggableNode {
         InputPin inputPin3 = new InputPin(0, 60 + lineWidth / 2 + .5);
         AnchorAll(inputPin3, 0, 0, 0, 0);
 
-        OutputPin outputPin = new OutputPin(94.0 + lineWidth, 19 + lineWidth / 2 + .5);
-        AnchorAll(outputPin, 0, 0, 0, 0);
+        OutputPin outputPin1 = new OutputPin(164.0 + lineWidth, 29 + lineWidth / 2 + .5);
+        AnchorAll(outputPin1, 0, 0, 0, 0);
+
+        OutputPin outputPin2 = new OutputPin(164.0 + lineWidth, 50 + lineWidth / 2 + .5);
+        AnchorAll(outputPin2, 0, 0, 0, 0);
 
         //Add the pins to the DraggableNode's Pins ArrayList
-        Collections.addAll(super.pins, inputPin1, inputPin2, inputPin3, outputPin);
-        this.getChildren().addAll(inputPin1, inputPin2, inputPin3, outputPin);
+        Collections.addAll(super.pins, inputPin1, inputPin2, inputPin3, outputPin1, outputPin2);
+        this.getChildren().addAll(inputPin1, inputPin2, inputPin3, outputPin1, outputPin2);
     }
 
     @Override

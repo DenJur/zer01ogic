@@ -30,10 +30,10 @@ public class SubtractorGraphic extends Group {
 
         //top line of box
         elements.add(new MoveTo(20,0));
-        elements.add(new LineTo(170,0));
+        elements.add(new LineTo(200,0));
 
         //right line of box
-        elements.add(new LineTo(170,100));
+        elements.add(new LineTo(200,100));
 
         //bottom line of box
         elements.add(new LineTo(20,100));
@@ -43,12 +43,16 @@ public class SubtractorGraphic extends Group {
         elements.add(new LineTo(20,100));
 
         //first output
-        elements.add(new MoveTo(170, 35));
-        elements.add(new LineTo(190, 35));
+        elements.add(new MoveTo(200, 35));
+        elements.add(new LineTo(220, 35));
 
         //second output
-        elements.add(new MoveTo(170, 65));
-        elements.add(new LineTo(190, 65));
+        elements.add(new MoveTo(200, 65));
+        elements.add(new LineTo(220, 65));
+
+        //minus sign
+        elements.add(new MoveTo(85, 50));
+        elements.add(new LineTo(115, 50));
 
         this.getStyleClass().addAll(styles);
 
@@ -63,14 +67,14 @@ public class SubtractorGraphic extends Group {
         cInput.setTranslateX(25);
         cInput.setTranslateY(88);
 
-        Text d = new Text("D");
-        d.setTranslateX(113);
-        d.setTranslateY(43);
+        Text sum = new Text("SUM");
+        sum.setTranslateX(143);
+        sum.setTranslateY(43);
 
-        Text bOut = new Text("B OUT");
-        bOut.setTranslateX(95);
-        bOut.setTranslateY(73);
-        labelledImage.getChildren().addAll(aInput,bInput, cInput, d, bOut, path);
+        Text cOut = new Text("B OUT");
+        cOut.setTranslateX(125);
+        cOut.setTranslateY(73);
+        labelledImage.getChildren().addAll(aInput,bInput, cInput, sum, cOut, path);
 
         labelledImage.setScaleX(0.7);
         labelledImage.setScaleY(0.7);
