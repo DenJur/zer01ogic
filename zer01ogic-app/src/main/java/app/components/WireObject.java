@@ -1,5 +1,6 @@
 package app.components;
 
+import app.enums.DrawStyle;
 import javafx.scene.shape.Line;
 
 public class WireObject extends Line {
@@ -7,11 +8,11 @@ public class WireObject extends Line {
     public static final String WIRE_BUILD_STYLE = "WireBuild";
     public static final String WIRE_ON_STYLE = "WireOn";
     public static final String WIRE_OFF_STYLE = "WireOff";
-    private volatile WireStyle currentStyle;
+    private volatile DrawStyle currentStyle;
 
     public WireObject() {
         //Set up the wire's CSS in build mode
-        this.setWireStyle(WireStyle.Build);
+        setWireStyle(DrawStyle.Build);
     }
 
     /**
@@ -40,28 +41,22 @@ public class WireObject extends Line {
         this.setEndY(yPosition);
     }
 
-    public void updateColor() {
+    public void updateStyle() {
         this.getStyleClass().clear();
         switch(currentStyle){
             case Build:
-                this.getStyleClass().addAll(WireObject.WIRE_STYLE, WireObject.WIRE_BUILD_STYLE);
+                this.getStyleClass().addAll(WIRE_STYLE, WIRE_BUILD_STYLE);
                 break;
             case On:
-                this.getStyleClass().addAll(WireObject.WIRE_STYLE, WireObject.WIRE_ON_STYLE);
+                this.getStyleClass().addAll(WIRE_STYLE, WIRE_ON_STYLE);
                 break;
             case Off:
-                this.getStyleClass().addAll(WireObject.WIRE_STYLE, WireObject.WIRE_OFF_STYLE);
+                this.getStyleClass().addAll(WIRE_STYLE, WIRE_OFF_STYLE);
                 break;
         }
     }
 
-    public enum WireStyle {
-        Build,
-        On,
-        Off
-    }
-
-    public void setWireStyle(WireStyle newStyle){
+    public void setWireStyle(DrawStyle newStyle){
         currentStyle = newStyle;
     }
 }

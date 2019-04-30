@@ -3,6 +3,7 @@ package app.models;
 import app.components.InputPin;
 import app.components.OutputPin;
 import app.components.WireObject;
+import app.enums.DrawStyle;
 import interfaces.elements.IObservableValue;
 import interfaces.elements.IObserver;
 
@@ -26,10 +27,10 @@ public class WireLogic implements IObserver {
     @Override
     public void update(IObservableValue source) {
         if(((IObservableValue<Integer>)source).getValue()!=0){
-            wireObject.setWireStyle(WireObject.WireStyle.On);
+            wireObject.setWireStyle(DrawStyle.On);
         }
         else {
-            wireObject.setWireStyle(WireObject.WireStyle.Off);
+            wireObject.setWireStyle(DrawStyle.Off);
         }
     }
 

@@ -1,5 +1,6 @@
 package app.graphics.io;
 
+import app.enums.DrawStyle;
 import app.graphics.GraphicsHelper;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
@@ -7,9 +8,12 @@ import javafx.scene.shape.SVGPath;
 
 public class LightbulbGraphic extends Group {
 
-    public static final String lightbulbStyle = "Lightbulb";
-    public static final String lightbulbOnStyle = "LightbulbOn";
-    public static final String lightbulbOffStyle = "LightbulbOff";
+    public static final String LIGHTBULB_STYLE = "Lightbulb";
+    public static final String LIGHTBULB_BUILD_STYLE = "LightbulbBuild";
+    public static final String LIGHTBULB_ON_STYLE = "LightbulbOn";
+    public static final String LIGHTBULB_OFF_STYLE = "LightbulbOff";
+
+    private volatile DrawStyle currentStyle;
 
     public LightbulbGraphic() {
         super();
@@ -34,22 +38,28 @@ public class LightbulbGraphic extends Group {
         GraphicsHelper.resize(container, 50, 50);
         this.getChildren().add(container);
 
-        //TODO setup default graphics
-        this.getStyleClass().addAll(LightbulbGraphic.lightbulbStyle, LightbulbGraphic.lightbulbOffStyle);
+        //Set up graphic in build mode
+        setStyle(DrawStyle.Build);
     }
 
-    public void setStyle(LightbulbStyle style) {
+
+    public void updateStyle() {
         ObservableList<String> currentStyles = this.getStyleClass();
         currentStyles.clear();
-        if (style == LightbulbStyle.On) {
-            currentStyles.addAll(LightbulbGraphic.lightbulbStyle, LightbulbGraphic.lightbulbOnStyle);
-        } else {
-            currentStyles.addAll(LightbulbGraphic.lightbulbStyle, LightbulbGraphic.lightbulbOffStyle);
+        switch(currentStyle){
+            case Build:
+                this.getStyleClass().addAll(LIGHTBULB_STYLE, LIGHTBULB_BUILD_STYLE);
+                break;
+            case On:
+                this.getStyleClass().addAll(LIGHTBULB_STYLE, LIGHTBULB_ON_STYLE);
+                break;
+            case Off:
+                this.getStyleClass().addAll(LIGHTBULB_STYLE, LIGHTBULB_OFF_STYLE);
+                break;
         }
     }
-
-    public enum LightbulbStyle {
-        On,
-        Off
+    
+    public void setStyle(DrawStyle newStyle) {
+        currentStyle = newStyle;
     }
 }
