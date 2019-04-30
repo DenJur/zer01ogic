@@ -10,7 +10,7 @@ import java.util.Collection;
 
 
 public class TFlipFlopGraphic extends Group {
-    public static final Collection<String> styles = Arrays.asList("Memory", "TFlipFlopGraphic");
+    public static final Collection<String> styles = Arrays.asList("LabelledNode", "Memory", "TFlipFlopGraphic");
 
     public TFlipFlopGraphic() {
         super();
@@ -50,14 +50,16 @@ public class TFlipFlopGraphic extends Group {
 
         Group labelledImage = new Group();
         Text data = new Text("T");
-        data.setStyle("-fx-font-weight: bold");
         data.setTranslateX(25);
-        data.setTranslateY(25);
+        data.setTranslateY(28);
         Text q = new Text("Q");
-        q.setStyle("-fx-font-weight: bold");
-        q.setTranslateX(85);
-        q.setTranslateY(25);
+        q.setTranslateX(75);
+        q.setTranslateY(28);
         labelledImage.getChildren().addAll(data,q,path);
+
+        labelledImage.setScaleX(0.7);
+        labelledImage.setScaleY(0.7);
+
         this.getChildren().add(labelledImage);
     }
 }

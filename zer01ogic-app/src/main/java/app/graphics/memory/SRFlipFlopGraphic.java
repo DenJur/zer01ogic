@@ -10,7 +10,7 @@ import java.util.Collection;
 
 
 public class SRFlipFlopGraphic extends Group {
-    public static final Collection<String> styles = Arrays.asList("Memory", "SRFlipFlopGraphic");
+    public static final Collection<String> styles = Arrays.asList("LabelledNode", "Memory", "SRFlipFlopGraphic");
 
     public SRFlipFlopGraphic() {
         super();
@@ -56,18 +56,19 @@ public class SRFlipFlopGraphic extends Group {
 
         Group labelledImage = new Group();
         Text sInput = new Text("S");
-        sInput.setStyle("-fx-font-weight: bold");
         sInput.setTranslateX(25);
-        sInput.setTranslateY(25);
+        sInput.setTranslateY(28);
         Text rInput = new Text("R");
-        rInput.setStyle("-fx-font-weight: bold");
         rInput.setTranslateX(25);
-        rInput.setTranslateY(55);
+        rInput.setTranslateY(58);
         Text q = new Text("Q");
-        q.setStyle("-fx-font-weight: bold");
-        q.setTranslateX(85);
-        q.setTranslateY(25);
+        q.setTranslateX(75);
+        q.setTranslateY(28);
         labelledImage.getChildren().addAll(sInput,rInput,q,path);
+
+        labelledImage.setScaleX(0.7);
+        labelledImage.setScaleY(0.7);
+
         this.getChildren().add(labelledImage);
     }
 }

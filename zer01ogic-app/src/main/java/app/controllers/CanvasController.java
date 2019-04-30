@@ -12,11 +12,15 @@ import app.interfaces.StatefulNode;
 import app.models.WireLogic;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Line;
 import javafx.util.Duration;
 
 import java.net.URL;
@@ -33,7 +37,6 @@ public class CanvasController implements Initializable {
     private ArrayList<StatefulNode> statefulNodes;
 
     private String activeTool;
-    private boolean buildModeEnabled;
     private final Timeline timeline;
 
 
@@ -62,8 +65,6 @@ public class CanvasController implements Initializable {
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
-
-
     }
 
     @Override
