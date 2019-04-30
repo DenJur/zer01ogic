@@ -9,6 +9,9 @@ import simulation.values.MultibitValue;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * D Flip-flop
+ */
 public class DFlipFlop implements ILogicElement {
     protected IObservableValue<Integer> output;
     protected IObservableValue<Integer> inputData;
@@ -61,7 +64,9 @@ public class DFlipFlop implements ILogicElement {
     }
 
     public void setInputData(IObservableValue<Integer> inputData) {
+        if (this.inputData != null) this.inputData.deregisterObserver(this);
         this.inputData = inputData;
+        inputData.registerObserver(this);
     }
 
     public IObservableValue<Integer> getInputClock() {
@@ -69,7 +74,9 @@ public class DFlipFlop implements ILogicElement {
     }
 
     public void setInputClock(IObservableValue<Integer> inputClock) {
+        if (this.inputClock != null) this.inputClock.deregisterObserver(this);
         this.inputClock = inputClock;
+        inputClock.registerObserver(this);
     }
 
     @Override

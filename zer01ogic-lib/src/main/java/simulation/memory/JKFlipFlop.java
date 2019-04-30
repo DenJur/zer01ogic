@@ -28,7 +28,7 @@ public class JKFlipFlop implements ILogicElement {
         Integer clockValue = 0;
         if (inputClock != null) clockValue = inputClock.getValue();
         if (!previousClock.equals(clockValue)) {
-            previousClock=clockValue;
+            previousClock = clockValue;
             if (clockValue != 0) {
                 Integer JValue = 0;
                 Integer KValue = 0;
@@ -76,7 +76,9 @@ public class JKFlipFlop implements ILogicElement {
     }
 
     public void setInputJ(IObservableValue<Integer> inputJ) {
+        if (this.inputJ != null) this.inputJ.deregisterObserver(this);
         this.inputJ = inputJ;
+        inputJ.registerObserver(this);
     }
 
     public IObservableValue<Integer> getInputK() {
@@ -84,7 +86,9 @@ public class JKFlipFlop implements ILogicElement {
     }
 
     public void setInputK(IObservableValue<Integer> inputK) {
+        if (this.inputK != null) this.inputK.deregisterObserver(this);
         this.inputK = inputK;
+        inputK.registerObserver(this);
     }
 
     public IObservableValue<Integer> getInputClock() {
@@ -92,8 +96,10 @@ public class JKFlipFlop implements ILogicElement {
     }
 
     public void setInputClock(IObservableValue<Integer> inputClock) {
+        if (this.inputClock != null) this.inputClock.deregisterObserver(this);
         this.inputClock = inputClock;
         previousClock = inputClock.getValue();
+        inputClock.registerObserver(this);
     }
 
     @Override

@@ -74,7 +74,9 @@ public class SRFlipFlop implements ILogicElement {
     }
 
     public void setInputS(IObservableValue<Integer> inputS) {
+        if (this.inputS != null) this.inputS.deregisterObserver(this);
         this.inputS = inputS;
+        inputS.registerObserver(this);
     }
 
     public IObservableValue<Integer> getInputR() {
@@ -82,7 +84,9 @@ public class SRFlipFlop implements ILogicElement {
     }
 
     public void setInputR(IObservableValue<Integer> inputR) {
+        if (this.inputR != null) this.inputR.deregisterObserver(this);
         this.inputR = inputR;
+        inputR.registerObserver(this);
     }
 
     public IObservableValue<Integer> getInputClock() {
@@ -90,8 +94,10 @@ public class SRFlipFlop implements ILogicElement {
     }
 
     public void setInputClock(IObservableValue<Integer> inputClock) {
+        if (this.inputClock != null) this.inputClock.deregisterObserver(this);
         this.inputClock = inputClock;
         previousClock = inputClock.getValue();
+        inputClock.registerObserver(this);
     }
 
     @Override
