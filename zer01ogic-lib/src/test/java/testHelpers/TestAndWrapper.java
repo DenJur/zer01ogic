@@ -13,7 +13,7 @@ public class TestAndWrapper extends BaseGateWrapper {
     @Override
     public void createLogicElement(ICircuitElementRegister register) {
         gate = new AndGate(outputSize);
-        output = gate.getOutputByIndex(0);
+        output = gate.getOutputs().get(0);
         counter = new ValueUpdateCounter();
         output.registerObserver(counter);
         register.addCircuitWorkingElement(this, gate);

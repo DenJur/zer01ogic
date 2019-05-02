@@ -4,6 +4,7 @@ import interfaces.circuits.ICircuitElementRegister;
 import interfaces.elements.ILogicElement;
 import interfaces.elements.ILogicElementFrontEnd;
 import interfaces.elements.IObservableValue;
+import simulation.gates.BaseLogicGate;
 
 import java.util.ArrayList;
 
@@ -11,7 +12,7 @@ public abstract class BaseGateWrapper implements ILogicElementFrontEnd {
     public ArrayList<IObservableValue<Integer>> inputValues;
     public ArrayList<ILogicElementFrontEnd> inputNodes;
     public IObservableValue output;
-    public ILogicElement gate;
+    public BaseLogicGate gate;
     public byte outputSize;
 
     public BaseGateWrapper(byte outputSize) {
@@ -22,7 +23,7 @@ public abstract class BaseGateWrapper implements ILogicElementFrontEnd {
 
     @Override
     public void connectLogicElementInputs(ICircuitElementRegister register) {
-        inputNodes.forEach(x -> gate.addInput(register.getWorkingElementFor(x).getOutputByIndex(0)));
+        inputNodes.forEach(x -> gate.addInput(register.getWorkingElementFor(x).getOutputs().get(0)));
         inputValues.forEach(x -> gate.addInput(x));
     }
 

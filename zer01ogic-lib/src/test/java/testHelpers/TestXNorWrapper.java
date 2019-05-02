@@ -15,9 +15,9 @@ public class TestXNorWrapper extends BaseGateWrapper {
     @Override
     public void createLogicElement(ICircuitElementRegister register) {
         gate = new XorGate((byte) 1);
-        output = gate.getOutputByIndex(0);
+        output = gate.getOutputs().get(0);
         gate.addValueTransformer(output, new NotTransform(TransformerMode.SET));
-        output = gate.getOutputByIndex(0);
+        output = gate.getOutputs().get(0);
         register.addCircuitWorkingElement(this, gate);
     }
 

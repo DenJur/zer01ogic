@@ -12,7 +12,7 @@ public class NotGateTests {
     public void TestNotResultsSinglebit() {
         MultibitValue input = new MultibitValue();
         NotGate gate = new NotGate((byte) 1);
-        gate.addInput(input);
+        gate.setInput(input);
         IObservableValue<Integer> output = gate.getOutput();
 
         gate.calculateOutputs();
@@ -26,7 +26,7 @@ public class NotGateTests {
     public void TestNotResultsMultibit() {
         MultibitValue input = new MultibitValue(0, (byte) 4);
         NotGate gate = new NotGate((byte) 4);
-        gate.addInput(input);
+        gate.setInput(input);
         IObservableValue<Integer> output = gate.getOutput();
 
         gate.calculateOutputs();
