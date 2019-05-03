@@ -3,7 +3,7 @@ import interfaces.elements.IObserver;
 import org.junit.jupiter.api.Test;
 import simulation.values.MultibitValue;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MultibitValueTests {
     @Test
@@ -27,16 +27,15 @@ public class MultibitValueTests {
         tested.registerObserver(observer1);
         tested.registerObserver(observer2);
 
-//        tested.setValue(0);
-//        Assert.assertFalse("Value didn't change (observer1)", observer1.called);
-//        Assert.assertFalse("Value didn't change (observer2)", observer2.called);
-//        tested.setValue(10);
-//        Assert.assertFalse("Value didn't change truncate (observer1)", observer1.called);
-//        Assert.assertFalse("Value didn't change truncate (observer2)", observer2.called);
-//        tested.setValue(1);
-//        Assert.assertTrue("Value changed (observer1)", observer1.called);
-//        Assert.assertTrue("Value changed (observer2)", observer2.called);
-        // TODO restore when simulation are added
+        tested.setValue(0);
+        assertFalse(observer1.called, "Value didn't change (observer1)");
+        assertFalse(observer2.called, "Value didn't change (observer2)");
+        tested.setValue(10);
+        assertFalse(observer1.called, "Value didn't change truncate (observer1)");
+        assertFalse(observer2.called,"Value didn't change truncate (observer2)");
+        tested.setValue(1);
+        assertTrue(observer1.called, "Value changed (observer1)");
+        assertTrue(observer2.called,"Value changed (observer2)");
     }
 
     @Test
@@ -49,8 +48,8 @@ public class MultibitValueTests {
         tested.deregisterObserver(observer1);
 
         tested.setValue(1);
-//        Assert.assertFalse("Value changed deregistered (observer1)", observer1.called);
-//        Assert.assertTrue("Value changed (observer2)", observer2.called);
+        assertFalse(observer1.called, "Value changed deregistered (observer1)" );
+        assertTrue(observer2.called, "Value changed (observer2)");
         // TODO restore when simulation are added
     }
 
